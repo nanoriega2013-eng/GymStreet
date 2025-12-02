@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Rock Dark</title>
+
+    <!-- Fuentes rockeras desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-main: #050509;
+            --bg-card: #15151c;
+            --accent-red: #ff1744;
+            --accent-purple: #7c4dff;
+            --text-light: #e0e0e0;
+            --text-muted: #a0a0a0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle at top, #1a1a2e 0, #050509 45%, #000 100%);
+            color: var(--text-light);
+            font-family: 'Roboto Condensed', sans-serif;
+            letter-spacing: 0.05em;
+        }
+
+        header {
+            background: linear-gradient(135deg, #000 0%, #1a1a2e 40%, #000 100%);
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        header h1 {
+            margin: 0;
+            font-family: 'Metal Mania', cursive;
+            font-size: 3rem;
+            color: var(--accent-red);
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            text-shadow: 0 0 10px #ff1744, 0 0 20px #7c4dff;
+        }
+
+        header p {
+            margin-top: 10px;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px 40px;
+        }
+
+        .section-title {
+            font-family: 'Metal Mania', cursive;
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 1.8rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 25px;
+            color: var(--accent-purple);
+            text-shadow: 0 0 10px rgba(124, 77, 255, 0.7);
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .product {
+            background: radial-gradient(circle at top, #262637 0, #15151c 55%, #050509 100%);
+            border-radius: 14px;
+            padding: 18px 18px 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 23, 68, 0.25);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.9);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border 0.25s ease;
+        }
+
+        .product::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top, rgba(255, 23, 68, 0.12), transparent 55%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product:hover {
+            transform: translateY(-7px) scale(1.01);
+            box-shadow: 0 18px 35px rgba(0, 0, 0, 1);
+            border-color: var(--accent-red);
+        }
+
+        .product:hover::before {
+            opacity: 1;
+        }
+
+        .product img {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 12px;
+        }
+
+        .product h3 {
+            font-family: 'Metal Mania', cursive;
+            font-size: 1.4rem;
+            margin: 5px 0 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--accent-red);
+        }
+
+        .product p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .price {
+            margin-top: 10px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            color: var(--accent-purple);
+        }
+
+        .contact {
+            background: linear-gradient(135deg, #050509 0%, #1a1a2e 45%, #050509 100%);
+            padding: 25px 20px 30px;
+            text-align: center;
+            margin-top: 50px;
+            border-radius: 16px;
+            border: 1px solid rgba(124, 77, 255, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9);
+        }
+
+        .contact h2 {
+            font-family: 'Metal Mania', cursive;
+            font-size: 1.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--accent-purple);
+            margin-bottom: 10px;
+        }
+
+        .contact p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            padding: 10px 18px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: var(--text-light);
+            letter-spacing: 0.15em;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease, border 0.25s ease;
+        }
+
+        .social-links a:hover {
+            background: radial-gradient(circle at top, var(--accent-red), var(--accent-purple));
+            box-shadow: 0 0 14px rgba(255, 23, 68, 0.9);
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 12px 10px 20px;
+            background-color: #000;
+            color: #666;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>GymStreet Shop</h1>
+        <p>CAMISAS· GYM · PANTALONES · ENVIOS A TODO EL PAÍS</p>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title">Catálogo Oficial</h2>
+
+        <section class="products">
+            <div class="product">
+                <img src="https://img.kwcdn.com/product/fancy/8f630a5f-7d10-4c63-a8aa-32a235dfa1d8.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 1">
+                <h3>Camisa YoungLA - Compresión Negra</h3>
+                <p class="price">Precio: Q275.00</p>
+            </div>
+
+            <div class="product">
+                <img src="https://img.kwcdn.com/product/fancy/3c52300a-b21e-4747-8115-3bddeea0e58f.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 2">
+                <h3>Camisa GymShark - Compresión Negra</h3>
+                <p class="price">Precio: Q275.00</p>
+            </div>
+
+            <div class="product">
+                <img src="https://img.kwcdn.com/product/fancy/b7b45753-f0e5-4168-8995-471071ba9e7f.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 3">
+                <h3>Camisa YoungLA - Compresión Blanco</h3>
+                <p class="price">Precio: Q275.00</p>
+            </div>
+           
+             <div class="product">
+                <img src="https://img.kwcdn.com/product/fancy/1f003ce6-72c5-4978-9a99-9f68e743d3fd.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 4">
+                <h3>Camisa YoungLA - Camiseta Negra Vintage</h3>
+                <p class="price">Precio: Q300.00</p>
+            </div>
+
+            <div class="product">
+                <img src="https://img.kwcdn.com/product/fancy/06ddcead-8bbd-439b-9d0a-8e4625c2d730.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 5">
+                <h3>Camisa YoungLA - Camiseta Vintage sin mangas</h3>
+                <p class="price">Precio: Q300.00</p>
+            </div>
+
+            
+            <div class="product">
+                <img src="https://img.kwcdn.com/product/fancy/b66df733-f74c-42cd-bdd0-cdf3bb1154b8.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 6">
+                <h3>Camisa YoungLA - Camiseta Oversize</h3>
+                <p class="price">Precio: Q300.00</p>
+            </div>
+
+              <div class="product">
+                <img src="https://img.kwcdn.com/product/fancy/2d812e1c-748d-4c88-9f83-d2eb0d098b98.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 7">
+                <h3>Camisa World Gym - Camiseta Oversize</h3>
+                <p class="price">Precio: Q325.00</p>
+            </div>
+
+             <div class="product">
+                <img src="https://img.kwcdn.com/product/fancy/fe70db5d-6d70-4a86-9495-2729b2e49b52.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 8">
+                <h3>Pants YoungLA - Color negro</h3>
+                <p class="price">Precio: Q250.00</p>
+            </div>
+
+            <div class="product">
+                <img src="https://img.kwcdn.com/product/open/89a9b65b47de43d9b4387c3486ad3fed-goods.jpeg?imageView2/2/w/800/q/70/format/avif" alt="Producto 9">
+                <h3>Pants YoungLA - Y2K Streetwea Negro</h3>
+                <p class="price">Precio: Q350.00</p>
+            </div>
+
+             <div class="product">
+                <img src="https://img.kwcdn.com/product/Fancyalgo/VirtualModelMatting/d2dc172e83bbc454dd34d32fa6476068.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 10">
+                <h3>Pants YoungLA - Y2K Streetwea de mujer Negro</h3>
+                <p class="price">Precio: Q265.00</p>
+            </div>
+
+             <div class="product">
+                <img src="https://img.kwcdn.com/product/fancy/d79752c0-a402-4f70-85e8-3c66251934aa.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 11">
+                <h3>Camisa Breathedivinity - Compresión Negro</h3>
+                <p class="price">Precio: Q250.00</p>
+            </div>
+
+              <div class="product">
+                <img src="https://img.kwcdn.com/product/fancy/59a337af-c431-404c-86c1-974f2b24268c.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 12">
+                <h3>Camisa Breathedivinity - Compresión Blanca</h3>
+                <p class="price">Precio: Q</p>
+            </div>
+
+        </section>
+
+        <section class="contact">
+            <h2>Haz Tu Pedido</h2>
+            <p>ESCRÍBENOS POR REDES O WHATSAPP Y LLEVATE TU ROPA DE GYM HOY.</p>
+            <div class="social-links">
+                <a href="https://www.instagram.com/gymstreet.gt?igsh=cWU4Yzh1NWVwZ3l0&utm_source=qr" target="_blank">Instagram</a>
+                <a href="https://www.facebook.com/share/1MQ983VScR/?mibextid=wwXIfr" target="_blank">Facebook</a>
+                <a href="https://wa.me/50247176818" target="_blank">WhatsApp</a>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Dark Freedom Shop · Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
