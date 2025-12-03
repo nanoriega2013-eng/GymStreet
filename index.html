@@ -313,6 +313,8 @@
             border: 1px solid rgba(255, 23, 68, 0.3);
             box-shadow: 0 20px 50px rgba(0,0,0,1);
             position: relative;
+            max-height: 90vh;
+            overflow: hidden;
         }
 
         .gallery-header {
@@ -404,12 +406,6 @@
             box-shadow: 0 0 15px rgba(255,23,68,0.9);
         }
 
-        @media (max-width: 768px) {
-            .gallery-body {
-                grid-template-columns: 1fr;
-            }
-        }
-
         /* ====== BOTONES FLOTANTES ====== */
 
         .order-floating-btn {
@@ -472,6 +468,152 @@
 
         .hidden {
             display: none !important;
+        }
+
+        /* ================== RESPONSIVE ================== */
+
+        @media (max-width: 768px) {
+            header {
+                padding: 18px 12px;
+            }
+
+            header h1 {
+                font-size: 2.1rem;
+                letter-spacing: 0.18em;
+            }
+
+            header p {
+                font-size: 0.75rem;
+                letter-spacing: 0.12em;
+            }
+
+            .container {
+                margin: 18px auto 26px;
+                padding: 0 12px 24px;
+            }
+
+            .section-title {
+                font-size: 1.4rem;
+                letter-spacing: 0.14em;
+                margin-bottom: 18px;
+            }
+
+            .section-subtitle {
+                font-size: 0.8rem;
+                padding: 0 10px;
+            }
+
+            .products {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 16px;
+            }
+
+            .product {
+                padding: 14px 12px 16px;
+            }
+
+            .product img {
+                height: 170px;
+            }
+
+            .product h3 {
+                font-size: 1rem;
+                letter-spacing: 0.12em;
+            }
+
+            .price {
+                font-size: 0.9rem;
+            }
+
+            .client-grid {
+                grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+                gap: 14px;
+            }
+
+            .client-card img {
+                height: 200px;
+            }
+
+            .contact {
+                margin-top: 30px;
+                padding: 18px 14px 22px;
+            }
+
+            .contact h2 {
+                font-size: 1.3rem;
+                letter-spacing: 0.18em;
+            }
+
+            .contact p {
+                font-size: 0.78rem;
+                line-height: 1.4;
+            }
+
+            .social-links a {
+                font-size: 0.75rem;
+                padding: 8px 14px;
+                letter-spacing: 0.12em;
+            }
+
+            .gallery-content {
+                padding: 14px 14px 18px;
+            }
+
+            .gallery-body {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .gallery-main img {
+                max-height: 260px;
+            }
+
+            .gallery-title {
+                font-size: 1.1rem;
+                letter-spacing: 0.12em;
+            }
+
+            .order-floating-btn {
+                font-size: 0.7rem;
+                padding: 9px 16px;
+                letter-spacing: 0.12em;
+                right: 12px;
+                bottom: 12px;
+            }
+
+            .switch-page-btn {
+                font-size: 0.7rem;
+                padding: 8px 14px;
+                letter-spacing: 0.12em;
+                left: 12px;
+                bottom: 60px; /* la subo un poco para que no choque con el botón de pedido */
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.8rem;
+                letter-spacing: 0.12em;
+            }
+
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+            .client-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .order-floating-btn {
+                width: auto;
+                max-width: 70%;
+                justify-content: center;
+            }
+
+            .switch-page-btn {
+                max-width: 70%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -580,7 +722,7 @@
             <p class="section-subtitle">Sube aquí las fotos de tus clientes usando las prendas.</p>
 
             <section class="client-grid">
-                <!-- EJEMPLOS, CAMBIA LAS RUTAS Y NOMBRES -->
+                <!-- Ejemplos, cambia rutas y nombres -->
                 <div class="client-card" data-id="cliente-1">
                     <img src="img/clientes/cliente1-1.jpg" alt="Cliente 1 usando GymStreet">
                     <div class="client-name">@cliente1</div>
@@ -614,7 +756,7 @@
         <p>&copy; 2025 Dark Freedom Shop · Todos los derechos reservados.</p>
     </footer>
 
-    <!-- ============== MODAL GALERÍA (PRODUCTOS Y CLIENTES) ============== -->
+    <!-- ============== MODAL GALERÍA ============== -->
     <div class="gallery-modal" id="galleryModal">
         <div class="gallery-content">
             <div class="gallery-header">
@@ -628,14 +770,13 @@
                 <div class="gallery-thumbs" id="galleryThumbs"></div>
             </div>
             <div class="gallery-footer">
-                <!-- AQUÍ VA LA CORRECCIÓN: id="galleryOrderBtn" -->
                 <a href="#contacto" id="galleryOrderBtn">Realiza tu pedido</a>
             </div>
         </div>
     </div>
 
     <script>
-        // ====== MAPEO DE GALERÍAS POR PRODUCTO ======
+        // ====== Galerías de productos ======
         const productGalleries = {
             "youngla-compresion-negra": [
                 "https://img.kwcdn.com/product/fancy/8f630a5f-7d10-4c63-a8aa-32a235dfa1d8.jpg?imageView2/2/w/800/q/70/format/avif"
@@ -675,7 +816,7 @@
             ]
         };
 
-        // ====== MAPEO DE GALERÍAS POR CLIENTE (CAMBIA LAS RUTAS A LAS TUYAS) ======
+        // ====== Galerías de clientes (ajusta rutas) ======
         const clientGalleries = {
             "cliente-1": [
                 "img/clientes/cliente1-1.jpg",
@@ -691,7 +832,7 @@
             ]
         };
 
-        // ====== REFERENCIAS DOM ======
+        // ====== DOM ======
         const catalogSection = document.getElementById('catalogo');
         const communitySection = document.getElementById('comunidad');
         const toCommunityBtn = document.getElementById('toCommunityBtn');
@@ -704,9 +845,9 @@
         const galleryMainImg = document.getElementById('galleryMainImg');
         const galleryThumbs = document.getElementById('galleryThumbs');
         const galleryClose = document.getElementById('galleryClose');
-        const galleryOrderBtn = document.getElementById('galleryOrderBtn'); // NUEVO
+        const galleryOrderBtn = document.getElementById('galleryOrderBtn');
 
-        // ====== CAMBIO DE "PÁGINA" (CATÁLOGO <-> COMUNIDAD) ======
+        // ====== Cambio de “página” ======
         toCommunityBtn.addEventListener('click', () => {
             catalogSection.classList.remove('active');
             communitySection.classList.add('active');
@@ -723,19 +864,19 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // ====== BOTÓN REALIZA TU PEDIDO (BOTÓN FLOTANTE) ======
+        // ====== Botón flotante Realiza tu pedido ======
         orderBtn.addEventListener('click', () => {
             contactSection.scrollIntoView({ behavior: 'smooth' });
         });
 
-        // ====== BOTÓN REALIZA TU PEDIDO DENTRO DEL MODAL ======
+        // ====== Botón Realiza tu pedido dentro del modal ======
         galleryOrderBtn.addEventListener('click', (e) => {
-            e.preventDefault(); // evita que solo haga el salto por defecto
-            galleryModal.classList.remove('active'); // cierra la imagen grande
-            contactSection.scrollIntoView({ behavior: 'smooth' }); // baja al apartado pedido
+            e.preventDefault();
+            galleryModal.classList.remove('active');
+            contactSection.scrollIntoView({ behavior: 'smooth' });
         });
 
-        // ====== GALERÍA PARA PRODUCTOS ======
+        // ====== Galería productos ======
         const products = document.querySelectorAll('.product');
 
         products.forEach(product => {
@@ -744,12 +885,11 @@
                 const title = product.querySelector('h3').innerText;
                 const images = productGalleries[id] || [];
                 if (!images.length) return;
-
                 abrirGaleria(title, images);
             });
         });
 
-        // ====== GALERÍA PARA CLIENTES ======
+        // ====== Galería clientes ======
         const clientCards = document.querySelectorAll('.client-card');
 
         clientCards.forEach(card => {
@@ -758,12 +898,11 @@
                 const name = card.querySelector('.client-name')?.innerText || 'Cliente GymStreet';
                 const images = clientGalleries[id] || [];
                 if (!images.length) return;
-
                 abrirGaleria(name, images);
             });
         });
 
-        // ====== LÓGICA COMÚN PARA ABRIR GALERÍA ======
+        // ====== Lógica común abrir galería ======
         function abrirGaleria(titulo, imagenes) {
             galleryTitle.textContent = titulo;
             galleryMainImg.src = imagenes[0];
@@ -786,7 +925,7 @@
             galleryModal.classList.add('active');
         }
 
-        // Cerrar modal al darle a la X o fuera
+        // Cerrar modal
         galleryClose.addEventListener('click', () => {
             galleryModal.classList.remove('active');
         });
