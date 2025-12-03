@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo Rock Dark</title>
+    <title>GymStreet Shop - Catálogo Rock Dark</title>
 
     <!-- Fuentes rockeras desde Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
@@ -76,6 +76,25 @@
             text-shadow: 0 0 10px rgba(124, 77, 255, 0.7);
         }
 
+        .section-subtitle {
+            text-align: center;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        /* Secciones tipo "página" */
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        /* ====== CATÁLOGO ====== */
+
         .products {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -92,6 +111,7 @@
             position: relative;
             overflow: hidden;
             transition: transform 0.25s ease, box-shadow 0.25s ease, border 0.25s ease;
+            cursor: pointer;
         }
 
         .product::before {
@@ -143,6 +163,64 @@
             text-transform: uppercase;
             color: var(--accent-purple);
         }
+
+        /* ====== COMUNIDAD ====== */
+
+        .client-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 20px;
+        }
+
+        .client-card {
+            background: radial-gradient(circle at top, #262637 0, #15151c 55%, #050509 100%);
+            border-radius: 14px;
+            padding: 10px 10px 14px;
+            border: 1px solid rgba(124, 77, 255, 0.35);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.9);
+            cursor: pointer;
+            text-align: center;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .client-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top, rgba(124, 77, 255, 0.15), transparent 55%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .client-card:hover {
+            transform: translateY(-6px) scale(1.01);
+            border-color: var(--accent-purple);
+            box-shadow: 0 18px 35px rgba(0,0,0,1);
+        }
+
+        .client-card:hover::before {
+            opacity: 1;
+        }
+
+        .client-card img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.15);
+            margin-bottom: 8px;
+        }
+
+        .client-name {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--text-muted);
+        }
+
+        /* ====== CONTACTO ====== */
 
         .contact {
             background: linear-gradient(135deg, #050509 0%, #1a1a2e 45%, #050509 100%);
@@ -208,94 +286,320 @@
             letter-spacing: 0.18em;
             border-top: 1px solid rgba(255, 255, 255, 0.06);
         }
+
+        /* ====== MODAL GALERÍA REUTILIZABLE ====== */
+
+        .gallery-modal {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at top, rgba(124, 77, 255, 0.15), rgba(0, 0, 0, 0.96));
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            padding: 20px;
+        }
+
+        .gallery-modal.active {
+            display: flex;
+        }
+
+        .gallery-content {
+            background: #090910;
+            border-radius: 18px;
+            max-width: 900px;
+            width: 100%;
+            padding: 20px 20px 25px;
+            border: 1px solid rgba(255, 23, 68, 0.3);
+            box-shadow: 0 20px 50px rgba(0,0,0,1);
+            position: relative;
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .gallery-title {
+            font-family: 'Metal Mania', cursive;
+            font-size: 1.4rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent-red);
+        }
+
+        .gallery-close {
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.4rem;
+            cursor: pointer;
+            text-shadow: 0 0 10px #ff1744;
+        }
+
+        .gallery-body {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+            gap: 18px;
+        }
+
+        .gallery-main img {
+            width: 100%;
+            max-height: 380px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .gallery-thumbs {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 380px;
+            overflow-y: auto;
+        }
+
+        .gallery-thumbs img {
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s ease, transform 0.2s ease, border 0.2s ease;
+        }
+
+        .gallery-thumbs img:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+            border-color: var(--accent-purple);
+        }
+
+        .gallery-thumbs img.active-thumb {
+            opacity: 1;
+            border-color: var(--accent-red);
+        }
+
+        .gallery-footer {
+            margin-top: 12px;
+            text-align: right;
+        }
+
+        .gallery-footer a {
+            display: inline-block;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            padding: 8px 18px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: var(--text-light);
+            background: radial-gradient(circle at top, rgba(255,23,68,0.4), rgba(0,0,0,0.9));
+            letter-spacing: 0.16em;
+        }
+
+        .gallery-footer a:hover {
+            border-color: transparent;
+            box-shadow: 0 0 15px rgba(255,23,68,0.9);
+        }
+
+        @media (max-width: 768px) {
+            .gallery-body {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ====== BOTONES FLOTANTES ====== */
+
+        .order-floating-btn {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 998;
+            padding: 12px 22px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 23, 68, 0.7);
+            background: radial-gradient(circle at top, #ff1744, #7c0b2a);
+            color: #fff;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            cursor: pointer;
+            box-shadow: 0 0 18px rgba(255, 23, 68, 0.9);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .order-floating-btn span {
+            font-size: 1rem;
+        }
+
+        .order-floating-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 24px rgba(255, 23, 68, 1);
+        }
+
+        .switch-page-btn {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            z-index: 998;
+            padding: 10px 18px;
+            border-radius: 999px;
+            border: 1px solid rgba(124, 77, 255, 0.8);
+            background: radial-gradient(circle at top, #7c4dff, #2a174f);
+            color: #fff;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            cursor: pointer;
+            box-shadow: 0 0 18px rgba(124, 77, 255, 0.9);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .switch-page-btn span {
+            font-size: 1rem;
+        }
+
+        .switch-page-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 24px rgba(124, 77, 255, 1);
+        }
+
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>GymStreet Shop</h1>
-        <p>CAMISAS· GYM · PANTALONES · ENVIOS A TODO EL PAÍS</p>
+        <p>CAMISAS · GYM · PANTALONES · ENVÍOS A TODO EL PAÍS</p>
     </header>
 
+    <!-- Botón flotante global: REALIZA TU PEDIDO -->
+    <button class="order-floating-btn" id="orderBtn">
+        <span>✙</span> REALIZA TU PEDIDO
+    </button>
+
+    <!-- Botones para cambiar entre catálogo y comunidad -->
+    <button class="switch-page-btn" id="toCommunityBtn">
+        <span>★</span> VER COMUNIDAD
+    </button>
+    <button class="switch-page-btn hidden" id="toCatalogBtn">
+        <span>←</span> VER CATÁLOGO
+    </button>
+
     <div class="container">
-        <h2 class="section-title">Catálogo Oficial</h2>
+        <!-- ================== SECCIÓN CATÁLOGO (PÁGINA PRINCIPAL) ================== -->
+        <section id="catalogo" class="page-section active">
+            <h2 class="section-title">Catálogo Oficial</h2>
 
-        <section class="products">
-            <div class="product">
-                <img src="https://img.kwcdn.com/product/fancy/8f630a5f-7d10-4c63-a8aa-32a235dfa1d8.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 1">
-                <h3>Camisa YoungLA - Compresión Negra</h3>
-                <p class="price">Precio: Q275.00</p>
-            </div>
+            <section class="products">
+                <div class="product" data-id="youngla-compresion-negra">
+                    <img src="https://img.kwcdn.com/product/fancy/8f630a5f-7d10-4c63-a8aa-32a235dfa1d8.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 1">
+                    <h3>Camisa YoungLA - Compresión Negra</h3>
+                    <p class="price">Precio: Q275.00</p>
+                </div>
 
-            <div class="product">
-                <img src="https://img.kwcdn.com/product/fancy/3c52300a-b21e-4747-8115-3bddeea0e58f.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 2">
-                <h3>Camisa GymShark - Compresión Negra</h3>
-                <p class="price">Precio: Q275.00</p>
-            </div>
+                <div class="product" data-id="gymshark-compresion-negra">
+                    <img src="https://img.kwcdn.com/product/fancy/3c52300a-b21e-4747-8115-3bddeea0e58f.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 2">
+                    <h3>Camisa GymShark - Compresión Negra</h3>
+                    <p class="price">Precio: Q275.00</p>
+                </div>
 
-            <div class="product">
-                <img src="https://img.kwcdn.com/product/fancy/b7b45753-f0e5-4168-8995-471071ba9e7f.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 3">
-                <h3>Camisa YoungLA - Compresión Blanco</h3>
-                <p class="price">Precio: Q275.00</p>
-            </div>
-           
-             <div class="product">
-                <img src="https://img.kwcdn.com/product/fancy/1f003ce6-72c5-4978-9a99-9f68e743d3fd.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 4">
-                <h3>Camisa YoungLA - Camiseta Negra Vintage</h3>
-                <p class="price">Precio: Q300.00</p>
-            </div>
-
-            <div class="product">
-                <img src="https://img.kwcdn.com/product/fancy/06ddcead-8bbd-439b-9d0a-8e4625c2d730.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 5">
-                <h3>Camisa YoungLA - Camiseta Vintage sin mangas</h3>
-                <p class="price">Precio: Q300.00</p>
-            </div>
-
+                <div class="product" data-id="youngla-compresion-blanca">
+                    <img src="https://img.kwcdn.com/product/fancy/b7b45753-f0e5-4168-8995-471071ba9e7f.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 3">
+                    <h3>Camisa YoungLA - Compresión Blanco</h3>
+                    <p class="price">Precio: Q275.00</p>
+                </div>
             
-            <div class="product">
-                <img src="https://img.kwcdn.com/product/fancy/b66df733-f74c-42cd-bdd0-cdf3bb1154b8.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 6">
-                <h3>Camisa YoungLA - Camiseta Oversize</h3>
-                <p class="price">Precio: Q300.00</p>
-            </div>
+                <div class="product" data-id="youngla-vintage-negra">
+                    <img src="https://img.kwcdn.com/product/fancy/1f003ce6-72c5-4978-9a99-9f68e743d3fd.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 4">
+                    <h3>Camisa YoungLA - Camiseta Negra Vintage</h3>
+                    <p class="price">Precio: Q300.00</p>
+                </div>
 
-              <div class="product">
-                <img src="https://img.kwcdn.com/product/fancy/2d812e1c-748d-4c88-9f83-d2eb0d098b98.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 7">
-                <h3>Camisa World Gym - Camiseta Oversize</h3>
-                <p class="price">Precio: Q325.00</p>
-            </div>
+                <div class="product" data-id="youngla-vintage-sin-mangas">
+                    <img src="https://img.kwcdn.com/product/fancy/06ddcead-8bbd-439b-9d0a-8e4625c2d730.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 5">
+                    <h3>Camisa YoungLA - Camiseta Vintage sin mangas</h3>
+                    <p class="price">Precio: Q300.00</p>
+                </div>
 
-             <div class="product">
-                <img src="https://img.kwcdn.com/product/fancy/fe70db5d-6d70-4a86-9495-2729b2e49b52.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 8">
-                <h3>Pants YoungLA - Color negro</h3>
-                <p class="price">Precio: Q250.00</p>
-            </div>
+                <div class="product" data-id="youngla-oversize">
+                    <img src="https://img.kwcdn.com/product/fancy/b66df733-f74c-42cd-bdd0-cdf3bb1154b8.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 6">
+                    <h3>Camisa YoungLA - Camiseta Oversize</h3>
+                    <p class="price">Precio: Q300.00</p>
+                </div>
 
-            <div class="product">
-                <img src="https://img.kwcdn.com/product/open/89a9b65b47de43d9b4387c3486ad3fed-goods.jpeg?imageView2/2/w/800/q/70/format/avif" alt="Producto 9">
-                <h3>Pants YoungLA - Y2K Streetwea Negro</h3>
-                <p class="price">Precio: Q350.00</p>
-            </div>
+                <div class="product" data-id="worldgym-oversize">
+                    <img src="https://img.kwcdn.com/product/fancy/2d812e1c-748d-4c88-9f83-d2eb0d098b98.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 7">
+                    <h3>Camisa World Gym - Camiseta Oversize</h3>
+                    <p class="price">Precio: Q325.00</p>
+                </div>
 
-             <div class="product">
-                <img src="https://img.kwcdn.com/product/Fancyalgo/VirtualModelMatting/d2dc172e83bbc454dd34d32fa6476068.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 10">
-                <h3>Pants YoungLA - Y2K Streetwea de mujer Negro</h3>
-                <p class="price">Precio: Q265.00</p>
-            </div>
+                <div class="product" data-id="youngla-pants-negro">
+                    <img src="https://img.kwcdn.com/product/fancy/fe70db5d-6d70-4a86-9495-2729b2e49b52.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 8">
+                    <h3>Pants YoungLA - Color negro</h3>
+                    <p class="price">Precio: Q250.00</p>
+                </div>
 
-             <div class="product">
-                <img src="https://img.kwcdn.com/product/fancy/d79752c0-a402-4f70-85e8-3c66251934aa.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 11">
-                <h3>Camisa Breathedivinity - Compresión Negro</h3>
-                <p class="price">Precio: Q250.00</p>
-            </div>
+                <div class="product" data-id="youngla-y2k-negro">
+                    <img src="https://img.kwcdn.com/product/open/89a9b65b47de43d9b4387c3486ad3fed-goods.jpeg?imageView2/2/w/800/q/70/format/avif" alt="Producto 9">
+                    <h3>Pants YoungLA - Y2K Streetwea Negro</h3>
+                    <p class="price">Precio: Q350.00</p>
+                </div>
 
-              <div class="product">
-                <img src="https://img.kwcdn.com/product/fancy/59a337af-c431-404c-86c1-974f2b24268c.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 12">
-                <h3>Camisa Breathedivinity - Compresión Blanca</h3>
-                <p class="price">Precio: Q250.00</p>
-            </div>
+                <div class="product" data-id="youngla-y2k-mujer-negro">
+                    <img src="https://img.kwcdn.com/product/Fancyalgo/VirtualModelMatting/d2dc172e83bbc454dd34d32fa6476068.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 10">
+                    <h3>Pants YoungLA - Y2K Streetwea de mujer Negro</h3>
+                    <p class="price">Precio: Q265.00</p>
+                </div>
 
+                <div class="product" data-id="breathedivinity-compresion-negro">
+                    <img src="https://img.kwcdn.com/product/fancy/d79752c0-a402-4f70-85e8-3c66251934aa.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 11">
+                    <h3>Camisa Breathedivinity - Compresión Negro</h3>
+                    <p class="price">Precio: Q250.00</p>
+                </div>
+
+                <div class="product" data-id="breathedivinity-compresion-blanco">
+                    <img src="https://img.kwcdn.com/product/fancy/59a337af-c431-404c-86c1-974f2b24268c.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 12">
+                    <h3>Camisa Breathedivinity - Compresión Blanca</h3>
+                    <p class="price">Precio: Q250.00</p>
+                </div>
+            </section>
         </section>
 
-        <section class="contact">
+        <!-- ================== SECCIÓN COMUNIDAD (PÁGINA SECUNDARIA) ================== -->
+        <section id="comunidad" class="page-section">
+            <h2 class="section-title">Comunidad GymStreet</h2>
+            <p class="section-subtitle">Sube aquí las fotos de tus clientes usando las prendas.</p>
+
+            <section class="client-grid">
+                <!-- EJEMPLOS, CAMBIA LAS RUTAS Y NOMBRES -->
+                <div class="client-card" data-id="cliente-1">
+                    <img src="img/clientes/cliente1-1.jpg" alt="Cliente 1 usando GymStreet">
+                    <div class="client-name">@cliente1</div>
+                </div>
+
+                <div class="client-card" data-id="cliente-2">
+                    <img src="img/clientes/cliente2-1.jpg" alt="Cliente 2 usando GymStreet">
+                    <div class="client-name">@cliente2</div>
+                </div>
+
+                <div class="client-card" data-id="cliente-3">
+                    <img src="img/clientes/cliente3-1.jpg" alt="Cliente 3 usando GymStreet">
+                    <div class="client-name">@cliente3</div>
+                </div>
+            </section>
+        </section>
+
+        <!-- ================== CONTACTO (COMPARTIDO) ================== -->
+        <section class="contact" id="contacto">
             <h2>Haz Tu Pedido</h2>
             <p>ESCRÍBENOS POR REDES O WHATSAPP Y LLEVATE TU ROPA DE GYM HOY.</p>
             <div class="social-links">
@@ -309,5 +613,189 @@
     <footer>
         <p>&copy; 2025 Dark Freedom Shop · Todos los derechos reservados.</p>
     </footer>
+
+    <!-- ============== MODAL GALERÍA (PRODUCTOS Y CLIENTES) ============== -->
+    <div class="gallery-modal" id="galleryModal">
+        <div class="gallery-content">
+            <div class="gallery-header">
+                <div class="gallery-title" id="galleryTitle">Galería</div>
+                <button class="gallery-close" id="galleryClose">&times;</button>
+            </div>
+            <div class="gallery-body">
+                <div class="gallery-main">
+                    <img id="galleryMainImg" src="" alt="Imagen seleccionada">
+                </div>
+                <div class="gallery-thumbs" id="galleryThumbs"></div>
+            </div>
+            <div class="gallery-footer">
+                <!-- AQUÍ VA LA CORRECCIÓN: id="galleryOrderBtn" -->
+                <a href="#contacto" id="galleryOrderBtn">Realiza tu pedido</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ====== MAPEO DE GALERÍAS POR PRODUCTO ======
+        const productGalleries = {
+            "youngla-compresion-negra": [
+                "https://img.kwcdn.com/product/fancy/8f630a5f-7d10-4c63-a8aa-32a235dfa1d8.jpg?imageView2/2/w/800/q/70/format/avif"
+            ],
+            "gymshark-compresion-negra": [
+                "https://img.kwcdn.com/product/fancy/3c52300a-b21e-4747-8115-3bddeea0e58f.jpg?imageView2/2/w/800/q/70/format/avif"
+            ],
+            "youngla-compresion-blanca": [
+                "https://img.kwcdn.com/product/fancy/b7b45753-f0e5-4168-8995-471071ba9e7f.jpg?imageView2/2/w/800/q/70/format/avif"
+            ],
+            "youngla-vintage-negra": [
+                "https://img.kwcdn.com/product/fancy/1f003ce6-72c5-4978-9a99-9f68e743d3fd.jpg?imageView2/2/w/800/q/70/format/avif"
+            ],
+            "youngla-vintage-sin-mangas": [
+                "https://img.kwcdn.com/product/fancy/06ddcead-8bbd-439b-9d0a-8e4625c2d730.jpg?imageView2/2/w/800/q/70/format/avif"
+            ],
+            "youngla-oversize": [
+                "https://img.kwcdn.com/product/fancy/b66df733-f74c-42cd-bdd0-cdf3bb1154b8.jpg?imageView2/2/w/800/q/70/format/avif"
+            ],
+            "worldgym-oversize": [
+                "https://img.kwcdn.com/product/fancy/2d812e1c-748d-4c88-9f83-d2eb0d098b98.jpg?imageView2/2/w/800/q/70/format/avif"
+            ],
+            "youngla-pants-negro": [
+                "https://img.kwcdn.com/product/fancy/fe70db5d-6d70-4a86-9495-2729b2e49b52.jpg?imageView2/2/w/800/q/70/format/avif"
+            ],
+            "youngla-y2k-negro": [
+                "https://img.kwcdn.com/product/open/89a9b65b47de43d9b4387c3486ad3fed-goods.jpeg?imageView2/2/w/800/q/70/format/avif"
+            ],
+            "youngla-y2k-mujer-negro": [
+                "https://img.kwcdn.com/product/Fancyalgo/VirtualModelMatting/d2dc172e83bbc454dd34d32fa6476068.jpg?imageView2/2/w/800/q/70/format/avif"
+            ],
+            "breathedivinity-compresion-negro": [
+                "https://img.kwcdn.com/product/fancy/d79752c0-a402-4f70-85e8-3c66251934aa.jpg?imageView2/2/w/800/q/70/format/avif"
+            ],
+            "breathedivinity-compresion-blanco": [
+                "https://img.kwcdn.com/product/fancy/59a337af-c431-404c-86c1-974f2b24268c.jpg?imageView2/2/w/800/q/70/format/avif"
+            ]
+        };
+
+        // ====== MAPEO DE GALERÍAS POR CLIENTE (CAMBIA LAS RUTAS A LAS TUYAS) ======
+        const clientGalleries = {
+            "cliente-1": [
+                "img/clientes/cliente1-1.jpg",
+                "img/clientes/cliente1-2.jpg",
+                "img/clientes/cliente1-3.jpg"
+            ],
+            "cliente-2": [
+                "img/clientes/cliente2-1.jpg",
+                "img/clientes/cliente2-2.jpg"
+            ],
+            "cliente-3": [
+                "img/clientes/cliente3-1.jpg"
+            ]
+        };
+
+        // ====== REFERENCIAS DOM ======
+        const catalogSection = document.getElementById('catalogo');
+        const communitySection = document.getElementById('comunidad');
+        const toCommunityBtn = document.getElementById('toCommunityBtn');
+        const toCatalogBtn = document.getElementById('toCatalogBtn');
+        const orderBtn = document.getElementById('orderBtn');
+        const contactSection = document.getElementById('contacto');
+
+        const galleryModal = document.getElementById('galleryModal');
+        const galleryTitle = document.getElementById('galleryTitle');
+        const galleryMainImg = document.getElementById('galleryMainImg');
+        const galleryThumbs = document.getElementById('galleryThumbs');
+        const galleryClose = document.getElementById('galleryClose');
+        const galleryOrderBtn = document.getElementById('galleryOrderBtn'); // NUEVO
+
+        // ====== CAMBIO DE "PÁGINA" (CATÁLOGO <-> COMUNIDAD) ======
+        toCommunityBtn.addEventListener('click', () => {
+            catalogSection.classList.remove('active');
+            communitySection.classList.add('active');
+            toCommunityBtn.classList.add('hidden');
+            toCatalogBtn.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        toCatalogBtn.addEventListener('click', () => {
+            communitySection.classList.remove('active');
+            catalogSection.classList.add('active');
+            toCatalogBtn.classList.add('hidden');
+            toCommunityBtn.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ====== BOTÓN REALIZA TU PEDIDO (BOTÓN FLOTANTE) ======
+        orderBtn.addEventListener('click', () => {
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // ====== BOTÓN REALIZA TU PEDIDO DENTRO DEL MODAL ======
+        galleryOrderBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // evita que solo haga el salto por defecto
+            galleryModal.classList.remove('active'); // cierra la imagen grande
+            contactSection.scrollIntoView({ behavior: 'smooth' }); // baja al apartado pedido
+        });
+
+        // ====== GALERÍA PARA PRODUCTOS ======
+        const products = document.querySelectorAll('.product');
+
+        products.forEach(product => {
+            product.addEventListener('click', () => {
+                const id = product.getAttribute('data-id');
+                const title = product.querySelector('h3').innerText;
+                const images = productGalleries[id] || [];
+                if (!images.length) return;
+
+                abrirGaleria(title, images);
+            });
+        });
+
+        // ====== GALERÍA PARA CLIENTES ======
+        const clientCards = document.querySelectorAll('.client-card');
+
+        clientCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const id = card.getAttribute('data-id');
+                const name = card.querySelector('.client-name')?.innerText || 'Cliente GymStreet';
+                const images = clientGalleries[id] || [];
+                if (!images.length) return;
+
+                abrirGaleria(name, images);
+            });
+        });
+
+        // ====== LÓGICA COMÚN PARA ABRIR GALERÍA ======
+        function abrirGaleria(titulo, imagenes) {
+            galleryTitle.textContent = titulo;
+            galleryMainImg.src = imagenes[0];
+
+            galleryThumbs.innerHTML = "";
+            imagenes.forEach((src, index) => {
+                const img = document.createElement('img');
+                img.src = src;
+                if (index === 0) img.classList.add('active-thumb');
+                img.addEventListener('click', () => {
+                    galleryMainImg.src = src;
+                    document
+                        .querySelectorAll('.gallery-thumbs img')
+                        .forEach(i => i.classList.remove('active-thumb'));
+                    img.classList.add('active-thumb');
+                });
+                galleryThumbs.appendChild(img);
+            });
+
+            galleryModal.classList.add('active');
+        }
+
+        // Cerrar modal al darle a la X o fuera
+        galleryClose.addEventListener('click', () => {
+            galleryModal.classList.remove('active');
+        });
+
+        galleryModal.addEventListener('click', (e) => {
+            if (e.target === galleryModal) {
+                galleryModal.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
