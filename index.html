@@ -1,951 +1,1473 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GymStreet Shop - Catálogo Rock Dark</title>
-
-    <!-- Fuentes rockeras desde Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --bg-main: #050509;
-            --bg-card: #15151c;
-            --accent-red: #ff1744;
-            --accent-purple: #7c4dff;
-            --text-light: #e0e0e0;
-            --text-muted: #a0a0a0;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            background: radial-gradient(circle at top, #1a1a2e 0, #050509 45%, #000 100%);
-            color: var(--text-light);
-            font-family: 'Roboto Condensed', sans-serif;
-            letter-spacing: 0.05em;
-        }
-
-        header {
-            background: linear-gradient(135deg, #000 0%, #1a1a2e 40%, #000 100%);
-            padding: 30px 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        header h1 {
-            margin: 0;
-            font-family: 'Metal Mania', cursive;
-            font-size: 3rem;
-            color: var(--accent-red);
-            text-transform: uppercase;
-            letter-spacing: 0.3em;
-            text-shadow: 0 0 10px #ff1744, 0 0 20px #7c4dff;
-        }
-
-        header p {
-            margin-top: 10px;
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            color: var(--text-muted);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 20px 40px;
-        }
-
-        .section-title {
-            font-family: 'Metal Mania', cursive;
-            text-align: center;
-            text-transform: uppercase;
-            font-size: 1.8rem;
-            letter-spacing: 0.2em;
-            margin-bottom: 25px;
-            color: var(--accent-purple);
-            text-shadow: 0 0 10px rgba(124, 77, 255, 0.7);
-        }
-
-        .section-subtitle {
-            text-align: center;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-        }
-
-        /* Secciones tipo "página" */
-        .page-section {
-            display: none;
-        }
-
-        .page-section.active {
-            display: block;
-        }
-
-        /* ====== CATÁLOGO ====== */
-
-        .products {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 25px;
-        }
-
-        .product {
-            background: radial-gradient(circle at top, #262637 0, #15151c 55%, #050509 100%);
-            border-radius: 14px;
-            padding: 18px 18px 20px;
-            text-align: center;
-            border: 1px solid rgba(255, 23, 68, 0.25);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.9);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.25s ease, box-shadow 0.25s ease, border 0.25s ease;
-            cursor: pointer;
-        }
-
-        .product::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at top, rgba(255, 23, 68, 0.12), transparent 55%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .product:hover {
-            transform: translateY(-7px) scale(1.01);
-            box-shadow: 0 18px 35px rgba(0, 0, 0, 1);
-            border-color: var(--accent-red);
-        }
-
-        .product:hover::before {
-            opacity: 1;
-        }
-
-        .product img {
-            max-width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            margin-bottom: 12px;
-        }
-
-        .product h3 {
-            font-family: 'Metal Mania', cursive;
-            font-size: 1.4rem;
-            margin: 5px 0 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            color: var(--accent-red);
-        }
-
-        .product p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .price {
-            margin-top: 10px;
-            font-size: 1rem;
-            text-transform: uppercase;
-            color: var(--accent-purple);
-        }
-
-        /* ====== COMUNIDAD ====== */
-
-        .client-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 20px;
-        }
-
-        .client-card {
-            background: radial-gradient(circle at top, #262637 0, #15151c 55%, #050509 100%);
-            border-radius: 14px;
-            padding: 10px 10px 14px;
-            border: 1px solid rgba(124, 77, 255, 0.35);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.9);
-            cursor: pointer;
-            text-align: center;
-            transition: transform 0.25s ease, box-shadow 0.25s ease, border 0.25s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .client-card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at top, rgba(124, 77, 255, 0.15), transparent 55%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .client-card:hover {
-            transform: translateY(-6px) scale(1.01);
-            border-color: var(--accent-purple);
-            box-shadow: 0 18px 35px rgba(0,0,0,1);
-        }
-
-        .client-card:hover::before {
-            opacity: 1;
-        }
-
-        .client-card img {
-            width: 100%;
-            height: 260px;
-            object-fit: cover;
-            border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.15);
-            margin-bottom: 8px;
-        }
-
-        .client-name {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
-            color: var(--text-muted);
-        }
-
-        /* ====== CONTACTO ====== */
-
-        .contact {
-            background: linear-gradient(135deg, #050509 0%, #1a1a2e 45%, #050509 100%);
-            padding: 25px 20px 30px;
-            text-align: center;
-            margin-top: 50px;
-            border-radius: 16px;
-            border: 1px solid rgba(124, 77, 255, 0.4);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9);
-        }
-
-        .contact h2 {
-            font-family: 'Metal Mania', cursive;
-            font-size: 1.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.25em;
-            color: var(--accent-purple);
-            margin-bottom: 10px;
-        }
-
-        .contact p {
-            font-size: 0.95rem;
-            color: var(--text-light);
-            text-transform: uppercase;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-links a {
-            text-decoration: none;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            padding: 10px 18px;
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            color: var(--text-light);
-            letter-spacing: 0.15em;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-            transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease, border 0.25s ease;
-        }
-
-        .social-links a:hover {
-            background: radial-gradient(circle at top, var(--accent-red), var(--accent-purple));
-            box-shadow: 0 0 14px rgba(255, 23, 68, 0.9);
-            border-color: transparent;
-            transform: translateY(-2px);
-        }
-
-        footer {
-            text-align: center;
-            padding: 12px 10px 20px;
-            background-color: #000;
-            color: #666;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        /* ====== MODAL GALERÍA REUTILIZABLE ====== */
-
-        .gallery-modal {
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(circle at top, rgba(124, 77, 255, 0.15), rgba(0, 0, 0, 0.96));
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 999;
-            padding: 20px;
-        }
-
-        .gallery-modal.active {
-            display: flex;
-        }
-
-        .gallery-content {
-            background: #090910;
-            border-radius: 18px;
-            max-width: 900px;
-            width: 100%;
-            padding: 20px 20px 25px;
-            border: 1px solid rgba(255, 23, 68, 0.3);
-            box-shadow: 0 20px 50px rgba(0,0,0,1);
-            position: relative;
-            max-height: 90vh;
-            overflow: hidden;
-        }
-
-        .gallery-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .gallery-title {
-            font-family: 'Metal Mania', cursive;
-            font-size: 1.4rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--accent-red);
-        }
-
-        .gallery-close {
-            background: transparent;
-            border: none;
-            color: var(--text-light);
-            font-size: 1.4rem;
-            cursor: pointer;
-            text-shadow: 0 0 10px #ff1744;
-        }
-
-        .gallery-body {
-            display: grid;
-            grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-            gap: 18px;
-        }
-
-        .gallery-main img {
-            width: 100%;
-            max-height: 380px;
-            object-fit: cover;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-
-        .gallery-thumbs {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-height: 380px;
-            overflow-y: auto;
-        }
-
-        .gallery-thumbs img {
-            width: 100%;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            cursor: pointer;
-            opacity: 0.7;
-            transition: opacity 0.2s ease, transform 0.2s ease, border 0.2s ease;
-        }
-
-        .gallery-thumbs img:hover {
-            opacity: 1;
-            transform: translateY(-2px);
-            border-color: var(--accent-purple);
-        }
-
-        .gallery-thumbs img.active-thumb {
-            opacity: 1;
-            border-color: var(--accent-red);
-        }
-
-        .gallery-footer {
-            margin-top: 12px;
-            text-align: right;
-        }
-
-        .gallery-footer a {
-            display: inline-block;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            padding: 8px 18px;
-            border-radius: 999px;
-            border: 1px solid rgba(255,255,255,0.3);
-            color: var(--text-light);
-            background: radial-gradient(circle at top, rgba(255,23,68,0.4), rgba(0,0,0,0.9));
-            letter-spacing: 0.16em;
-        }
-
-        .gallery-footer a:hover {
-            border-color: transparent;
-            box-shadow: 0 0 15px rgba(255,23,68,0.9);
-        }
-
-        /* ====== BOTONES FLOTANTES ====== */
-
-        .order-floating-btn {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            z-index: 998;
-            padding: 12px 22px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 23, 68, 0.7);
-            background: radial-gradient(circle at top, #ff1744, #7c0b2a);
-            color: #fff;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            cursor: pointer;
-            box-shadow: 0 0 18px rgba(255, 23, 68, 0.9);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .order-floating-btn span {
-            font-size: 1rem;
-        }
-
-        .order-floating-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 24px rgba(255, 23, 68, 1);
-        }
-
-        .switch-page-btn {
-            position: fixed;
-            left: 20px;
-            bottom: 20px;
-            z-index: 998;
-            padding: 10px 18px;
-            border-radius: 999px;
-            border: 1px solid rgba(124, 77, 255, 0.8);
-            background: radial-gradient(circle at top, #7c4dff, #2a174f);
-            color: #fff;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.16em;
-            cursor: pointer;
-            box-shadow: 0 0 18px rgba(124, 77, 255, 0.9);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .switch-page-btn span {
-            font-size: 1rem;
-        }
-
-        .switch-page-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 24px rgba(124, 77, 255, 1);
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        /* ================== RESPONSIVE ================== */
-
-        @media (max-width: 768px) {
-            header {
-                padding: 18px 12px;
-            }
-
-            header h1 {
-                font-size: 2.1rem;
-                letter-spacing: 0.18em;
-            }
-
-            header p {
-                font-size: 0.75rem;
-                letter-spacing: 0.12em;
-            }
-
-            .container {
-                margin: 18px auto 26px;
-                padding: 0 12px 24px;
-            }
-
-            .section-title {
-                font-size: 1.4rem;
-                letter-spacing: 0.14em;
-                margin-bottom: 18px;
-            }
-
-            .section-subtitle {
-                font-size: 0.8rem;
-                padding: 0 10px;
-            }
-
-            .products {
-                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-                gap: 16px;
-            }
-
-            .product {
-                padding: 14px 12px 16px;
-            }
-
-            .product img {
-                height: 170px;
-            }
-
-            .product h3 {
-                font-size: 1rem;
-                letter-spacing: 0.12em;
-            }
-
-            .price {
-                font-size: 0.9rem;
-            }
-
-            .client-grid {
-                grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-                gap: 14px;
-            }
-
-            .client-card img {
-                height: 200px;
-            }
-
-            .contact {
-                margin-top: 30px;
-                padding: 18px 14px 22px;
-            }
-
-            .contact h2 {
-                font-size: 1.3rem;
-                letter-spacing: 0.18em;
-            }
-
-            .contact p {
-                font-size: 0.78rem;
-                line-height: 1.4;
-            }
-
-            .social-links a {
-                font-size: 0.75rem;
-                padding: 8px 14px;
-                letter-spacing: 0.12em;
-            }
-
-            .gallery-content {
-                padding: 14px 14px 18px;
-            }
-
-            .gallery-body {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-
-            .gallery-main img {
-                max-height: 260px;
-            }
-
-            .gallery-title {
-                font-size: 1.1rem;
-                letter-spacing: 0.12em;
-            }
-
-            .order-floating-btn {
-                font-size: 0.7rem;
-                padding: 9px 16px;
-                letter-spacing: 0.12em;
-                right: 12px;
-                bottom: 12px;
-            }
-
-            .switch-page-btn {
-                font-size: 0.7rem;
-                padding: 8px 14px;
-                letter-spacing: 0.12em;
-                left: 12px;
-                bottom: 60px; /* la subo un poco para que no choque con el botón de pedido */
-            }
-        }
-
-        @media (max-width: 480px) {
-            header h1 {
-                font-size: 1.8rem;
-                letter-spacing: 0.12em;
-            }
-
-            .products {
-                grid-template-columns: 1fr;
-            }
-
-            .client-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .order-floating-btn {
-                width: auto;
-                max-width: 70%;
-                justify-content: center;
-            }
-
-            .switch-page-btn {
-                max-width: 70%;
-                justify-content: center;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GymStreet Shop • Rock Dark</title>
+
+  <!-- Fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#050509;
+      --panel:#0b0b12;
+      --card:#12121b;
+      --card2:#15151c;
+
+      --red:#ff1744;
+      --purple:#7c4dff;
+      --cyan:#21d4fd;
+
+      --text:#e9e9ee;
+      --muted:#a6a6b3;
+      --border:rgba(255,255,255,.10);
+      --shadow: 0 18px 55px rgba(0,0,0,.75);
+
+      --radius:18px;
+      --radius2:14px;
+
+      --max:1200px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(124,77,255,.22), transparent 40%),
+        radial-gradient(circle at 90% 10%, rgba(255,23,68,.18), transparent 42%),
+        radial-gradient(circle at 50% 0%, rgba(33,212,253,.08), transparent 55%),
+        radial-gradient(circle at bottom, #0a0a12 0%, #050509 55%, #000 100%);
+      color:var(--text);
+      font-family:'Roboto Condensed', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      letter-spacing:.03em;
+      min-height:100vh;
+    }
+
+    /* ====== TOPBAR ====== */
+    .topbar{
+      position:sticky; top:0; z-index:1000;
+      border-bottom:1px solid var(--border);
+      background: linear-gradient(135deg, rgba(0,0,0,.85), rgba(26,26,46,.55), rgba(0,0,0,.85));
+      backdrop-filter: blur(10px);
+      box-shadow: 0 12px 35px rgba(0,0,0,.65);
+    }
+    .topbar-inner{
+      max-width:var(--max);
+      margin:auto;
+      padding:14px 16px;
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width: 240px;
+    }
+    .brand-badge{
+      width:44px; height:44px;
+      border-radius:14px;
+      border:1px solid rgba(255,23,68,.35);
+      background:
+        radial-gradient(circle at top, rgba(255,23,68,.40), rgba(124,77,255,.20) 55%, rgba(0,0,0,.75));
+      box-shadow: 0 0 25px rgba(255,23,68,.25);
+      display:grid; place-items:center;
+      font-weight:700;
+      color:#fff;
+    }
+    .brand h1{
+      margin:0;
+      font-family:'Metal Mania', cursive;
+      letter-spacing:.22em;
+      font-size:1.7rem;
+      color:var(--red);
+      text-transform:uppercase;
+      text-shadow: 0 0 14px rgba(255,23,68,.7), 0 0 24px rgba(124,77,255,.35);
+      line-height:1.1;
+    }
+    .brand p{
+      margin:2px 0 0;
+      font-size:.78rem;
+      text-transform:uppercase;
+      color:var(--muted);
+      letter-spacing:.14em;
+    }
+
+    .nav{
+      display:flex; align-items:center; gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .pill{
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.45);
+      color:var(--text);
+      text-decoration:none;
+      padding:10px 14px;
+      border-radius:999px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:.82rem;
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      transition: transform .18s ease, box-shadow .22s ease, border .22s ease, background .22s ease;
+      cursor:pointer;
+      user-select:none;
+    }
+    .pill:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,23,68,.55);
+      box-shadow: 0 0 18px rgba(255,23,68,.25);
+      background: rgba(255,23,68,.08);
+    }
+    .pill.active{
+      border-color: rgba(124,77,255,.75);
+      box-shadow: 0 0 18px rgba(124,77,255,.22);
+      background: rgba(124,77,255,.10);
+    }
+
+    .cta-whatsapp{
+      border:1px solid rgba(33,212,253,.35);
+      background: radial-gradient(circle at top, rgba(33,212,253,.22), rgba(0,0,0,.55));
+    }
+    .cta-whatsapp:hover{
+      border-color: rgba(33,212,253,.7);
+      box-shadow: 0 0 18px rgba(33,212,253,.22);
+      background: rgba(33,212,253,.12);
+    }
+
+    /* ====== LAYOUT ====== */
+    .wrap{
+      max-width:var(--max);
+      margin: 18px auto 80px;
+      padding: 0 16px;
+    }
+
+    .hero{
+      margin-top: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:var(--radius);
+      background:
+        radial-gradient(circle at 15% 0%, rgba(255,23,68,.18), transparent 45%),
+        radial-gradient(circle at 90% 20%, rgba(124,77,255,.18), transparent 48%),
+        linear-gradient(135deg, rgba(0,0,0,.65), rgba(12,12,20,.65));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .hero::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        linear-gradient(90deg, rgba(255,23,68,.10), transparent 45%),
+        linear-gradient(180deg, rgba(124,77,255,.10), transparent 55%);
+      pointer-events:none;
+    }
+    .hero-inner{
+      padding: 20px 18px;
+      display:flex;
+      gap:16px;
+      justify-content:space-between;
+      align-items:flex-start;
+      flex-wrap:wrap;
+      position:relative;
+    }
+    .hero-title{
+      min-width: 280px;
+    }
+    .hero-title h2{
+      margin:0;
+      font-family:'Metal Mania', cursive;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      color:var(--purple);
+      font-size:1.6rem;
+      text-shadow: 0 0 14px rgba(124,77,255,.35);
+    }
+    .hero-title p{
+      margin:8px 0 0;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:.82rem;
+      line-height:1.4;
+    }
+
+    .hero-stats{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      margin-left:auto;
+    }
+    .stat{
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.35);
+      min-width: 160px;
+    }
+    .stat .k{
+      font-size:.78rem;
+      color:var(--muted);
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+    .stat .v{
+      margin-top:4px;
+      font-size:1.05rem;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      color:var(--text);
+    }
+
+    /* ====== TOOLBAR (BUSCAR/FILTRAR) ====== */
+    .toolbar{
+      margin-top: 16px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .search{
+      flex: 1 1 280px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding: 12px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.35);
+      box-shadow: 0 10px 24px rgba(0,0,0,.45);
+    }
+    .search input{
+      width:100%;
+      background:transparent;
+      border:0;
+      outline:none;
+      color:var(--text);
+      font-size:.95rem;
+      letter-spacing:.06em;
+    }
+    .search input::placeholder{color: rgba(233,233,238,.55)}
+    .chip-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      align-items:center;
+    }
+    .chip{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.35);
+      color:var(--text);
+      padding:10px 14px;
+      border-radius:999px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:.78rem;
+      cursor:pointer;
+      transition: transform .18s ease, border .22s ease, box-shadow .22s ease, background .22s ease;
+      user-select:none;
+    }
+    .chip:hover{
+      transform: translateY(-1px);
+      border-color: rgba(124,77,255,.55);
+      box-shadow: 0 0 16px rgba(124,77,255,.18);
+      background: rgba(124,77,255,.10);
+    }
+    .chip.active{
+      border-color: rgba(255,23,68,.70);
+      box-shadow: 0 0 16px rgba(255,23,68,.18);
+      background: rgba(255,23,68,.10);
+    }
+
+    .select{
+      border-radius:999px;
+      padding:10px 14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.35);
+      color:var(--text);
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:.78rem;
+      outline:none;
+      cursor:pointer;
+    }
+
+    /* ====== SECTIONS ====== */
+    .page{display:none}
+    .page.active{display:block}
+
+    .section-title{
+      margin: 22px 0 10px;
+      font-family:'Metal Mania', cursive;
+      text-transform:uppercase;
+      letter-spacing:.20em;
+      font-size:1.55rem;
+      color:var(--red);
+      text-shadow: 0 0 18px rgba(255,23,68,.35);
+    }
+    .section-subtitle{
+      margin:0 0 16px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:.82rem;
+      line-height:1.5;
+    }
+
+    /* ====== GRID PRODUCTS ====== */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .card{
+      border-radius: var(--radius2);
+      border:1px solid rgba(255,255,255,.10);
+      background:
+        radial-gradient(circle at top, rgba(255,23,68,.10), transparent 55%),
+        radial-gradient(circle at 80% 0%, rgba(124,77,255,.10), transparent 55%),
+        linear-gradient(135deg, rgba(18,18,27,.95), rgba(10,10,15,.95));
+      box-shadow: 0 14px 34px rgba(0,0,0,.65);
+      overflow:hidden;
+      position:relative;
+      transition: transform .22s ease, box-shadow .22s ease, border .22s ease;
+    }
+    .card:hover{
+      transform: translateY(-5px);
+      border-color: rgba(255,23,68,.45);
+      box-shadow: 0 18px 45px rgba(0,0,0,.80);
+    }
+
+    /* ✅ IMÁGENES COMPLETAS (NO RECORTE) */
+    .media{
+      position:relative;
+      height: 260px;              /* más alto */
+      background: #0b0b12;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px;              /* espacio para que no se pegue */
+    }
+    .media img{
+      width:100%;
+      height:100%;
+      object-fit: contain;        /* ✅ muestra completa */
+      object-position: center;
+      display:block;
+      filter: contrast(1.05) saturate(1.05);
+      transform: none;            /* sin zoom */
+    }
+
+    .badges{
+      position:absolute;
+      top:10px; left:10px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .badge{
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:.72rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.50);
+      backdrop-filter: blur(8px);
+    }
+    .badge.hot{ border-color: rgba(255,23,68,.55); box-shadow: 0 0 14px rgba(255,23,68,.18) }
+    .badge.new{ border-color: rgba(124,77,255,.55); box-shadow: 0 0 14px rgba(124,77,255,.18) }
+    .badge.stock{ border-color: rgba(33,212,253,.45); box-shadow: 0 0 14px rgba(33,212,253,.14) }
+
+    .card-body{
+      padding: 12px 12px 14px;
+    }
+    .name{
+      margin:0;
+      font-family:'Metal Mania', cursive;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      font-size:1.08rem;
+      color:var(--text);
+      line-height:1.2;
+    }
+    .meta{
+      margin-top:8px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .price{
+      font-size:1.05rem;
+      color: var(--purple);
+      text-transform:uppercase;
+      letter-spacing:.12em;
+    }
+    .mini{
+      font-size:.78rem;
+      color:var(--muted);
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+
+    .card-actions{
+      margin-top: 10px;
+      display:flex;
+      gap:10px;
+    }
+    .btn{
+      flex: 1;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.40);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius: 12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:.78rem;
+      cursor:pointer;
+      transition: transform .18s ease, box-shadow .22s ease, border .22s ease, background .22s ease;
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      justify-content:center;
+      user-select:none;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(124,77,255,.55);
+      box-shadow: 0 0 16px rgba(124,77,255,.18);
+      background: rgba(124,77,255,.10);
+    }
+    .btn.primary{
+      border-color: rgba(255,23,68,.55);
+      background: radial-gradient(circle at top, rgba(255,23,68,.35), rgba(0,0,0,.55));
+      box-shadow: 0 0 18px rgba(255,23,68,.18);
+    }
+    .btn.primary:hover{
+      border-color: rgba(255,23,68,.85);
+      box-shadow: 0 0 22px rgba(255,23,68,.28);
+      background: radial-gradient(circle at top, rgba(255,23,68,.45), rgba(0,0,0,.55));
+    }
+
+    /* ====== COMMUNITY ====== */
+    .community-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .client{
+      border-radius: var(--radius2);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(135deg, rgba(18,18,27,.95), rgba(10,10,15,.95));
+      box-shadow: 0 14px 34px rgba(0,0,0,.65);
+      cursor:pointer;
+      transition: transform .22s ease, border .22s ease, box-shadow .22s ease;
+    }
+    .client:hover{
+      transform: translateY(-5px);
+      border-color: rgba(124,77,255,.55);
+      box-shadow: 0 18px 45px rgba(0,0,0,.80);
+    }
+    .client img{ width:100%; height: 240px; object-fit:cover; display:block; }
+    .client .cap{
+      padding:10px 12px 12px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:.78rem;
+    }
+
+    /* ====== CONTACT ====== */
+    .contact{
+      margin-top: 22px;
+      border-radius: var(--radius);
+      border:1px solid rgba(255,255,255,.10);
+      background:
+        radial-gradient(circle at top, rgba(33,212,253,.10), transparent 55%),
+        radial-gradient(circle at 70% 0%, rgba(255,23,68,.12), transparent 55%),
+        linear-gradient(135deg, rgba(0,0,0,.60), rgba(12,12,20,.70));
+      box-shadow: var(--shadow);
+      padding: 18px 16px;
+      overflow:hidden;
+      position:relative;
+    }
+    .contact h3{
+      margin:0;
+      font-family:'Metal Mania', cursive;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      color:var(--purple);
+      font-size:1.35rem;
+    }
+    .contact p{
+      margin:8px 0 0;
+      color:var(--text);
+      text-transform:uppercase;
+      letter-spacing:.10em;
+      font-size:.82rem;
+      line-height:1.5;
+    }
+    .social{
+      display:flex; flex-wrap:wrap; gap:10px;
+      margin-top: 14px;
+    }
+    .social a{
+      text-decoration:none;
+      color:var(--text);
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.40);
+      padding:10px 14px;
+      border-radius: 999px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:.78rem;
+      transition: transform .18s ease, box-shadow .22s ease, border .22s ease, background .22s ease;
+    }
+    .social a:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,23,68,.65);
+      box-shadow: 0 0 16px rgba(255,23,68,.18);
+      background: rgba(255,23,68,.10);
+    }
+
+    footer{
+      margin-top: 28px;
+      color: rgba(233,233,238,.55);
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-size:.72rem;
+      text-align:center;
+      padding: 18px 10px 10px;
+    }
+
+    /* ====== MODAL ====== */
+    .modal{
+      position:fixed; inset:0;
+      display:none;
+      z-index:2000;
+      background: radial-gradient(circle at top, rgba(124,77,255,.15), rgba(0,0,0,.96));
+      padding: 16px;
+      align-items:center;
+      justify-content:center;
+    }
+    .modal.active{display:flex}
+    .modal-box{
+      width:min(980px, 100%);
+      max-height: 92vh;
+      overflow:hidden;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(135deg, rgba(12,12,20,.95), rgba(0,0,0,.85));
+      box-shadow: 0 25px 70px rgba(0,0,0,.85);
+      position:relative;
+    }
+    .modal-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 14px 14px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(135deg, rgba(255,23,68,.08), rgba(124,77,255,.08));
+    }
+    .modal-title{
+      font-family:'Metal Mania', cursive;
+      text-transform:uppercase;
+      letter-spacing:.15em;
+      font-size:1.25rem;
+      color: var(--red);
+      text-shadow: 0 0 14px rgba(255,23,68,.35);
+      margin:0;
+    }
+    .modal-close{
+      border:0;
+      background: transparent;
+      color: var(--text);
+      font-size: 1.6rem;
+      cursor:pointer;
+      padding: 6px 10px;
+      border-radius: 12px;
+    }
+    .modal-close:hover{
+      background: rgba(255,23,68,.12);
+      box-shadow: 0 0 18px rgba(255,23,68,.18);
+    }
+
+    .modal-body{
+      display:grid;
+      grid-template-columns: 1.8fr 1fr;
+      gap: 14px;
+      padding: 14px;
+      max-height: calc(92vh - 62px);
+      overflow:auto;
+    }
+
+    /* ✅ IMAGEN PRINCIPAL COMPLETA EN MODAL */
+    .main-img{
+      width:100%;
+      height: 520px;              /* más alto */
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.12);
+      background:#0b0b12;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px;
+    }
+    .main-img img{
+      width:100%;
+      height:100%;
+      object-fit:contain;         /* ✅ completa */
+      object-position:center;
+      display:block;
+    }
+
+    .thumbs{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    /* ✅ MINIATURAS COMPLETAS (SIN RECORTE) */
+    .thumbs img{
+      width:100%;
+      height: 110px;
+      object-fit:contain;
+      object-position:center;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      opacity:.75;
+      cursor:pointer;
+      transition: opacity .18s ease, transform .18s ease, border .18s ease;
+      background:#0b0b12;
+      padding: 8px;
+    }
+    .thumbs img:hover{
+      opacity:1;
+      transform: translateY(-1px);
+      border-color: rgba(124,77,255,.55);
+    }
+    .thumbs img.active{
+      opacity:1;
+      border-color: rgba(255,23,68,.75);
+      box-shadow: 0 0 18px rgba(255,23,68,.15);
+    }
+
+    .side{
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      background: rgba(0,0,0,.35);
+      padding: 12px;
+      height: fit-content;
+      position:sticky;
+      top: 10px;
+    }
+    .side .row{
+      display:flex; justify-content:space-between; gap:10px; align-items:center;
+      flex-wrap:wrap;
+    }
+    .side .big{
+      font-size:1.15rem;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color: var(--purple);
+      margin: 6px 0 2px;
+    }
+    .side .hint{
+      font-size:.78rem;
+      color: var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      line-height:1.4;
+      margin: 0 0 10px;
+    }
+
+    .field{
+      margin-top: 10px;
+    }
+    .field label{
+      display:block;
+      font-size:.72rem;
+      color: var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      margin-bottom: 6px;
+    }
+    .field select, .field textarea{
+      width:100%;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.45);
+      color: var(--text);
+      padding: 10px 12px;
+      outline:none;
+      font-size:.9rem;
+      letter-spacing:.06em;
+    }
+    .field textarea{
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .modal-actions{
+      margin-top: 12px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+    .modal-actions .btn{ flex:1; }
+    .btn.whats{
+      border-color: rgba(33,212,253,.35);
+      background: radial-gradient(circle at top, rgba(33,212,253,.22), rgba(0,0,0,.55));
+    }
+    .btn.whats:hover{
+      border-color: rgba(33,212,253,.70);
+      box-shadow: 0 0 18px rgba(33,212,253,.18);
+      background: rgba(33,212,253,.12);
+    }
+
+    /* ====== FLOATING ====== */
+    .float-order{
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 1500;
+      border-radius: 999px;
+      padding: 12px 16px;
+      border: 1px solid rgba(255,23,68,.55);
+      background: radial-gradient(circle at top, rgba(255,23,68,.75), rgba(0,0,0,.55));
+      color:#fff;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-size:.78rem;
+      cursor:pointer;
+      box-shadow: 0 0 24px rgba(255,23,68,.28);
+      display:flex; gap:8px; align-items:center;
+      transition: transform .18s ease, box-shadow .22s ease;
+    }
+    .float-order:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 0 28px rgba(255,23,68,.38);
+    }
+
+    .to-top{
+      position: fixed;
+      left: 16px;
+      bottom: 16px;
+      z-index: 1500;
+      border-radius: 999px;
+      padding: 10px 14px;
+      border: 1px solid rgba(124,77,255,.55);
+      background: radial-gradient(circle at top, rgba(124,77,255,.65), rgba(0,0,0,.55));
+      color:#fff;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-size:.74rem;
+      cursor:pointer;
+      box-shadow: 0 0 24px rgba(124,77,255,.22);
+      display:none;
+      transition: transform .18s ease, box-shadow .22s ease;
+    }
+    .to-top.show{display:flex}
+    .to-top:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 0 28px rgba(124,77,255,.32);
+    }
+
+    /* ====== MOBILE BOTTOM BAR ====== */
+    .bottom-bar{
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      z-index: 1600;
+      display:none;
+      border-top: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.70);
+      backdrop-filter: blur(10px);
+      padding: 10px 10px;
+    }
+    .bottom-inner{
+      max-width: var(--max);
+      margin:auto;
+      display:flex;
+      gap:10px;
+      justify-content:space-between;
+    }
+    .bbtn{
+      flex:1;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.35);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 10px 10px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:.72rem;
+      cursor:pointer;
+      display:flex; align-items:center; justify-content:center; gap:8px;
+    }
+    .bbtn.wh{
+      border-color: rgba(33,212,253,.35);
+      background: rgba(33,212,253,.12);
+    }
+
+    /* ====== RESPONSIVE ====== */
+    @media (max-width: 980px){
+      .modal-body{ grid-template-columns: 1fr; }
+      .main-img{ height: 380px; } /* ✅ más alto en tablet */
+      .thumbs{ flex-direction:row; overflow-x:auto; }
+      .thumbs img{ width: 140px; height: 95px; flex: 0 0 auto; }
+      .side{ position:relative; top:0; }
+    }
+
+    @media (max-width: 768px){
+      .topbar-inner{ padding: 12px 12px; }
+      .brand{ min-width: 180px; }
+      .brand h1{ font-size: 1.35rem; }
+      .pill{ font-size:.74rem; padding:9px 12px; }
+      .hero-inner{ padding: 16px 14px; }
+      .grid{ grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+      .media{ height: 240px; }   /* ✅ más alto en móvil */
+
+      .float-order{ right: 12px; bottom: 74px; }
+      .to-top{ left: 12px; bottom: 74px; }
+
+      .bottom-bar{ display:block; }
+      .wrap{ margin-bottom: 120px; }
+    }
+
+    @media (max-width: 480px){
+      .grid{ grid-template-columns: 1fr; }
+      .hero-stats .stat{ min-width: 100%; }
+      .search{ padding: 10px 12px; }
+      .name{ font-size: 1.02rem; }
+    }
+  </style>
 </head>
+
 <body>
-    <header>
-        <h1>GymStreet Shop</h1>
-        <p>CAMISAS · GYM · PANTALONES · ENVÍOS A TODO EL PAÍS</p>
-    </header>
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-badge">GS</div>
+        <div>
+          <h1>GymStreet</h1>
+          <p>ROCK DARK • GYM • ENVÍOS A TODO GUATEMALA</p>
+        </div>
+      </div>
 
-    <!-- Botón flotante global: REALIZA TU PEDIDO -->
-    <button class="order-floating-btn" id="orderBtn">
-        <span>✙</span> REALIZA TU PEDIDO
-    </button>
-
-    <!-- Botones para cambiar entre catálogo y comunidad -->
-    <button class="switch-page-btn" id="toCommunityBtn">
-        <span>★</span> VER COMUNIDAD
-    </button>
-    <button class="switch-page-btn hidden" id="toCatalogBtn">
-        <span>←</span> VER CATÁLOGO
-    </button>
-
-    <div class="container">
-        <!-- ================== SECCIÓN CATÁLOGO (PÁGINA PRINCIPAL) ================== -->
-        <section id="catalogo" class="page-section active">
-            <h2 class="section-title">Catálogo Oficial</h2>
-
-            <section class="products">
-                <div class="product" data-id="youngla-compresion-negra">
-                    <img src="https://img.kwcdn.com/product/fancy/8f630a5f-7d10-4c63-a8aa-32a235dfa1d8.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 1">
-                    <h3>Camisa YoungLA - Compresión Negra</h3>
-                    <p class="price">Precio: Q275.00</p>
-                </div>
-
-                <div class="product" data-id="gymshark-compresion-negra">
-                    <img src="img/ec38d78e-fb53-40c3-8b30-e4fbc05b8ee1.jpg" alt="Producto 2">
-                    <h3>Camisa GymShark - Compresión Negra</h3>
-                    <p class="price">Precio: Q275.00</p>
-                </div>
-
-                <div class="product" data-id="youngla-compresion-blanca">
-                    <img src="https://img.kwcdn.com/product/fancy/b7b45753-f0e5-4168-8995-471071ba9e7f.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 3">
-                    <h3>Camisa YoungLA - Compresión Blanco</h3>
-                    <p class="price">Precio: Q275.00</p>
-                </div>
-            
-                <div class="product" data-id="youngla-vintage-negra">
-                    <img src="https://img.kwcdn.com/product/fancy/1f003ce6-72c5-4978-9a99-9f68e743d3fd.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 4">
-                    <h3>Camisa YoungLA - Camiseta Negra Vintage</h3>
-                    <p class="price">Precio: Q300.00</p>
-                </div>
-
-                <div class="product" data-id="youngla-vintage-sin-mangas">
-                    <img src="https://img.kwcdn.com/product/fancy/06ddcead-8bbd-439b-9d0a-8e4625c2d730.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 5">
-                    <h3>Camisa YoungLA - Camiseta Vintage sin mangas</h3>
-                    <p class="price">Precio: Q300.00</p>
-                </div>
-
-                <div class="product" data-id="youngla-oversize">
-                    <img src="https://img.kwcdn.com/product/fancy/b66df733-f74c-42cd-bdd0-cdf3bb1154b8.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 6">
-                    <h3>Camisa YoungLA - Camiseta Oversize</h3>
-                    <p class="price">Precio: Q350.00</p>
-                </div>
-
-                <div class="product" data-id="worldgym-oversize">
-                    <img src="https://img.kwcdn.com/product/fancy/2d812e1c-748d-4c88-9f83-d2eb0d098b98.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 7">
-                    <h3>Camisa World Gym - Camiseta Oversize</h3>
-                    <p class="price">Precio: Q325.00</p>
-                </div>
-
-                <div class="product" data-id="youngla-pants-negro">
-                    <img src="https://img.kwcdn.com/product/fancy/fe70db5d-6d70-4a86-9495-2729b2e49b52.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 8">
-                    <h3>Pants YoungLA - Color negro</h3>
-                    <p class="price">Precio: Q250.00</p>
-                </div>
-
-                <div class="product" data-id="youngla-y2k-negro">
-                    <img src="https://img.kwcdn.com/product/open/89a9b65b47de43d9b4387c3486ad3fed-goods.jpeg?imageView2/2/w/800/q/70/format/avif" alt="Producto 9">
-                    <h3>Pants YoungLA - Y2K Streetwea Negro</h3>
-                    <p class="price">Precio: Q350.00</p>
-                </div>
-
-                <div class="product" data-id="youngla-y2k-mujer-negro">
-                    <img src="https://img.kwcdn.com/product/Fancyalgo/VirtualModelMatting/d2dc172e83bbc454dd34d32fa6476068.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 10">
-                    <h3>Pants YoungLA - Y2K Streetwea de mujer Negro</h3>
-                    <p class="price">Precio: Q265.00</p>
-                </div>
-
-                <div class="product" data-id="breathedivinity-compresion-negro">
-                    <img src="https://img.kwcdn.com/product/fancy/d79752c0-a402-4f70-85e8-3c66251934aa.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 11">
-                    <h3>Camisa Breathedivinity - Compresión Negro</h3>
-                    <p class="price">Precio: Q250.00</p>
-                </div>
-
-                <div class="product" data-id="breathedivinity-compresion-blanco">
-                    <img src="https://img.kwcdn.com/product/fancy/59a337af-c431-404c-86c1-974f2b24268c.jpg?imageView2/2/w/800/q/70/format/avif" alt="Producto 12">
-                    <h3>Camisa Breathedivinity - Compresión Blanca</h3>
-                    <p class="price">Precio: Q250.00</p>
-                </div>
-            </section>
-        </section>
-
-        <!-- ================== SECCIÓN COMUNIDAD (PÁGINA SECUNDARIA) ================== -->
-        <section id="comunidad" class="page-section">
-            <h2 class="section-title">Comunidad GymStreet</h2>
-            <p class="section-subtitle">Sube aquí las fotos de tus clientes usando las prendas.</p>
-
-            <section class="client-grid">
-                <!-- Ejemplos, cambia rutas y nombres -->
-                <div class="client-card" data-id="cliente-1">
-                    <img src="img/23a34112-419c-497d-9453-d78c11cb6663.jpg" alt="Cliente 1 usando GymStreet">
-                    <div class="client-name">Gracias por tu compra @sebas07_mendoza</div>
-                </div>
-
-                <div class="client-card" data-id="cliente-2">
-                    <img src="img/08324a9e-56ff-421b-94ba-828061d19321.jpg" alt="Cliente 2 usando GymStreet">
-                    <div class="client-name">Gracias por tu compra @alejandro_w23</div>
-                </div>
-
-                <div class="client-card" data-id="cliente-3">
-                    <img src="img/8fd3f3ce-6e9e-4681-869a-e0d5e104e227.jpg" alt="Cliente 3 usando GymStreet">
-                    <div class="client-name">Gracias por tu compra @danierxlas_cs</div>
-                </div>
-
-                 <div class="client-card" data-id="cliente-4">
-                    <img src="img/WhatsAppImage2025-12-03at5.10.50 PM.jpeg" alt="Cliente 4 usando GymStreet">
-                    <div class="client-name">Gracias por tu compra @d_ledif_19</div>
-                </div>
-
-                  <div class="client-card" data-id="cliente-5">
-                    <img src="img/2b5ba153-2d9a-4152-9f12-68de41b62c02.jpg" alt="Cliente 5 usando GymStreet">
-                    <div class="client-name">Gracias por tu compra @dylan_alfaro</div>
-                </div>
-            </section>
-        </section>
-
-        <!-- ================== CONTACTO (COMPARTIDO) ================== -->
-        <section class="contact" id="contacto">
-            <h2>Haz Tu Pedido</h2>
-            <p>ESCRÍBENOS POR REDES O WHATSAPP Y LLEVATE TU ROPA DE GYM HOY.</p>
-            <div class="social-links">
-                <a href="https://www.instagram.com/gymstreet.gt?igsh=cWU4Yzh1NWVwZ3l0&utm_source=qr" target="_blank">Instagram</a>
-                <a href="https://www.facebook.com/share/1MQ983VScR/?mibextid=wwXIfr" target="_blank">Facebook</a>
-                <a href="https://wa.me/50247176818" target="_blank">WhatsApp</a>
-            </div>
-        </section>
+      <div class="nav">
+        <button class="pill active" id="navCatalog">☰ Catálogo</button>
+        <button class="pill" id="navCommunity">★ Comunidad</button>
+        <button class="pill" id="navContact">✉ Contacto</button>
+        <a class="pill cta-whatsapp" id="navWhatsapp" href="https://wa.me/50247176818" target="_blank" rel="noopener">🟢 WhatsApp</a>
+      </div>
     </div>
+  </div>
+
+  <div class="wrap">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-title">
+          <h2>Catálogo Rock Dark</h2>
+          <p>
+            Prendas premium de gym • estilos YoungLA / GymShark •
+            <b>pago contra entrega</b> (si aplica) • atención por WhatsApp.
+          </p>
+        </div>
+
+        <div class="hero-stats" id="heroStats">
+          <div class="stat">
+            <div class="k">Productos</div>
+            <div class="v" id="statProducts">—</div>
+          </div>
+          <div class="stat">
+            <div class="k">Envíos</div>
+            <div class="v">A todo el país</div>
+          </div>
+          <div class="stat">
+            <div class="k">Soporte</div>
+            <div class="v">WhatsApp rápido</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <div class="search" title="Buscar producto">
+        🔎
+        <input id="searchInput" type="text" placeholder="Buscar: compresión, oversize, pants, vintage..." />
+      </div>
+
+      <div class="chip-row">
+        <button class="chip active" data-cat="all">Todo</button>
+        <button class="chip" data-cat="camisas">Camisas</button>
+        <button class="chip" data-cat="pants">Pants</button>
+        <button class="chip" data-cat="oversize">Oversize</button>
+
+        <select class="select" id="sortSelect" title="Ordenar">
+          <option value="featured">Orden: destacado</option>
+          <option value="price-asc">Precio: menor → mayor</option>
+          <option value="price-desc">Precio: mayor → menor</option>
+          <option value="name-asc">Nombre: A → Z</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- PAGES -->
+    <section id="pageCatalog" class="page active">
+      <h2 class="section-title">Catálogo Oficial</h2>
+      <p class="section-subtitle">Toca un producto para ver galería, elegir talla y pedir por WhatsApp.</p>
+      <div class="grid" id="productGrid"></div>
+    </section>
+
+    <section id="pageCommunity" class="page">
+      <h2 class="section-title">Comunidad GymStreet</h2>
+      <p class="section-subtitle">Sube aquí fotos reales de tus clientes usando las prendas (prueba social = más ventas).</p>
+      <div class="community-grid" id="communityGrid"></div>
+    </section>
+
+    <section id="contacto" class="contact">
+      <h3>Haz tu pedido</h3>
+      <p>Escríbenos por redes o WhatsApp y te ayudamos con tallas, disponibilidad y envío.</p>
+      <div class="social">
+        <a href="https://www.instagram.com/gymstreet.gt?igsh=cWU4Yzh1NWVwZ3l0&utm_source=qr" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.facebook.com/share/1MQ983VScR/?mibextid=wwXIfr" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://wa.me/50247176818" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </section>
 
     <footer>
-        <p>&copy; 2025 Dark Freedom Shop · Todos los derechos reservados.</p>
+      &copy; 2025 GymStreet Shop • Rock Dark • Todos los derechos reservados.
     </footer>
+  </div>
 
-    <!-- ============== MODAL GALERÍA ============== -->
-    <div class="gallery-modal" id="galleryModal">
-        <div class="gallery-content">
-            <div class="gallery-header">
-                <div class="gallery-title" id="galleryTitle">Galería</div>
-                <button class="gallery-close" id="galleryClose">&times;</button>
-            </div>
-            <div class="gallery-body">
-                <div class="gallery-main">
-                    <img id="galleryMainImg" src="" alt="Imagen seleccionada">
-                </div>
-                <div class="gallery-thumbs" id="galleryThumbs"></div>
-            </div>
-            <div class="gallery-footer">
-                <a href="#contacto" id="galleryOrderBtn">Realiza tu pedido</a>
-            </div>
-        </div>
+  <!-- FLOATING -->
+  <button class="float-order" id="floatOrder">✙ Realiza tu pedido</button>
+  <button class="to-top" id="toTop">↑ Subir</button>
+
+  <!-- MOBILE BOTTOM BAR -->
+  <div class="bottom-bar">
+    <div class="bottom-inner">
+      <button class="bbtn" id="mHome">☰ Catálogo</button>
+      <button class="bbtn" id="mCom">★ Comunidad</button>
+      <a class="bbtn wh" href="https://wa.me/50247176818" target="_blank" rel="noopener">🟢 WhatsApp</a>
     </div>
+  </div>
 
-    <script>
-        // ====== Galerías de productos ======
-        const productGalleries = {
-            "youngla-compresion-negra": [
-                "https://img.kwcdn.com/product/fancy/8f630a5f-7d10-4c63-a8aa-32a235dfa1d8.jpg?imageView2/2/w/800/q/70/format/avif"
-            ],
-            "gymshark-compresion-negra": [
-                "https://img.kwcdn.com/product/fancy/3c52300a-b21e-4747-8115-3bddeea0e58f.jpg?imageView2/2/w/800/q/70/format/avif"
-            ],
-            "youngla-compresion-blanca": [
-                "https://img.kwcdn.com/product/fancy/b7b45753-f0e5-4168-8995-471071ba9e7f.jpg?imageView2/2/w/800/q/70/format/avif"
-            ],
-            "youngla-vintage-negra": [
-                "https://img.kwcdn.com/product/fancy/1f003ce6-72c5-4978-9a99-9f68e743d3fd.jpg?imageView2/2/w/800/q/70/format/avif"
-            ],
-            "youngla-vintage-sin-mangas": [
-                "https://img.kwcdn.com/product/fancy/06ddcead-8bbd-439b-9d0a-8e4625c2d730.jpg?imageView2/2/w/800/q/70/format/avif"
-            ],
-            "youngla-oversize": [
-                "https://img.kwcdn.com/product/fancy/b66df733-f74c-42cd-bdd0-cdf3bb1154b8.jpg?imageView2/2/w/800/q/70/format/avif"
-            ],
-            "worldgym-oversize": [
-                "https://img.kwcdn.com/product/fancy/2d812e1c-748d-4c88-9f83-d2eb0d098b98.jpg?imageView2/2/w/800/q/70/format/avif"
-            ],
-            "youngla-pants-negro": [
-                "https://img.kwcdn.com/product/fancy/fe70db5d-6d70-4a86-9495-2729b2e49b52.jpg?imageView2/2/w/800/q/70/format/avif"
-            ],
-            "youngla-y2k-negro": [
-                "https://img.kwcdn.com/product/open/89a9b65b47de43d9b4387c3486ad3fed-goods.jpeg?imageView2/2/w/800/q/70/format/avif"
-            ],
-            "youngla-y2k-mujer-negro": [
-                "https://img.kwcdn.com/product/Fancyalgo/VirtualModelMatting/d2dc172e83bbc454dd34d32fa6476068.jpg?imageView2/2/w/800/q/70/format/avif"
-            ],
-            "breathedivinity-compresion-negro": [
-                "https://img.kwcdn.com/product/fancy/d79752c0-a402-4f70-85e8-3c66251934aa.jpg?imageView2/2/w/800/q/70/format/avif"
-            ],
-            "breathedivinity-compresion-blanco": [
-                "https://img.kwcdn.com/product/fancy/59a337af-c431-404c-86c1-974f2b24268c.jpg?imageView2/2/w/800/q/70/format/avif"
-            ]
-        };
+  <!-- MODAL -->
+  <div class="modal" id="modal">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-label="Detalle del producto">
+      <div class="modal-head">
+        <h3 class="modal-title" id="modalTitle">Producto</h3>
+        <button class="modal-close" id="modalClose" aria-label="Cerrar">&times;</button>
+      </div>
 
-        // ====== Galerías de clientes (ajusta rutas) ======
-        const clientGalleries = {
-            "cliente-1": [
-                "img/WhatsApp Image 2025-12-04 at 4.56.12 PM.jpeg",
-                "img/f76c6c72-0e09-4ced-8565-4f68c5493420.jpg",
-                "img/clientes/cliente1-3.jpg"
-            ],
-           
-            "cliente-3": [
-                "img/WhatsAppImage 2025-12-04 at4.56.55 PM (1).jpeg"
-            ]
-            ,
-            "cliente-4": [
-                "img/WhatsAppImage2025-12-03at5.10.50 PM.jpeg"
-            ]
-        };
+      <div class="modal-body">
+        <div>
+          <div class="main-img"><img id="modalMainImg" src="" alt="Imagen del producto"></div>
+          <div class="thumbs" id="modalThumbs"></div>
+        </div>
 
-        // ====== DOM ======
-        const catalogSection = document.getElementById('catalogo');
-        const communitySection = document.getElementById('comunidad');
-        const toCommunityBtn = document.getElementById('toCommunityBtn');
-        const toCatalogBtn = document.getElementById('toCatalogBtn');
-        const orderBtn = document.getElementById('orderBtn');
-        const contactSection = document.getElementById('contacto');
+        <aside class="side">
+          <div class="row">
+            <div class="big" id="modalPrice">Q0.00</div>
+            <div class="mini" id="modalCat">—</div>
+          </div>
+          <p class="hint" id="modalHint">Selecciona tu talla y envía tu pedido por WhatsApp.</p>
 
-        const galleryModal = document.getElementById('galleryModal');
-        const galleryTitle = document.getElementById('galleryTitle');
-        const galleryMainImg = document.getElementById('galleryMainImg');
-        const galleryThumbs = document.getElementById('galleryThumbs');
-        const galleryClose = document.getElementById('galleryClose');
-        const galleryOrderBtn = document.getElementById('galleryOrderBtn');
+          <div class="field">
+            <label for="sizeSelect">Talla</label>
+            <select id="sizeSelect"></select>
+          </div>
 
-        // ====== Cambio de “página” ======
-        toCommunityBtn.addEventListener('click', () => {
-            catalogSection.classList.remove('active');
-            communitySection.classList.add('active');
-            toCommunityBtn.classList.add('hidden');
-            toCatalogBtn.classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+          <div class="field">
+            <label for="noteBox">Nota (opcional)</label>
+            <textarea id="noteBox" placeholder="Ej: Color negro, entregar en la tarde, zona 1, etc."></textarea>
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn" id="btnViewCommunity">★ Ver Comunidad</button>
+            <button class="btn whats" id="btnWhatsApp">🟢 Pedir por WhatsApp</button>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ====== CONFIG ======
+    const WHATSAPP_NUMBER = "50247176818";
+
+    // Productos (agrega/duplica aquí y se renderiza solo)
+    const PRODUCTS = [
+      {
+        id:"youngla-compresion-negra",
+        name:"Camisa YoungLA • Compresión Negra",
+        price:275,
+        category:"camisas",
+        tags:["hot","stock"],
+        sizes:["S","M","L","XL"],
+        images:[
+          "https://img.kwcdn.com/product/fancy/8f630a5f-7d10-4c63-a8aa-32a235dfa1d8.jpg?imageView2/2/w/800/q/70/format/avif"
+        ]
+      },
+      {
+        id:"gymshark-compresion-negra",
+        name:"Camisa GymShark • Compresión Negra",
+        price:275,
+        category:"camisas",
+        tags:["new"],
+        sizes:["S","M","L","XL"],
+        images:[
+          "img/ec38d78e-fb53-40c3-8b30-e4fbc05b8ee1.jpg"
+        ]
+      },
+      {
+        id:"youngla-compresion-blanca",
+        name:"Camisa YoungLA • Compresión Blanca",
+        price:275,
+        category:"camisas",
+        tags:["stock"],
+        sizes:["S","M","L","XL"],
+        images:[
+          "https://img.kwcdn.com/product/fancy/b7b45753-f0e5-4168-8995-471071ba9e7f.jpg?imageView2/2/w/800/q/70/format/avif"
+        ]
+      },
+      {
+        id:"youngla-vintage-negra",
+        name:"Camisa YoungLA • Vintage Negra",
+        price:300,
+        category:"camisas",
+        tags:["hot"],
+        sizes:["M","L","XL"],
+        images:[
+          "https://img.kwcdn.com/product/fancy/1f003ce6-72c5-4978-9a99-9f68e743d3fd.jpg?imageView2/2/w/800/q/70/format/avif"
+        ]
+      },
+      {
+        id:"youngla-vintage-sin-mangas",
+        name:"Camisa YoungLA • Vintage Sin Mangas",
+        price:300,
+        category:"camisas",
+        tags:["new"],
+        sizes:["M","L","XL"],
+        images:[
+          "https://img.kwcdn.com/product/fancy/06ddcead-8bbd-439b-9d0a-8e4625c2d730.jpg?imageView2/2/w/800/q/70/format/avif"
+        ]
+      },
+      {
+        id:"youngla-oversize",
+        name:"Camisa YoungLA • Oversize",
+        price:350,
+        category:"oversize",
+        tags:["hot","stock"],
+        sizes:["M","L","XL"],
+        images:[
+          "https://img.kwcdn.com/product/fancy/b66df733-f74c-42cd-bdd0-cdf3bb1154b8.jpg?imageView2/2/w/800/q/70/format/avif"
+        ]
+      },
+      {
+        id:"worldgym-oversize",
+        name:"Camisa World Gym • Oversize",
+        price:325,
+        category:"oversize",
+        tags:["stock"],
+        sizes:["M","L","XL"],
+        images:[
+          "https://img.kwcdn.com/product/fancy/2d812e1c-748d-4c88-9f83-d2eb0d098b98.jpg?imageView2/2/w/800/q/70/format/avif"
+        ]
+      },
+      {
+        id:"youngla-pants-negro",
+        name:"Pants YoungLA • Negro",
+        price:250,
+        category:"pants",
+        tags:["stock"],
+        sizes:["28","30","32","34","36"],
+        images:[
+          "https://img.kwcdn.com/product/fancy/fe70db5d-6d70-4a86-9495-2729b2e49b52.jpg?imageView2/2/w/800/q/70/format/avif"
+        ]
+      },
+      {
+        id:"youngla-y2k-negro",
+        name:"Pants YoungLA • Y2K Streetwear Negro",
+        price:350,
+        category:"pants",
+        tags:["hot"],
+        sizes:["28","30","32","34","36"],
+        images:[
+          "https://img.kwcdn.com/product/open/89a9b65b47de43d9b4387c3486ad3fed-goods.jpeg?imageView2/2/w/800/q/70/format/avif"
+        ]
+      },
+      {
+        id:"youngla-y2k-mujer-negro",
+        name:"Pants YoungLA • Y2K Mujer Negro",
+        price:265,
+        category:"pants",
+        tags:["new"],
+        sizes:["XS","S","M","L"],
+        images:[
+          "https://img.kwcdn.com/product/Fancyalgo/VirtualModelMatting/d2dc172e83bbc454dd34d32fa6476068.jpg?imageView2/2/w/800/q/70/format/avif"
+        ]
+      },
+      {
+        id:"breathedivinity-compresion-negro",
+        name:"Camisa BreatheDivinity • Compresión Negra",
+        price:250,
+        category:"camisas",
+        tags:["stock"],
+        sizes:["S","M","L","XL"],
+        images:[
+          "https://img.kwcdn.com/product/fancy/d79752c0-a402-4f70-85e8-3c66251934aa.jpg?imageView2/2/w/800/q/70/format/avif"
+        ]
+      },
+      {
+        id:"breathedivinity-compresion-blanco",
+        name:"Camisa BreatheDivinity • Compresión Blanca",
+        price:250,
+        category:"camisas",
+        tags:["stock"],
+        sizes:["S","M","L","XL"],
+        images:[
+          "https://img.kwcdn.com/product/fancy/59a337af-c431-404c-86c1-974f2b24268c.jpg?imageView2/2/w/800/q/70/format/avif"
+        ]
+      }
+    ];
+
+    const COMMUNITY = [
+      {
+        id:"cliente-1",
+        caption:"Gracias por tu compra @sebas07_mendoza",
+        cover:"img/23a34112-419c-497d-9453-d78c11cb6663.jpg",
+        images:[
+          "img/23a34112-419c-497d-9453-d78c11cb6663.jpg",
+          "img/f76c6c72-0e09-4ced-8565-4f68c5493420.jpg"
+        ]
+      },
+      {
+        id:"cliente-2",
+        caption:"Gracias por tu compra @alejandro_w23",
+        cover:"img/08324a9e-56ff-421b-94ba-828061d19321.jpg",
+        images:[
+          "img/08324a9e-56ff-421b-94ba-828061d19321.jpg"
+        ]
+      },
+      {
+        id:"cliente-3",
+        caption:"Gracias por tu compra @danierxlas_cs",
+        cover:"img/8fd3f3ce-6e9e-4681-869a-e0d5e104e227.jpg",
+        images:[
+          "img/8fd3f3ce-6e9e-4681-869a-e0d5e104e227.jpg"
+        ]
+      },
+      {
+        id:"cliente-4",
+        caption:"Gracias por tu compra @d_ledif_19",
+        cover:"img/WhatsAppImage2025-12-03at5.10.50 PM.jpeg",
+        images:[
+          "img/WhatsAppImage2025-12-03at5.10.50 PM.jpeg"
+        ]
+      },
+      {
+        id:"cliente-5",
+        caption:"Gracias por tu compra @dylan_alfaro",
+        cover:"img/2b5ba153-2d9a-4152-9f12-68de41b62c02.jpg",
+        images:[
+          "img/2b5ba153-2d9a-4152-9f12-68de41b62c02.jpg"
+        ]
+      }
+    ];
+
+    // ====== DOM ======
+    const pageCatalog = document.getElementById("pageCatalog");
+    const pageCommunity = document.getElementById("pageCommunity");
+    const navCatalog = document.getElementById("navCatalog");
+    const navCommunity = document.getElementById("navCommunity");
+    const navContact = document.getElementById("navContact");
+
+    const productGrid = document.getElementById("productGrid");
+    const communityGrid = document.getElementById("communityGrid");
+
+    const searchInput = document.getElementById("searchInput");
+    const sortSelect = document.getElementById("sortSelect");
+    const chips = Array.from(document.querySelectorAll(".chip"));
+
+    const floatOrder = document.getElementById("floatOrder");
+    const toTop = document.getElementById("toTop");
+
+    const mHome = document.getElementById("mHome");
+    const mCom = document.getElementById("mCom");
+
+    // Modal
+    const modal = document.getElementById("modal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalClose = document.getElementById("modalClose");
+    const modalMainImg = document.getElementById("modalMainImg");
+    const modalThumbs = document.getElementById("modalThumbs");
+    const modalPrice = document.getElementById("modalPrice");
+    const modalCat = document.getElementById("modalCat");
+    const modalHint = document.getElementById("modalHint");
+    const sizeSelect = document.getElementById("sizeSelect");
+    const noteBox = document.getElementById("noteBox");
+    const btnWhatsApp = document.getElementById("btnWhatsApp");
+    const btnViewCommunity = document.getElementById("btnViewCommunity");
+
+    const statProducts = document.getElementById("statProducts");
+
+    // ====== STATE ======
+    let activeCategory = "all";
+    let activeSearch = "";
+    let activeSort = "featured";
+    let activeModalItem = null; // {type: 'product'|'community', data: ...}
+
+    // ====== HELPERS ======
+    function money(q){ return `Q${Number(q).toFixed(2)}`; }
+
+    function setActivePage(page){
+      pageCatalog.classList.toggle("active", page === "catalog");
+      pageCommunity.classList.toggle("active", page === "community");
+
+      navCatalog.classList.toggle("active", page === "catalog");
+      navCommunity.classList.toggle("active", page === "community");
+
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+
+    function openModal(title, images, sideData = {}){
+      modalTitle.textContent = title;
+      modalMainImg.src = images[0] || "";
+      modalThumbs.innerHTML = "";
+
+      images.forEach((src, idx) => {
+        const t = document.createElement("img");
+        t.src = src;
+        if(idx === 0) t.classList.add("active");
+        t.addEventListener("click", () => {
+          modalMainImg.src = src;
+          [...modalThumbs.querySelectorAll("img")].forEach(i => i.classList.remove("active"));
+          t.classList.add("active");
+        });
+        modalThumbs.appendChild(t);
+      });
+
+      modalPrice.textContent = sideData.priceText || "";
+      modalCat.textContent = sideData.catText || "";
+      modalHint.textContent = sideData.hint || "Selecciona tu talla y envía tu pedido por WhatsApp.";
+
+      // tallas
+      sizeSelect.innerHTML = "";
+      (sideData.sizes || ["Única"]).forEach(s => {
+        const opt = document.createElement("option");
+        opt.value = s;
+        opt.textContent = s;
+        sizeSelect.appendChild(opt);
+      });
+
+      noteBox.value = "";
+      modal.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal(){
+      modal.classList.remove("active");
+      document.body.style.overflow = "";
+      activeModalItem = null;
+    }
+
+    function buildWhatsAppLink(productName, price, size, note){
+      const text =
+`Hola GymStreet 👋
+Quiero hacer un pedido:
+
+🖤 Producto: ${productName}
+💰 Precio: ${money(price)}
+📏 Talla: ${size}${note ? `\n📝 Nota: ${note}` : ""}
+
+¿Me confirmas disponibilidad y tiempo de entrega?`;
+      return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+    }
+
+    // ====== RENDER ======
+    function renderProducts(){
+      let list = [...PRODUCTS];
+
+      // filter category
+      if(activeCategory !== "all"){
+        list = list.filter(p => p.category === activeCategory);
+      }
+
+      // search
+      if(activeSearch.trim()){
+        const s = activeSearch.toLowerCase();
+        list = list.filter(p => (p.name || "").toLowerCase().includes(s));
+      }
+
+      // sort
+      if(activeSort === "price-asc") list.sort((a,b)=> a.price - b.price);
+      if(activeSort === "price-desc") list.sort((a,b)=> b.price - a.price);
+      if(activeSort === "name-asc") list.sort((a,b)=> (a.name||"").localeCompare(b.name||""));
+
+      productGrid.innerHTML = "";
+
+      list.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="media">
+            <img loading="lazy" src="${p.images[0] || ""}" alt="${p.name}">
+            <div class="badges">
+              ${(p.tags||[]).includes("hot") ? `<span class="badge hot">🔥 Hot</span>` : ""}
+              ${(p.tags||[]).includes("new") ? `<span class="badge new">🆕 Nuevo</span>` : ""}
+              ${(p.tags||[]).includes("stock") ? `<span class="badge stock">✅ Stock</span>` : ""}
+            </div>
+          </div>
+          <div class="card-body">
+            <h3 class="name">${p.name}</h3>
+            <div class="meta">
+              <div class="price">${money(p.price)}</div>
+              <div class="mini">${p.category.toUpperCase()}</div>
+            </div>
+            <div class="card-actions">
+              <button class="btn" data-action="view">👁 Ver</button>
+              <button class="btn primary" data-action="order">🟢 Pedir</button>
+            </div>
+          </div>
+        `;
+
+        card.querySelector('[data-action="view"]').addEventListener("click", (e)=>{
+          e.stopPropagation();
+          activeModalItem = { type:"product", data:p };
+          openModal(p.name, p.images, {
+            priceText: money(p.price),
+            catText: p.category.toUpperCase(),
+            sizes: p.sizes,
+            hint: "Elige talla, agrega nota si quieres, y envía tu pedido por WhatsApp."
+          });
         });
 
-        toCatalogBtn.addEventListener('click', () => {
-            communitySection.classList.remove('active');
-            catalogSection.classList.add('active');
-            toCatalogBtn.classList.add('hidden');
-            toCommunityBtn.classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        card.querySelector('[data-action="order"]').addEventListener("click", (e)=>{
+          e.stopPropagation();
+          const link = buildWhatsAppLink(p.name, p.price, (p.sizes?.[0] || "Única"), "");
+          window.open(link, "_blank");
         });
 
-        // ====== Botón flotante Realiza tu pedido ======
-        orderBtn.addEventListener('click', () => {
-            contactSection.scrollIntoView({ behavior: 'smooth' });
+        card.addEventListener("click", ()=>{
+          activeModalItem = { type:"product", data:p };
+          openModal(p.name, p.images, {
+            priceText: money(p.price),
+            catText: p.category.toUpperCase(),
+            sizes: p.sizes
+          });
         });
 
-        // ====== Botón Realiza tu pedido dentro del modal ======
-        galleryOrderBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            galleryModal.classList.remove('active');
-            contactSection.scrollIntoView({ behavior: 'smooth' });
+        productGrid.appendChild(card);
+      });
+
+      statProducts.textContent = `${list.length} activos`;
+    }
+
+    function renderCommunity(){
+      communityGrid.innerHTML = "";
+      COMMUNITY.forEach(c => {
+        const el = document.createElement("div");
+        el.className = "client";
+        el.innerHTML = `
+          <img loading="lazy" src="${c.cover}" alt="Cliente GymStreet">
+          <div class="cap">${c.caption}</div>
+        `;
+        el.addEventListener("click", ()=>{
+          activeModalItem = { type:"community", data:c };
+          openModal(c.caption, c.images, {
+            priceText: "PRUEBA SOCIAL",
+            catText: "COMUNIDAD",
+            sizes: ["—"],
+            hint: "Fotos reales = más confianza. Si quieres aparecer aquí, envíanos tu foto 💪"
+          });
         });
+        communityGrid.appendChild(el);
+      });
+    }
 
-        // ====== Galería productos ======
-        const products = document.querySelectorAll('.product');
+    // ====== EVENTS ======
+    navCatalog.addEventListener("click", ()=> setActivePage("catalog"));
+    navCommunity.addEventListener("click", ()=> setActivePage("community"));
+    navContact.addEventListener("click", ()=> document.getElementById("contacto").scrollIntoView({behavior:"smooth"}));
 
-        products.forEach(product => {
-            product.addEventListener('click', () => {
-                const id = product.getAttribute('data-id');
-                const title = product.querySelector('h3').innerText;
-                const images = productGalleries[id] || [];
-                if (!images.length) return;
-                abrirGaleria(title, images);
-            });
-        });
+    mHome.addEventListener("click", ()=> setActivePage("catalog"));
+    mCom.addEventListener("click", ()=> setActivePage("community"));
 
-        // ====== Galería clientes ======
-        const clientCards = document.querySelectorAll('.client-card');
+    chips.forEach(chip=>{
+      chip.addEventListener("click", ()=>{
+        chips.forEach(c=>c.classList.remove("active"));
+        chip.classList.add("active");
+        activeCategory = chip.dataset.cat;
+        renderProducts();
+      });
+    });
 
-        clientCards.forEach(card => {
-            card.addEventListener('click', () => {
-                const id = card.getAttribute('data-id');
-                const name = card.querySelector('.client-name')?.innerText || 'Cliente GymStreet';
-                const images = clientGalleries[id] || [];
-                if (!images.length) return;
-                abrirGaleria(name, images);
-            });
-        });
+    searchInput.addEventListener("input", ()=>{
+      activeSearch = searchInput.value;
+      renderProducts();
+    });
 
-        // ====== Lógica común abrir galería ======
-        function abrirGaleria(titulo, imagenes) {
-            galleryTitle.textContent = titulo;
-            galleryMainImg.src = imagenes[0];
+    sortSelect.addEventListener("change", ()=>{
+      activeSort = sortSelect.value;
+      renderProducts();
+    });
 
-            galleryThumbs.innerHTML = "";
-            imagenes.forEach((src, index) => {
-                const img = document.createElement('img');
-                img.src = src;
-                if (index === 0) img.classList.add('active-thumb');
-                img.addEventListener('click', () => {
-                    galleryMainImg.src = src;
-                    document
-                        .querySelectorAll('.gallery-thumbs img')
-                        .forEach(i => i.classList.remove('active-thumb'));
-                    img.classList.add('active-thumb');
-                });
-                galleryThumbs.appendChild(img);
-            });
+    floatOrder.addEventListener("click", ()=>{
+      document.getElementById("contacto").scrollIntoView({behavior:"smooth"});
+    });
 
-            galleryModal.classList.add('active');
-        }
+    window.addEventListener("scroll", ()=>{
+      if(window.scrollY > 400) toTop.classList.add("show");
+      else toTop.classList.remove("show");
+    });
+    toTop.addEventListener("click", ()=> window.scrollTo({top:0, behavior:"smooth"}));
 
-        // Cerrar modal
-        galleryClose.addEventListener('click', () => {
-            galleryModal.classList.remove('active');
-        });
+    modalClose.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e)=>{ if(e.target === modal) closeModal(); });
+    window.addEventListener("keydown", (e)=>{
+      if(e.key === "Escape" && modal.classList.contains("active")) closeModal();
+    });
 
-        galleryModal.addEventListener('click', (e) => {
-            if (e.target === galleryModal) {
-                galleryModal.classList.remove('active');
-            }
-        });
-    </script>
+    btnWhatsApp.addEventListener("click", ()=>{
+      if(!activeModalItem || activeModalItem.type !== "product") return;
+      const p = activeModalItem.data;
+      const size = sizeSelect.value || (p.sizes?.[0] || "Única");
+      const note = noteBox.value.trim();
+      const link = buildWhatsAppLink(p.name, p.price, size, note);
+      window.open(link, "_blank");
+    });
+
+    btnViewCommunity.addEventListener("click", ()=>{
+      closeModal();
+      setActivePage("community");
+    });
+
+    // ====== INIT ======
+    renderProducts();
+    renderCommunity();
+  </script>
 </body>
 </html>
