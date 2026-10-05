@@ -3,7 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GymStreet Shop • Rock Dark</title>
+  <title>GymStreet • Ropa de gym y streetwear en Guatemala</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Camisas de compresión, oversize y pants estilo YoungLA y GymShark. Desde Q250, envíos a todo Guatemala y pedidos por WhatsApp." />
+  <meta name="theme-color" content="#050509" />
+  <link rel="canonical" href="https://gymstreet.vercel.app/" />
+
+  <!-- Vista previa al compartir (WhatsApp, Facebook, Instagram) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="GymStreet" />
+  <meta property="og:locale" content="es_GT" />
+  <meta property="og:url" content="https://gymstreet.vercel.app/" />
+  <meta property="og:title" content="GymStreet • Ropa de gym y streetwear en Guatemala" />
+  <meta property="og:description" content="Camisas de compresión, oversize y pants estilo YoungLA y GymShark. Desde Q250, envíos a todo Guatemala y pedidos por WhatsApp." />
+  <meta property="og:image" content="https://gymstreet.vercel.app/img/og-cover.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="GymStreet — ropa de gym premium, envíos a todo Guatemala" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="GymStreet • Ropa de gym y streetwear en Guatemala" />
+  <meta name="twitter:description" content="Camisas de compresión, oversize y pants estilo YoungLA y GymShark. Desde Q250, envíos a todo Guatemala." />
+  <meta name="twitter:image" content="https://gymstreet.vercel.app/img/og-cover.jpg" />
+
+  <!-- Iconos -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
   <!-- Fuentes -->
   <link href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
@@ -390,6 +417,46 @@
     .badge.hot{ border-color: rgba(255,23,68,.55); box-shadow: 0 0 14px rgba(255,23,68,.18) }
     .badge.new{ border-color: rgba(124,77,255,.55); box-shadow: 0 0 14px rgba(124,77,255,.18) }
     .badge.stock{ border-color: rgba(33,212,253,.45); box-shadow: 0 0 14px rgba(33,212,253,.14) }
+
+    /* ====== AGOTADO ====== */
+    .card.sold .media img{ filter: grayscale(.9) brightness(.5); }
+    .card.sold .price{ color: var(--muted); text-decoration: line-through; }
+    .ribbon{
+      position:absolute;
+      top:18px; right:-46px;
+      transform: rotate(38deg);
+      background: linear-gradient(135deg, #ff1744, #a30026);
+      color:#fff;
+      font-size:.70rem;
+      font-weight:700;
+      letter-spacing:.20em;
+      text-transform:uppercase;
+      padding:7px 54px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.65);
+      pointer-events:none;
+      z-index:3;
+    }
+    .sold-note{
+      margin:10px 0 0;
+      padding:10px 12px;
+      border:1px solid rgba(255,23,68,.35);
+      border-radius:12px;
+      background: rgba(255,23,68,.08);
+      color:#ffb3c2;
+      font-size:.82rem;
+      letter-spacing:.06em;
+    }
+    .btn[disabled]{
+      opacity:.42;
+      cursor:not-allowed;
+      filter: grayscale(1);
+    }
+    .btn[disabled]:hover{
+      transform:none;
+      box-shadow:none;
+      border-color: rgba(255,255,255,.14);
+      background: rgba(0,0,0,.40);
+    }
 
     .card-body{
       padding: 12px 12px 14px;
@@ -994,6 +1061,7 @@
             <div class="mini" id="modalCat">—</div>
           </div>
           <p class="hint" id="modalHint">Selecciona tu talla y envía tu pedido por WhatsApp.</p>
+          <p class="sold-note" id="modalSold" hidden>Este producto está <b>agotado</b> por ahora. Escríbenos y te avisamos apenas vuelva a entrar.</p>
 
           <div class="field">
             <label for="sizeSelect">Talla</label>
@@ -1036,10 +1104,11 @@
         name:"Camisa GymShark • Compresión Negra",
         price:275,
         category:"camisas",
-        tags:["new"],
+        tags:[],
+        soldOut:true,
         sizes:["S","M","L","XL"],
         images:[
-          "img/ec38d78e-fb53-40c3-8b30-e4fbc05b8ee1.jpg"
+          "https://img.kwcdn.com/product/fancy/3c52300a-b21e-4747-8115-3bddeea0e58f.jpg?imageView2/2/w/800/q/70/format/avif"
         ]
       },
       {
@@ -1195,6 +1264,22 @@
         images:[
           "img/2b5ba153-2d9a-4152-9f12-68de41b62c02.jpg"
         ]
+      },
+      {
+        id:"cliente-6",
+        caption:"Gracias por tu compra 💪",
+        cover:"img/cliente-6.jpg",
+        images:[
+          "img/cliente-6.jpg"
+        ]
+      },
+      {
+        id:"cliente-7",
+        caption:"\"Lujo de ropa 🔥🔥\" — gracias por etiquetarnos",
+        cover:"img/cliente-7.jpg",
+        images:[
+          "img/cliente-7.jpg"
+        ]
       }
     ];
 
@@ -1227,6 +1312,7 @@
     const modalPrice = document.getElementById("modalPrice");
     const modalCat = document.getElementById("modalCat");
     const modalHint = document.getElementById("modalHint");
+    const modalSold = document.getElementById("modalSold");
     const sizeSelect = document.getElementById("sizeSelect");
     const noteBox = document.getElementById("noteBox");
     const btnWhatsApp = document.getElementById("btnWhatsApp");
@@ -1274,6 +1360,13 @@
       modalCat.textContent = sideData.catText || "";
       modalHint.textContent = sideData.hint || "Selecciona tu talla y envía tu pedido por WhatsApp.";
 
+      // estado agotado: el aviso rojo reemplaza a la pista normal
+      const sold = !!sideData.soldOut;
+      modalHint.hidden = sold;
+      modalSold.hidden = !sold;
+      sizeSelect.disabled = sold;
+      btnWhatsApp.textContent = sold ? "✉ Avísame cuando entre" : "🟢 Pedir por WhatsApp";
+
       // tallas
       sizeSelect.innerHTML = "";
       (sideData.sizes || ["Única"]).forEach(s => {
@@ -1307,6 +1400,15 @@ Quiero hacer un pedido:
       return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
     }
 
+    function buildRestockLink(productName){
+      const text =
+`Hola GymStreet 👋
+Vi que *${productName}* está agotado.
+
+¿Me avisas cuando vuelva a entrar?`;
+      return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+    }
+
     // ====== RENDER ======
     function renderProducts(){
       let list = [...PRODUCTS];
@@ -1327,11 +1429,14 @@ Quiero hacer un pedido:
       if(activeSort === "price-desc") list.sort((a,b)=> b.price - a.price);
       if(activeSort === "name-asc") list.sort((a,b)=> (a.name||"").localeCompare(b.name||""));
 
+      // los agotados siempre al final (sort estable: respeta el orden elegido arriba)
+      list.sort((a,b)=> (a.soldOut ? 1 : 0) - (b.soldOut ? 1 : 0));
+
       productGrid.innerHTML = "";
 
       list.forEach(p => {
         const card = document.createElement("div");
-        card.className = "card";
+        card.className = p.soldOut ? "card sold" : "card";
         card.innerHTML = `
           <div class="media">
             <img loading="lazy" src="${p.images[0] || ""}" alt="${p.name}">
@@ -1340,6 +1445,7 @@ Quiero hacer un pedido:
               ${(p.tags||[]).includes("new") ? `<span class="badge new">🆕 Nuevo</span>` : ""}
               ${(p.tags||[]).includes("stock") ? `<span class="badge stock">✅ Stock</span>` : ""}
             </div>
+            ${p.soldOut ? `<div class="ribbon">Agotado</div>` : ""}
           </div>
           <div class="card-body">
             <h3 class="name">${p.name}</h3>
@@ -1349,7 +1455,9 @@ Quiero hacer un pedido:
             </div>
             <div class="card-actions">
               <button class="btn" data-action="view">👁 Ver</button>
-              <button class="btn primary" data-action="order">🟢 Pedir</button>
+              ${p.soldOut
+                ? `<button class="btn" data-action="order" disabled>Agotado</button>`
+                : `<button class="btn primary" data-action="order">🟢 Pedir</button>`}
             </div>
           </div>
         `;
@@ -1361,29 +1469,38 @@ Quiero hacer un pedido:
             priceText: money(p.price),
             catText: p.category.toUpperCase(),
             sizes: p.sizes,
-            hint: "Elige talla, agrega nota si quieres, y envía tu pedido por WhatsApp."
+            soldOut: !!p.soldOut,
+            hint: p.soldOut
+              ? "Ahora mismo no hay stock de este modelo."
+              : "Elige talla, agrega nota si quieres, y envía tu pedido por WhatsApp."
           });
         });
 
-        card.querySelector('[data-action="order"]').addEventListener("click", (e)=>{
-          e.stopPropagation();
-          const link = buildWhatsAppLink(p.name, p.price, (p.sizes?.[0] || "Única"), "");
-          window.open(link, "_blank");
-        });
+        if(!p.soldOut){
+          card.querySelector('[data-action="order"]').addEventListener("click", (e)=>{
+            e.stopPropagation();
+            const link = buildWhatsAppLink(p.name, p.price, (p.sizes?.[0] || "Única"), "");
+            window.open(link, "_blank");
+          });
+        }
 
         card.addEventListener("click", ()=>{
           activeModalItem = { type:"product", data:p };
           openModal(p.name, p.images, {
             priceText: money(p.price),
             catText: p.category.toUpperCase(),
-            sizes: p.sizes
+            sizes: p.sizes,
+            soldOut: !!p.soldOut
           });
         });
 
         productGrid.appendChild(card);
       });
 
-      statProducts.textContent = `${list.length} activos`;
+      const disponibles = list.filter(p => !p.soldOut).length;
+      statProducts.textContent = disponibles === list.length
+        ? `${list.length} activos`
+        : `${disponibles} de ${list.length}`;
     }
 
     function renderCommunity(){
@@ -1454,6 +1571,12 @@ Quiero hacer un pedido:
     btnWhatsApp.addEventListener("click", ()=>{
       if(!activeModalItem || activeModalItem.type !== "product") return;
       const p = activeModalItem.data;
+
+      if(p.soldOut){
+        window.open(buildRestockLink(p.name), "_blank");
+        return;
+      }
+
       const size = sizeSelect.value || (p.sizes?.[0] || "Única");
       const note = noteBox.value.trim();
       const link = buildWhatsAppLink(p.name, p.price, size, note);
