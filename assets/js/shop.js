@@ -329,7 +329,12 @@ function renderProducts() {
   grid.innerHTML = '';
 
   if (!list.length) {
-    grid.innerHTML = `<p class="section-subtitle">No encontramos prendas con esa búsqueda.</p>`;
+    const buscando = activeSearch.trim() || activeCategory !== 'all';
+    grid.innerHTML = buscando
+      ? `<p class="section-subtitle">No encontramos prendas con esa búsqueda.</p>`
+      : (usingDB
+          ? `<p class="section-subtitle">Todavía no hay prendas publicadas. Cargá la primera desde el panel de administración.</p>`
+          : `<p class="section-subtitle">El catálogo no está disponible en este momento.</p>`);
   }
 
   list.forEach(p => {
@@ -891,15 +896,21 @@ function renderChips(cats) {
 
 async function loadCatalog() {
   let cats = [];
+  let falloConexion = false;
+
   if (db.isConfigured()) {
     const [prods, settings, categorias] = await Promise.all([
       db.getProducts(), db.getSettings(), db.getCategories(),
     ]);
-    if (prods && prods.length) {
+    // Un arreglo vacío SÍ es una conexión buena: significa que todavía
+    // no cargaste productos. Solo null quiere decir que falló.
+    if (prods) {
       PRODUCTS = prods;
       SETTINGS = settings;
       cats = categorias;
       usingDB = true;
+    } else {
+      falloConexion = true;
     }
   }
 
@@ -907,7 +918,7 @@ async function loadCatalog() {
     PRODUCTS = PRODUCTS_FALLBACK.map(adaptFallback);
     cats = [...new Set(PRODUCTS.map(p => p.category))]
       .map(s => ({ slug: s, name: s.charAt(0).toUpperCase() + s.slice(1) }));
-    mostrarAvisoDemo();
+    mostrarAvisoDemo(falloConexion);
   }
 
   renderChips(cats);
@@ -936,13 +947,17 @@ async function loadCatalog() {
   }
 }
 
-function mostrarAvisoDemo() {
+function mostrarAvisoDemo(falloConexion) {
   if (document.querySelector('.demo-bar')) return;
   const bar = document.createElement('div');
   bar.className = 'demo-bar';
-  bar.innerHTML = '⚠️ <b>Modo sin base de datos.</b> La tienda muestra el catálogo fijo y ' +
-                  'los pedidos no se guardan. Pegá tus claves de Supabase en ' +
-                  '<code>assets/js/config.js</code> para activar inventario y pedidos.';
+  bar.innerHTML = falloConexion
+    ? '⚠️ <b>No pudimos conectar con la base de datos.</b> La tienda muestra el ' +
+      'catálogo de respaldo y los pedidos no se están guardando. Revisá las claves ' +
+      'en <code>assets/js/config.js</code> y que el proyecto de Supabase esté activo.'
+    : '⚠️ <b>Modo sin base de datos.</b> La tienda muestra el catálogo fijo y ' +
+      'los pedidos no se guardan. Pegá tus claves de Supabase en ' +
+      '<code>assets/js/config.js</code> para activar inventario y pedidos.';
   document.querySelector('.toolbar')?.insertAdjacentElement('beforebegin', bar);
 }
 

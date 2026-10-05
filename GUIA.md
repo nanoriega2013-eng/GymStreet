@@ -67,16 +67,24 @@ Por defecto, Supabase deja que cualquiera se registre. No lo querés.
 
 ### Paso 5 · Pegar las claves en la página
 
-1. En Supabase: **Project Settings** (el engranaje) → **API**.
-2. Copiá **Project URL** y **anon public**.
-3. Abrí el archivo `assets/js/config.js` y pegalas:
+> **Ya está hecho** en tu proyecto. Esto queda por si alguna vez tenés que
+> cambiarlas.
+
+1. En Supabase: **Project Settings** (el engranaje) → **API Keys**.
+2. Copiá la **Publishable key** (empieza con `sb_publishable_`). Es la que
+   antes se llamaba *anon*; Supabase la renombró en 2025.
+3. La **Project URL** está en **Project Settings → Data API**. Es la base,
+   sin nada después del `.co`:
+   - ✅ `https://kqvgklovkaqcndjvznyh.supabase.co`
+   - ❌ `https://kqvgklovkaqcndjvznyh.supabase.co/rest/v1/`
+4. Abrí `assets/js/config.js` y pegalas:
 
 ```js
-export const SUPABASE_URL = "https://abcdefgh.supabase.co";
-export const SUPABASE_ANON_KEY = "eyJhbGciOi...";
+export const SUPABASE_URL = "https://kqvgklovkaqcndjvznyh.supabase.co";
+export const SUPABASE_ANON_KEY = "sb_publishable_...";
 ```
 
-4. Guardá, hacé commit y push. Vercel publica solo.
+5. Guardá, hacé commit y push. Vercel publica solo.
 
 ---
 
@@ -89,10 +97,12 @@ sirven tal cual. Las variables de entorno de Vercel solo sirven cuando hay un
 paso de construcción que las inyecta. Acá no lo hay, así que las claves van
 directo en `config.js`.
 
-**¿Y no es peligroso dejar la clave a la vista?** No. La clave `anon` está
-*diseñada* para ser pública: viaja al navegador de cada cliente que entra a tu
-tienda. Esconderla sería imposible. Lo que protege tus datos son las reglas de
-seguridad (RLS) que creó el `schema.sql`:
+**¿Y no es peligroso dejar la clave a la vista?** No. La clave *publishable*
+está **diseñada** para ser pública: viaja al navegador de cada cliente que entra
+a tu tienda. Esconderla sería imposible. La propia pantalla de Supabase lo dice:
+*"This key is safe to use in a browser if you have enabled Row Level Security"*.
+Lo que protege tus datos son las reglas de seguridad (RLS) que creó el
+`schema.sql`:
 
 | Quién | Qué puede hacer |
 |---|---|
@@ -101,8 +111,9 @@ seguridad (RLS) que creó el `schema.sql`:
 | Cualquier visitante | **No** puede cambiar precios ni stock. |
 | Vos (en `admin_users`) | Todo. |
 
-Lo único que **nunca** se pone en `config.js` es la clave `service_role`. Esa
-sí salta todas las reglas. Dejala quieta en Supabase.
+Lo único que **nunca** se pone en `config.js` es la **Secret key**
+(`sb_secret_…`, antes llamada `service_role`). Esa sí salta todas las reglas.
+Dejala quieta en Supabase.
 
 Hay otra protección importante: cuando un cliente hace un pedido, **los precios
 se calculan en el servidor**, leyendo tu tabla de productos. Aunque alguien
@@ -300,12 +311,14 @@ Si todos esos pasos funcionan, la tienda está lista.
 
 ---
 
-## 12. Mientras no conectes Supabase
+## 12. Si la base de datos no responde
 
-La tienda **no se rompe**. Muestra un aviso amarillo, usa el catálogo de 12
-prendas que ya tenía y el carrito funciona. Lo único que no pasa es que los
-pedidos se guarden: el cliente puede mandar su WhatsApp, pero vos no vas a
-tener registro.
+La tienda **no se rompe nunca**. Si Supabase no contesta —se cayó, se agotó el
+plan gratuito, o un cliente tiene un bloqueador de anuncios que tapa el CDN de
+la librería— la página muestra un aviso amarillo, cae al catálogo de respaldo de
+12 prendas y el carrito sigue funcionando.
 
-Apenas pegues las claves en `config.js`, el aviso desaparece y todo empieza a
-guardarse.
+Lo único que no pasa es que los pedidos se guarden: el cliente puede mandar su
+WhatsApp, pero vos no vas a tener el registro en el panel.
+
+Es preferible una tienda que vende a medias que una página en blanco.

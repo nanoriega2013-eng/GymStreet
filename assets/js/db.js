@@ -6,15 +6,36 @@ import { SUPABASE_URL, SUPABASE_ANON_KEY, isConfigured } from './config.js';
 
 let _client = null;
 
-/** Cliente de Supabase, o null si todavía no se configuraron las claves. */
+/**
+ * Cliente de Supabase, o null si no se pudo crear.
+ * Devuelve null en vez de lanzar error: si el cliente no carga (sin
+ * internet, un bloqueador de anuncios, el CDN caído), la tienda tiene
+ * que seguir en pie con el catálogo de respaldo, no quedarse en blanco.
+ */
 export async function client() {
   if (!isConfigured()) return null;
   if (_client) return _client;
-  const { createClient } = await import(
-    'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
-  );
-  _client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  return _client;
+  try {
+    const { createClient } = await import(
+      'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+    );
+    _client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    return _client;
+  } catch (err) {
+    console.warn('[GymStreet] No se pudo cargar la librería de Supabase:', err.message);
+    return null;
+  }
+}
+
+/** Igual que client(), pero para el panel: ahí sí hay que avisar el fallo. */
+async function requireClient() {
+  const sb = await client();
+  if (!sb) {
+    throw new Error(
+      'No se pudo conectar con la base de datos. Revisá tu conexión, ' +
+      'que no haya un bloqueador de anuncios activo, y las claves en config.js.');
+  }
+  return sb;
 }
 
 export { isConfigured };
@@ -139,8 +160,7 @@ export async function createOrder({ customer, items }) {
 //  AUTENTICACIÓN (panel de administración)
 // ------------------------------------------------------------
 export async function signIn(email, password) {
-  const sb = await client();
-  if (!sb) throw new Error('Falta configurar Supabase en assets/js/config.js');
+  const sb = await requireClient();
   const { data, error } = await sb.auth.signInWithPassword({ email, password });
   if (error) throw new Error(error.message);
   return data.user;
@@ -174,7 +194,7 @@ export async function isAdmin() {
 // ============================================================
 
 export async function adminGetProducts() {
-  const sb = await client();
+  const sb = await requireClient();
   const cats = await getCategories();
   const byId = Object.fromEntries(cats.map(c => [c.id, c]));
   const { data, error } = await sb
@@ -195,7 +215,7 @@ export async function adminGetProducts() {
 
 /** Crea o actualiza un producto junto con todas sus variantes. */
 export async function adminSaveProduct(p, variants) {
-  const sb = await client();
+  const sb = await requireClient();
   const row = {
     sku: p.sku || null,
     name: p.name,
@@ -245,14 +265,14 @@ export async function adminSaveProduct(p, variants) {
 }
 
 export async function adminDeleteProduct(id) {
-  const sb = await client();
+  const sb = await requireClient();
   const { error } = await sb.from('products').delete().eq('id', id);
   if (error) throw new Error(error.message);
 }
 
 /** Sube una foto desde el teléfono o la computadora y devuelve su URL. */
 export async function adminUploadImage(file) {
-  const sb = await client();
+  const sb = await requireClient();
   const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
   const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
   const { error } = await sb.storage
@@ -264,7 +284,7 @@ export async function adminUploadImage(file) {
 }
 
 export async function adminGetOrders() {
-  const sb = await client();
+  const sb = await requireClient();
   const { data, error } = await sb
     .from('orders')
     .select('*, order_items(*)')
@@ -274,7 +294,7 @@ export async function adminGetOrders() {
 }
 
 export async function adminSetOrderStatus(orderId, status) {
-  const sb = await client();
+  const sb = await requireClient();
   const { data, error } = await sb.rpc('set_order_status', {
     p_order_id: orderId,
     p_status: status,
@@ -284,14 +304,14 @@ export async function adminSetOrderStatus(orderId, status) {
 }
 
 export async function adminGetSettings() {
-  const sb = await client();
+  const sb = await requireClient();
   const { data, error } = await sb.from('settings').select('*').eq('id', 1).single();
   if (error) throw new Error(error.message);
   return data;
 }
 
 export async function adminSaveSettings(s) {
-  const sb = await client();
+  const sb = await requireClient();
   const { error } = await sb.from('settings').update({
     store_name: s.store_name,
     logo_url: s.logo_url || null,
@@ -310,7 +330,7 @@ export async function adminSaveSettings(s) {
 }
 
 export async function adminGetCategories() {
-  const sb = await client();
+  const sb = await requireClient();
   const { data, error } = await sb.from('categories').select('*').order('position');
   if (error) throw new Error(error.message);
   return data || [];
