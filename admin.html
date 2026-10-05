@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>GymStreet · Administración</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/admin.css" />
+</head>
+<body>
+
+<!-- ===================== INGRESO ===================== -->
+<div class="login-wrap" id="loginWrap">
+  <form class="login" id="loginForm">
+    <div class="logo">GymStreet</div>
+    <div class="sub">Panel de administración</div>
+    <div id="loginMsg"></div>
+    <div class="f">
+      <label for="email">Correo</label>
+      <input id="email" type="email" autocomplete="username" required />
+    </div>
+    <div class="f">
+      <label for="pass">Contraseña</label>
+      <input id="pass" type="password" autocomplete="current-password" required />
+    </div>
+    <button class="b pri" type="submit" style="width:100%;min-height:50px" id="loginBtn">Entrar</button>
+  </form>
+</div>
+
+<!-- ===================== PANEL ===================== -->
+<div class="shell" id="shell">
+  <nav class="side">
+    <div class="logo">GymStreet</div>
+    <div class="who" id="whoami"></div>
+    <button class="navbtn active" data-page="dash">📊 Tablero</button>
+    <button class="navbtn" data-page="prods">👕 Productos</button>
+    <button class="navbtn" data-page="orders">🧾 Pedidos</button>
+    <button class="navbtn" data-page="config">⚙️ Configuración</button>
+    <div class="spacer"></div>
+    <button class="navbtn" id="btnShop">🛍️ Ver la tienda</button>
+    <button class="navbtn" id="btnOut">🚪 Cerrar sesión</button>
+  </nav>
+
+  <main class="main">
+
+    <!-- ---------- TABLERO ---------- -->
+    <section class="page on" id="pgDash">
+      <div class="page-head"><h2>Tablero</h2>
+        <button class="b" id="btnRefresh">↻ Actualizar</button></div>
+      <div class="stats" id="statCards"></div>
+
+      <div class="page-head" style="margin-top:30px"><h2 style="font-size:1.2rem">Más vendidos</h2></div>
+      <div class="tbl-wrap">
+        <table><thead><tr>
+          <th>Producto</th><th>Vendidos</th><th>Stock</th><th>Precio</th>
+        </tr></thead><tbody id="topBody"></tbody></table>
+      </div>
+
+      <div class="page-head" style="margin-top:30px"><h2 style="font-size:1.2rem">Necesitan atención</h2></div>
+      <div class="tbl-wrap">
+        <table><thead><tr>
+          <th>Producto</th><th>Talla / Color</th><th>Stock</th><th>Estado</th>
+        </tr></thead><tbody id="alertBody"></tbody></table>
+      </div>
+    </section>
+
+    <!-- ---------- PRODUCTOS ---------- -->
+    <section class="page" id="pgProds">
+      <div class="page-head">
+        <h2>Productos</h2>
+        <div class="search">🔎<input id="prodSearch" placeholder="Buscar por nombre, SKU o categoría…" /></div>
+        <button class="b pri" id="btnNewProd">＋ Nueva prenda</button>
+      </div>
+      <div class="tbl-wrap">
+        <table><thead><tr>
+          <th>Foto</th><th>Producto</th><th>SKU</th><th>Categoría</th>
+          <th>Precio</th><th>Stock</th><th>Vendidos</th><th>Estado</th><th></th>
+        </tr></thead><tbody id="prodBody"></tbody></table>
+      </div>
+    </section>
+
+    <!-- ---------- PEDIDOS ---------- -->
+    <section class="page" id="pgOrders">
+      <div class="page-head">
+        <h2>Pedidos</h2>
+        <div class="search">🔎<input id="orderSearch" placeholder="Buscar por número, cliente o teléfono…" /></div>
+        <select class="b" id="orderFilter" style="min-height:42px">
+          <option value="">Todos los estados</option>
+          <option value="nuevo">Nuevo</option>
+          <option value="pendiente">Pendiente de confirmar</option>
+          <option value="confirmado">Confirmado</option>
+          <option value="preparando">Preparando</option>
+          <option value="enviado">Enviado</option>
+          <option value="entregado">Entregado</option>
+          <option value="cancelado">Cancelado</option>
+        </select>
+      </div>
+      <div class="tbl-wrap">
+        <table><thead><tr>
+          <th>Pedido</th><th>Fecha</th><th>Cliente</th><th>Teléfono</th>
+          <th>Productos</th><th>Total</th><th>Estado</th><th></th>
+        </tr></thead><tbody id="orderBody"></tbody></table>
+      </div>
+    </section>
+
+    <!-- ---------- CONFIGURACIÓN ---------- -->
+    <section class="page" id="pgConfig">
+      <div class="page-head"><h2>Configuración</h2></div>
+      <div style="max-width:720px">
+        <div class="grid2">
+          <div class="f"><label for="cName">Nombre de la tienda</label><input id="cName" /></div>
+          <div class="f"><label for="cWa">Número de WhatsApp</label><input id="cWa" inputmode="numeric" />
+            <span class="hint">Con código de país y sin signos. Ej: 50247176818</span></div>
+        </div>
+        <div class="grid2">
+          <div class="f"><label for="cShip">Precio de envío (Q)</label><input id="cShip" type="number" min="0" step="0.01" /></div>
+          <div class="f"><label for="cFree">Envío gratis a partir de (Q)</label><input id="cFree" type="number" min="0" step="0.01" />
+            <span class="hint">Dejalo vacío si nunca es gratis</span></div>
+        </div>
+        <div class="grid2">
+          <div class="f"><label for="cLow">Avisar "poco stock" cuando queden</label><input id="cLow" type="number" min="0" /></div>
+          <div class="f"><label for="cLogo">URL del logo</label><input id="cLogo" placeholder="https://…" /></div>
+        </div>
+        <div class="grid2">
+          <div class="f"><label for="cIg">Instagram</label><input id="cIg" placeholder="https://instagram.com/…" /></div>
+          <div class="f"><label for="cFb">Facebook</label><input id="cFb" placeholder="https://facebook.com/…" /></div>
+        </div>
+        <div class="f"><label for="cAddr">Dirección de la tienda</label><input id="cAddr" /></div>
+        <div class="f"><label for="cIntro">Primera línea del mensaje de WhatsApp</label><input id="cIntro" />
+          <span class="hint">Lo que encabeza cada pedido que te llega</span></div>
+        <div class="f"><label for="cPays">Formas de pago</label>
+          <textarea id="cPays" placeholder="Una por línea"></textarea>
+          <span class="hint">Una por línea. Son las opciones que ve el cliente al pedir.</span></div>
+        <button class="b pri" id="btnSaveConfig" style="min-height:50px">Guardar configuración</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ===================== EDITOR DE PRODUCTO ===================== -->
+<div class="ov" id="ovProd">
+  <div class="ov-box">
+    <div class="ov-head">
+      <h3 id="prodTitle">Nueva prenda</h3>
+      <button class="x" data-close="ovProd">&times;</button>
+    </div>
+    <div class="ov-body">
+      <div class="f"><label for="pName">Nombre del producto *</label><input id="pName" /></div>
+      <div class="grid2">
+        <div class="f"><label for="pSku">Código / SKU</label><input id="pSku" placeholder="GS-001" /></div>
+        <div class="f"><label for="pCat">Categoría</label><select id="pCat"></select></div>
+      </div>
+      <div class="f"><label for="pDesc">Descripción</label><textarea id="pDesc"></textarea></div>
+      <div class="grid3">
+        <div class="f"><label for="pPrice">Precio normal (Q) *</label><input id="pPrice" type="number" min="0" step="0.01" /></div>
+        <div class="f"><label for="pSale">Precio de oferta (Q)</label><input id="pSale" type="number" min="0" step="0.01" />
+          <span class="hint">Vacío = sin oferta</span></div>
+        <div class="f"><label for="pCost">Costo (Q)</label><input id="pCost" type="number" min="0" step="0.01" />
+          <span class="hint">Solo lo ves vos</span></div>
+      </div>
+      <div class="grid3">
+        <div class="f"><label for="pStatus">Estado</label><select id="pStatus">
+          <option value="available">Disponible</option>
+          <option value="sold_out">Agotado</option>
+          <option value="hidden">Oculto</option>
+        </select></div>
+        <div class="f"><label for="pPos">Orden</label><input id="pPos" type="number" value="0" />
+          <span class="hint">Menor aparece antes</span></div>
+        <div class="f"><label for="pLow">Avisar con</label><input id="pLow" type="number" min="0" value="3" />
+          <span class="hint">Unidades o menos</span></div>
+      </div>
+      <label class="chk"><input type="checkbox" id="pFeat" /><span>Producto destacado</span></label>
+
+      <h3 style="font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin:22px 0 10px">Fotografías</h3>
+      <div class="imgs" id="pImgs"></div>
+      <div class="drop" id="pDrop">📷 Tocá aquí para subir fotos (podés elegir varias)</div>
+      <input type="file" id="pFile" accept="image/*" multiple hidden />
+      <div class="f" style="margin-top:12px"><label for="pImgUrl">…o pegar una dirección de imagen</label>
+        <div style="display:flex;gap:8px">
+          <input id="pImgUrl" placeholder="https://…" style="flex:1" />
+          <button class="b" type="button" id="btnAddImgUrl">Agregar</button>
+        </div>
+      </div>
+
+      <h3 style="font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin:24px 0 10px">Inventario por talla y color</h3>
+      <div class="f"><label>Tallas</label>
+        <div class="chips" id="sizeChips"></div>
+        <div class="quick" id="sizeQuick"></div>
+        <div style="display:flex;gap:8px">
+          <input id="sizeNew" placeholder="Otra talla…" style="flex:1" />
+          <button class="b" type="button" id="btnAddSize">Agregar</button>
+        </div>
+      </div>
+      <div class="f"><label>Colores</label>
+        <div class="chips" id="colorChips"></div>
+        <div class="quick" id="colorQuick"></div>
+        <div style="display:flex;gap:8px">
+          <input id="colorNew" placeholder="Otro color…" style="flex:1" />
+          <button class="b" type="button" id="btnAddColor">Agregar</button>
+        </div>
+      </div>
+      <div class="matrix" id="matrix"></div>
+      <p class="hint" id="matrixTotal" style="margin-top:10px;color:var(--muted);font-size:.8rem"></p>
+    </div>
+    <div class="ov-foot">
+      <button class="b" data-close="ovProd">Cancelar</button>
+      <button class="b pri" id="btnSaveProd">Guardar prenda</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== DETALLE DEL PEDIDO ===================== -->
+<div class="ov" id="ovOrder">
+  <div class="ov-box" style="max-width:660px">
+    <div class="ov-head">
+      <h3 id="orderTitle">Pedido</h3>
+      <button class="x" data-close="ovOrder">&times;</button>
+    </div>
+    <div class="ov-body" id="orderDetail"></div>
+    <div class="ov-foot">
+      <select class="b" id="orderStatus" style="min-height:44px"></select>
+      <button class="b ok" id="btnSaveStatus">Guardar estado</button>
+      <button class="b" id="btnWaCustomer">🟢 Escribir al cliente</button>
+    </div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<script type="module" src="assets/js/admin.js"></script>
+</body>
+</html>

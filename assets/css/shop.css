@@ -1,0 +1,325 @@
+/* ============================================================
+   GymStreet · Estilos de las funciones nuevas
+   (variantes, carrito, checkout). Usa las mismas variables de
+   color que ya define index.html, así que combina solo.
+   ============================================================ */
+
+/* ---------- Precios y ofertas ---------- */
+.price-old{
+  color:var(--muted);
+  text-decoration:line-through;
+  font-size:.86rem;
+  margin-left:8px;
+  font-weight:400;
+}
+.badge.oferta{
+  border-color: rgba(255,23,68,.6);
+  background: linear-gradient(135deg, rgba(255,23,68,.85), rgba(163,0,38,.85));
+  color:#fff;
+  font-weight:700;
+}
+.price-row{ display:flex; align-items:baseline; flex-wrap:wrap; gap:2px }
+
+/* ---------- Resumen de tallas y colores en la tarjeta ---------- */
+.mini-opts{
+  display:flex; flex-wrap:wrap; gap:5px;
+  margin:8px 0 2px;
+}
+.mini-opt{
+  font-size:.66rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  padding:3px 7px;
+  border-radius:6px;
+  border:1px solid var(--border);
+  color:var(--muted);
+}
+.mini-opt.off{ opacity:.35; text-decoration:line-through }
+
+/* ---------- Selector de talla y color en el detalle ---------- */
+.opt-group{ margin-top:14px }
+.opt-group > label{
+  display:block;
+  font-size:.72rem; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:8px;
+}
+.opt-row{ display:flex; flex-wrap:wrap; gap:8px }
+.opt{
+  min-width:52px;
+  min-height:44px;                 /* cómodo para el dedo */
+  padding:10px 14px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(0,0,0,.4);
+  color:var(--text);
+  font-size:.84rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:border .2s ease, background .2s ease, transform .15s ease;
+}
+.opt:hover:not(:disabled){ border-color:rgba(255,23,68,.55); transform:translateY(-1px) }
+.opt.active{
+  border-color:rgba(124,77,255,.85);
+  background:rgba(124,77,255,.16);
+  box-shadow:0 0 14px rgba(124,77,255,.25);
+}
+.opt:disabled{
+  opacity:.3;
+  cursor:not-allowed;
+  text-decoration:line-through;
+}
+
+/* ---------- Cantidad ---------- */
+.qty{ display:flex; align-items:center; gap:0; width:fit-content;
+      border:1px solid var(--border); border-radius:12px; overflow:hidden }
+.qty button{
+  width:48px; height:48px;
+  background:rgba(0,0,0,.45); color:var(--text);
+  border:0; font-size:1.3rem; cursor:pointer;
+}
+.qty button:disabled{ opacity:.3; cursor:not-allowed }
+.qty button:hover:not(:disabled){ background:rgba(255,23,68,.15) }
+.qty input{
+  width:62px; height:48px; text-align:center;
+  background:transparent; border:0; border-left:1px solid var(--border);
+  border-right:1px solid var(--border);
+  color:var(--text); font-size:1rem; font-family:inherit;
+}
+.qty input::-webkit-outer-spin-button,
+.qty input::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0 }
+.qty input[type=number]{ -moz-appearance:textfield }
+
+.stock-hint{ margin-top:10px; font-size:.78rem; color:var(--muted); letter-spacing:.06em }
+.stock-hint.low{ color:#ffc44d }
+.stock-hint.out{ color:#ff6b86 }
+
+/* ---------- Botón del carrito en la barra ---------- */
+.cart-count{
+  display:inline-grid; place-items:center;
+  min-width:20px; height:20px; padding:0 6px;
+  border-radius:999px;
+  background:var(--red); color:#fff;
+  font-size:.68rem; font-weight:700;
+  margin-left:2px;
+}
+.cart-count:empty, .cart-count[data-n="0"]{ display:none }
+
+/* ---------- Cajón del carrito ---------- */
+.drawer{
+  position:fixed; inset:0; z-index:2000;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(4px);
+  display:none;
+}
+.drawer.active{ display:block }
+.drawer-box{
+  position:absolute; top:0; right:0; bottom:0;
+  width:min(440px, 100%);
+  background:linear-gradient(160deg, #0d0d16, #07070d);
+  border-left:1px solid var(--border);
+  box-shadow:-20px 0 60px rgba(0,0,0,.8);
+  display:flex; flex-direction:column;
+  animation:slideIn .22s ease;
+}
+@keyframes slideIn{ from{ transform:translateX(30px); opacity:.4 } to{ transform:none; opacity:1 } }
+
+.drawer-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 18px 14px;
+  border-bottom:1px solid var(--border);
+}
+.drawer-head h3{
+  margin:0; font-family:'Metal Mania', cursive;
+  letter-spacing:.14em; color:var(--red); font-size:1.25rem;
+  text-transform:uppercase;
+}
+.drawer-body{ flex:1; overflow-y:auto; padding:14px 18px }
+.drawer-foot{ border-top:1px solid var(--border); padding:16px 18px }
+
+.cline{
+  display:grid; grid-template-columns:74px 1fr auto; gap:12px;
+  padding:12px 0; border-bottom:1px solid rgba(255,255,255,.07);
+}
+.cline img{
+  width:74px; height:86px; object-fit:cover;
+  border-radius:10px; background:#101018;
+}
+.cline .cname{ font-weight:700; font-size:.92rem; line-height:1.25 }
+.cline .cmeta{ color:var(--muted); font-size:.74rem; letter-spacing:.08em;
+               text-transform:uppercase; margin-top:4px }
+.cline .cprice{ color:var(--cyan); font-size:.88rem; margin-top:6px }
+.cline .qty{ margin-top:8px }
+.cline .qty button{ width:36px; height:36px; font-size:1.05rem }
+.cline .qty input{ width:46px; height:36px; font-size:.9rem }
+.cline-del{
+  background:none; border:0; color:var(--muted);
+  font-size:1.3rem; cursor:pointer; padding:0 4px; align-self:start;
+}
+.cline-del:hover{ color:var(--red) }
+
+.cart-empty{ text-align:center; color:var(--muted); padding:48px 10px;
+             letter-spacing:.1em; text-transform:uppercase; font-size:.84rem }
+
+.totals{ margin-bottom:14px }
+.totals div{ display:flex; justify-content:space-between; padding:5px 0;
+             font-size:.9rem; color:var(--muted) }
+.totals .grand{
+  border-top:1px solid var(--border); margin-top:8px; padding-top:12px;
+  color:var(--text); font-size:1.2rem; font-weight:700;
+}
+.totals .grand b{ color:var(--cyan) }
+
+/* ---------- Botones grandes (sobre todo en teléfono) ---------- */
+.btn-xl{
+  width:100%; min-height:54px;
+  border:0; border-radius:14px;
+  background:linear-gradient(135deg, var(--red), #a30026);
+  color:#fff; font-family:inherit;
+  font-size:.95rem; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase;
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  transition:transform .16s ease, box-shadow .2s ease;
+}
+.btn-xl:hover{ transform:translateY(-1px); box-shadow:0 10px 30px rgba(255,23,68,.3) }
+.btn-xl:disabled{ opacity:.45; cursor:not-allowed; transform:none; box-shadow:none }
+.btn-xl.wh{ background:linear-gradient(135deg, #18b85a, #0c7a3a) }
+.btn-xl.ghost{
+  background:rgba(0,0,0,.4); border:1px solid var(--border); color:var(--text);
+}
+.btn-row{ display:flex; gap:10px; margin-top:10px }
+.btn-row .btn-xl{ flex:1 }
+
+/* ---------- Checkout ---------- */
+.checkout{
+  position:fixed; inset:0; z-index:2100;
+  background:rgba(0,0,0,.8); backdrop-filter:blur(6px);
+  display:none; overflow-y:auto; padding:20px 14px;
+}
+.checkout.active{ display:block }
+.checkout-box{
+  max-width:720px; margin:0 auto;
+  background:linear-gradient(160deg, #0e0e18, #08080e);
+  border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.checkout-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px; border-bottom:1px solid var(--border);
+}
+.checkout-head h3{
+  margin:0; font-family:'Metal Mania', cursive; color:var(--purple);
+  letter-spacing:.14em; text-transform:uppercase; font-size:1.3rem;
+}
+.checkout-body{ padding:18px }
+
+.form-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px }
+.fld{ display:flex; flex-direction:column }
+.fld.full{ grid-column:1 / -1 }
+.fld label{
+  font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:6px;
+}
+.fld label .req{ color:var(--red) }
+.fld input, .fld select, .fld textarea{
+  min-height:48px;
+  background:rgba(0,0,0,.45);
+  border:1px solid var(--border); border-radius:12px;
+  color:var(--text); padding:12px 14px;
+  font-family:inherit; font-size:.95rem;
+}
+.fld textarea{ min-height:84px; resize:vertical }
+.fld input:focus, .fld select:focus, .fld textarea:focus{
+  outline:none; border-color:rgba(124,77,255,.7);
+  box-shadow:0 0 0 3px rgba(124,77,255,.14);
+}
+.fld.error input, .fld.error select{ border-color:var(--red) }
+.fld .msg{ color:#ff6b86; font-size:.74rem; margin-top:5px; min-height:1em }
+
+.form-note{
+  color:var(--muted); font-size:.78rem; margin:0 0 16px;
+  letter-spacing:.06em;
+}
+
+/* ---------- Resumen antes de enviar ---------- */
+.summary h4{
+  margin:18px 0 10px; font-size:.78rem; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--red);
+}
+.summary h4:first-child{ margin-top:0 }
+.sum-item{
+  border:1px solid var(--border); border-radius:12px;
+  padding:12px 14px; margin-bottom:10px;
+  background:rgba(255,255,255,.02);
+}
+.sum-item .t{ font-weight:700; margin-bottom:6px }
+.sum-item .r{ display:flex; justify-content:space-between;
+              font-size:.84rem; color:var(--muted); padding:2px 0 }
+.sum-data{ font-size:.88rem; line-height:1.7 }
+.sum-data b{ color:var(--muted); font-weight:400 }
+
+/* ---------- Avisos flotantes ---------- */
+.toasts{
+  position:fixed; left:50%; transform:translateX(-50%);
+  bottom:24px; z-index:3000;
+  display:flex; flex-direction:column; gap:8px;
+  width:min(420px, calc(100% - 24px));
+  pointer-events:none;
+}
+.toast{
+  background:rgba(12,12,20,.97);
+  border:1px solid var(--border); border-left:3px solid var(--cyan);
+  border-radius:12px; padding:13px 16px;
+  font-size:.86rem; color:var(--text);
+  box-shadow:0 14px 40px rgba(0,0,0,.7);
+  animation:toastIn .2s ease;
+}
+.toast.err{ border-left-color:var(--red) }
+.toast.ok{ border-left-color:#18b85a }
+@keyframes toastIn{ from{ transform:translateY(10px); opacity:0 } to{ transform:none; opacity:1 } }
+
+/* ---------- Aviso de modo sin conexión a la base ---------- */
+.demo-bar{
+  background:rgba(255,196,77,.12);
+  border:1px solid rgba(255,196,77,.35);
+  color:#ffc44d;
+  border-radius:12px; padding:11px 14px; margin:14px 0 0;
+  font-size:.8rem; letter-spacing:.05em;
+}
+
+/* ---------- Teléfono ---------- */
+@media (max-width: 680px){
+  .form-grid{ grid-template-columns:1fr }
+  .drawer-box{ width:100% }
+  .cline{ grid-template-columns:62px 1fr auto }
+  .cline img{ width:62px; height:74px }
+  .checkout{ padding:0 }
+  .checkout-box{ border-radius:0; min-height:100% }
+  .btn-row{ flex-direction:column-reverse }
+  .toasts{ bottom:96px }
+}
+
+/* ---------- Ajustes al detalle del producto ---------- */
+.modal-actions.col{ flex-direction:column }
+.modal-actions.col .btn-xl{ width:100% }
+.prod-desc{
+  color:var(--muted); font-size:.86rem; line-height:1.5;
+  margin:10px 0 0; white-space:pre-line;
+}
+.prod-desc:empty{ display:none }
+
+/* ---------- Ajuste importante para teléfono ----------
+   La foto ocupaba casi toda la pantalla y empujaba el selector de
+   talla y el botón de comprar fuera de vista. Acá la achicamos para
+   que el cliente vea cómo pedir sin tener que bajar tanto. */
+@media (max-width: 680px){
+  .main-img{ height: 36vh; min-height: 210px; max-height: 300px; }
+  .thumbs{ gap:8px }
+  .thumbs img{ width: 86px; height: 62px }
+  .modal-box{ padding-bottom: 8px }
+  /* la nota es opcional: que no empuje al botón de comprar fuera de vista */
+  .side .field textarea{ min-height: 58px }
+  .opt-group{ margin-top: 11px }
+}
