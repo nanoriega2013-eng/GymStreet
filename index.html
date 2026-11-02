@@ -727,18 +727,23 @@
     /* ====== BOTONES FLOTANTES ====== */
     .float-order{
       position:fixed; right:24px; bottom:24px; z-index:1500;
-      border:1px solid var(--ink);
+      /* El borde claro lo despega del fondo negro de la portada;
+         sobre el fondo blanco de la tienda no se nota. */
+      border:1px solid var(--bg);
       background:var(--ink); color:var(--bg);
       padding:15px 24px; border-radius:var(--r);
       font-family:var(--font-display);
       font-size:.74rem; font-weight:700;
       letter-spacing:.16em; text-transform:uppercase;
       cursor:pointer;
-      box-shadow:var(--shadow-lg);
+      box-shadow:0 0 0 1px rgba(0,0,0,.18), var(--shadow-lg);
       display:flex; gap:8px; align-items:center;
-      transition:background var(--t), color var(--t);
+      transition:background var(--t), color var(--t), box-shadow var(--t);
     }
-    .float-order:hover{ background:var(--bg); color:var(--ink) }
+    .float-order:hover{
+      background:var(--bg); color:var(--ink);
+      box-shadow:0 0 0 1px var(--ink), var(--shadow-lg);
+    }
 
     .to-top{
       position:fixed; left:24px; bottom:24px; z-index:1500;
