@@ -322,3 +322,67 @@ Lo único que no pasa es que los pedidos se guarden: el cliente puede mandar su
 WhatsApp, pero vos no vas a tener el registro en el panel.
 
 Es preferible una tienda que vende a medias que una página en blanco.
+
+---
+
+## 13. El diseño nuevo (y cómo tocarlo sin romper nada)
+
+La tienda se rediseñó con la línea visual del retail deportivo moderno
+(Gymshark / YoungLA): blanco, negro, tipografía fuerte en mayúsculas,
+esquinas rectas y mucho aire. Nada de la lógica cambió: los productos, el
+carrito, el checkout y el panel funcionan exactamente igual que antes.
+
+### Dónde está cada cosa
+
+| Qué querés cambiar | Dónde |
+|---|---|
+| Colores, tipografías, tamaños | `index.html`, bloque `:root` (arriba del todo) |
+| Texto de la portada | `index.html`, sección `<!-- PORTADA -->` |
+| Barra negra de arriba (envíos, pagos) | `index.html`, sección `<!-- AVISO SUPERIOR -->` |
+| Los cuatro datos bajo la portada | `index.html`, sección `<!-- GARANTÍAS -->` |
+| Enlaces del pie | `index.html`, sección `<!-- PIE -->` |
+| Carrito, checkout y avisos | `assets/css/shop.css` |
+
+### Cambiar el color de toda la tienda
+
+Todo sale de las variables de `:root`. Por ejemplo, para que los botones
+dejen de ser negros y pasen a azul marino, cambiás una sola línea:
+
+```css
+--ink:#0b0b0b;   /* por ejemplo: #10203f */
+```
+
+Y con eso cambian botones, títulos, badges y la portada.
+
+### Poner una foto en la portada
+
+En `index.html`, dentro de `<section class="hero">`, hay una línea comentada:
+
+```html
+<!-- <div class="hero-media"><img src="img/portada.jpg" alt="" /></div> -->
+```
+
+Quitale los `<!--` y `-->`, subí tu foto a la carpeta `img/` con ese nombre y
+listo. Usá una foto horizontal de al menos 1600px de ancho. Encima lleva un
+degradado oscuro, así que el texto se sigue leyendo.
+
+### Modo oscuro
+
+El tema oscuro ya está escrito. Para activarlo, en `index.html` cambiá la
+primera línea de:
+
+```html
+<html lang="es">
+```
+
+a:
+
+```html
+<html lang="es" data-theme="dark">
+```
+
+### El panel de administración
+
+Quedó con su diseño anterior. Es una pantalla que solo ves vos, así que no
+corría prisa cambiarla; si querés que también quede clara y formal, se hace
+después y por separado.

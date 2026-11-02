@@ -356,9 +356,9 @@ function renderProducts() {
         <img loading="lazy" src="${esc(p.images[0] || '')}" alt="${esc(p.name)}">
         <div class="badges">
           ${p.discount > 0 ? `<span class="badge oferta">-${p.discount}%</span>` : ''}
-          ${tags.includes('hot') || p.featured ? `<span class="badge hot">🔥 Hot</span>` : ''}
-          ${tags.includes('new') ? `<span class="badge new">🆕 Nuevo</span>` : ''}
-          ${!p.soldOut && tags.includes('stock') ? `<span class="badge stock">✅ Stock</span>` : ''}
+          ${tags.includes('hot') || p.featured ? `<span class="badge hot">Destacado</span>` : ''}
+          ${tags.includes('new') ? `<span class="badge new">Nuevo</span>` : ''}
+          ${!p.soldOut && tags.includes('stock') ? `<span class="badge stock">Disponible</span>` : ''}
         </div>
         ${p.soldOut ? `<div class="ribbon">Agotado</div>` : ''}
       </div>
@@ -370,10 +370,10 @@ function renderProducts() {
         </div>
         ${sizesHtml || colorsHtml ? `<div class="mini-opts">${colorsHtml}${sizesHtml}</div>` : ''}
         <div class="card-actions">
-          <button class="btn" data-action="view">👁 Ver producto</button>
+          <button class="btn" data-action="view">Detalles</button>
           ${p.soldOut
             ? `<button class="btn" data-action="order" disabled>Agotado</button>`
-            : `<button class="btn primary" data-action="order">🟢 Pedir</button>`}
+            : `<button class="btn primary" data-action="order">Pedir</button>`}
         </div>
       </div>`;
 
@@ -457,7 +457,7 @@ function openGallery(title, images) {
   $('groupSize').hidden = true;
   $('groupQty').hidden = true;
   $('btnAddCart').hidden = true;
-  $('btnWhatsApp').textContent = '🟢 Escribir por WhatsApp';
+  $('btnWhatsApp').textContent = 'Escribir por WhatsApp';
 }
 
 function openProduct(p) {
@@ -478,7 +478,7 @@ function openProduct(p) {
   $('modalSold').hidden = !sold;
   $('groupQty').hidden = sold;
   $('btnAddCart').hidden = sold;
-  $('btnWhatsApp').textContent = sold ? '✉ Avísame cuando entre' : '🟢 Pedir ahora';
+  $('btnWhatsApp').textContent = sold ? 'Avisame cuando entre' : 'Pedir por WhatsApp';
 
   // colores y tallas reales
   const colors = p.colors.filter(c => c !== 'Único');
@@ -552,7 +552,7 @@ function renderOptions() {
     hint.textContent = '🔴 Agotado en esta combinación';
     hint.classList.add('out');
   } else if (max <= umbral) {
-    hint.textContent = `⚠️ Poco stock: quedan ${max}`;
+    hint.textContent = `Quedan ${max} disponibles`;
     hint.classList.add('low');
   } else {
     hint.textContent = `${max} disponibles`;
@@ -936,13 +936,16 @@ async function loadCatalog() {
     document.querySelectorAll('a[href*="wa.me/"]').forEach(a => {
       a.href = `https://wa.me/${String(n).replace(/\D/g, '')}`;
     });
+    // Hay enlaces de redes en contacto y en el pie: se actualizan todos.
     if (SETTINGS.instagram_url) {
-      const ig = document.querySelector('.social a[href*="instagram"]');
-      if (ig) ig.href = SETTINGS.instagram_url;
+      document.querySelectorAll('a[href*="instagram"]').forEach(a => {
+        a.href = SETTINGS.instagram_url;
+      });
     }
     if (SETTINGS.facebook_url) {
-      const fb = document.querySelector('.social a[href*="facebook"]');
-      if (fb) fb.href = SETTINGS.facebook_url;
+      document.querySelectorAll('a[href*="facebook"]').forEach(a => {
+        a.href = SETTINGS.facebook_url;
+      });
     }
   }
 }
@@ -952,10 +955,10 @@ function mostrarAvisoDemo(falloConexion) {
   const bar = document.createElement('div');
   bar.className = 'demo-bar';
   bar.innerHTML = falloConexion
-    ? '⚠️ <b>No pudimos conectar con la base de datos.</b> La tienda muestra el ' +
+    ? '<b>No pudimos conectar con la base de datos.</b> La tienda muestra el ' +
       'catálogo de respaldo y los pedidos no se están guardando. Revisá las claves ' +
       'en <code>assets/js/config.js</code> y que el proyecto de Supabase esté activo.'
-    : '⚠️ <b>Modo sin base de datos.</b> La tienda muestra el catálogo fijo y ' +
+    : '<b>Modo sin base de datos.</b> La tienda muestra el catálogo fijo y ' +
       'los pedidos no se guardan. Pegá tus claves de Supabase en ' +
       '<code>assets/js/config.js</code> para activar inventario y pedidos.';
   document.querySelector('.toolbar')?.insertAdjacentElement('beforebegin', bar);
@@ -965,11 +968,19 @@ function mostrarAvisoDemo(falloConexion) {
 //  NAVEGACIÓN
 // ------------------------------------------------------------
 function setActivePage(page) {
+  // El buscador y los filtros solo tienen sentido en el catálogo.
+  document.body.dataset.page = page;
   $('pageCatalog').classList.toggle('active', page === 'catalog');
   $('pageCommunity').classList.toggle('active', page === 'community');
   $('navCatalog').classList.toggle('active', page === 'catalog');
   $('navCommunity').classList.toggle('active', page === 'community');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Subimos hasta donde empieza el contenido, no hasta la portada:
+  // así al cambiar de sección se ve de una vez lo que se pidió.
+  const inicio = document.getElementById('catalogo');
+  const alto   = document.querySelector('.topbar')?.offsetHeight || 0;
+  const top    = inicio ? inicio.getBoundingClientRect().top + window.scrollY - alto : 0;
+  window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
 }
 
 // ------------------------------------------------------------

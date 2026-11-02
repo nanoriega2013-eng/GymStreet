@@ -6,8 +6,8 @@
   <title>GymStreet • Ropa de gym y streetwear en Guatemala</title>
 
   <!-- SEO -->
-  <meta name="description" content="Camisas de compresión, oversize y pants estilo YoungLA y GymShark. Desde Q250, envíos a todo Guatemala y pedidos por WhatsApp." />
-  <meta name="theme-color" content="#050509" />
+  <meta name="description" content="Camisas de compresión, oversize y pants de corte técnico. Calidad premium, envíos a todo Guatemala y atención por WhatsApp." />
+  <meta name="theme-color" content="#ffffff" />
   <link rel="canonical" href="https://gymstreet.vercel.app/" />
 
   <!-- Vista previa al compartir (WhatsApp, Facebook, Instagram) -->
@@ -16,7 +16,7 @@
   <meta property="og:locale" content="es_GT" />
   <meta property="og:url" content="https://gymstreet.vercel.app/" />
   <meta property="og:title" content="GymStreet • Ropa de gym y streetwear en Guatemala" />
-  <meta property="og:description" content="Camisas de compresión, oversize y pants estilo YoungLA y GymShark. Desde Q250, envíos a todo Guatemala y pedidos por WhatsApp." />
+  <meta property="og:description" content="Camisas de compresión, oversize y pants de corte técnico. Calidad premium, envíos a todo Guatemala y atención por WhatsApp." />
   <meta property="og:image" content="https://gymstreet.vercel.app/img/og-cover.jpg" />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="1200" />
@@ -25,7 +25,7 @@
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="GymStreet • Ropa de gym y streetwear en Guatemala" />
-  <meta name="twitter:description" content="Camisas de compresión, oversize y pants estilo YoungLA y GymShark. Desde Q250, envíos a todo Guatemala." />
+  <meta name="twitter:description" content="Camisas de compresión, oversize y pants de corte técnico. Envíos a todo Guatemala." />
   <meta name="twitter:image" content="https://gymstreet.vercel.app/img/og-cover.jpg" />
 
   <!-- Iconos -->
@@ -33,960 +33,928 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
   <!-- Fuentes -->
-  <link href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
+    /* ============================================================
+       GymStreet · Sistema de diseño
+       Monocromático, tipografía fuerte, mucho aire: la línea visual
+       del retail deportivo moderno (Gymshark / YoungLA).
+
+       TODO el tema sale de las variables de abajo. Si querés cambiar
+       el color de los botones o el fondo, cambialo acá una sola vez
+       y la tienda entera se actualiza.
+       ============================================================ */
     :root{
-      --bg:#050509;
-      --panel:#0b0b12;
-      --card:#12121b;
-      --card2:#15151c;
+      /* Tinta (textos y negros de marca) */
+      --ink:#0b0b0b;
+      --ink-2:#565656;
+      --ink-3:#8c8c8c;
 
-      --red:#ff1744;
-      --purple:#7c4dff;
-      --cyan:#21d4fd;
+      /* Fondos */
+      --bg:#ffffff;
+      --surface:#f4f4f4;
+      --surface-2:#ebebeb;
 
-      --text:#e9e9ee;
-      --muted:#a6a6b3;
-      --border:rgba(255,255,255,.10);
-      --shadow: 0 18px 55px rgba(0,0,0,.75);
+      /* Líneas */
+      --line:#e3e3e3;
+      --line-2:#c9c9c9;
 
-      --radius:18px;
-      --radius2:14px;
+      /* Acentos (usados con cuentagotas, nunca de decoración) */
+      --sale:#b3122b;
+      --wa:#128c46;
+      --warn:#9a6a00;
 
-      --max:1200px;
+      /* Tipografías */
+      --font-display:'Archivo','Helvetica Neue',Arial,sans-serif;
+      --font-body:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+
+      /* Medidas */
+      --max:1320px;
+      --gutter:28px;
+      --r:0px;        /* esquinas rectas = look formal */
+      --r-sm:2px;
+      --shadow:0 1px 3px rgba(0,0,0,.05);
+      --shadow-lg:0 30px 70px rgba(0,0,0,.16);
+      --t:.26s cubic-bezier(.2,.6,.2,1);
+
+      /* --- Alias de compatibilidad (los usan shop.css y el panel) --- */
+      --text:var(--ink);
+      --muted:var(--ink-2);
+      --border:var(--line);
+      --red:var(--sale);
+      --purple:var(--ink);
+      --cyan:var(--ink);
+      --card:var(--bg);
+      --panel:var(--surface);
+      --radius:var(--r);
+      --radius2:var(--r);
+    }
+
+    /* Variante oscura opcional: poné <html data-theme="dark"> */
+    [data-theme="dark"]{
+      --ink:#f2f2f2;
+      --ink-2:#a9a9a9;
+      --ink-3:#7b7b7b;
+      --bg:#0b0b0b;
+      --surface:#151515;
+      --surface-2:#1e1e1e;
+      --line:#2a2a2a;
+      --line-2:#3a3a3a;
+      --sale:#ff4d6a;
+      --shadow:0 1px 3px rgba(0,0,0,.6);
+      --shadow-lg:0 30px 70px rgba(0,0,0,.7);
     }
 
     *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
+    html{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
     body{
       margin:0;
-      background:
-        radial-gradient(circle at 10% 0%, rgba(124,77,255,.22), transparent 40%),
-        radial-gradient(circle at 90% 10%, rgba(255,23,68,.18), transparent 42%),
-        radial-gradient(circle at 50% 0%, rgba(33,212,253,.08), transparent 55%),
-        radial-gradient(circle at bottom, #0a0a12 0%, #050509 55%, #000 100%);
-      color:var(--text);
-      font-family:'Roboto Condensed', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      letter-spacing:.03em;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:var(--font-body);
+      font-size:16px;
+      line-height:1.55;
+      -webkit-font-smoothing:antialiased;
       min-height:100vh;
     }
+    img{max-width:100%}
+    h1,h2,h3,h4{font-family:var(--font-display); margin:0; font-weight:700; letter-spacing:-.01em}
+    button,input,select,textarea{font-family:inherit}
+    a{color:inherit}
+    ::selection{background:var(--ink); color:var(--bg)}
+    :focus-visible{outline:2px solid var(--ink); outline-offset:2px}
 
-    /* ====== TOPBAR ====== */
+    .shell{max-width:var(--max); margin:0 auto; padding:0 var(--gutter)}
+
+    /* La cabecera queda fija: los enlaces internos frenan más abajo
+       para que no tapen el título al que llevan. */
+    #catalogo, #contacto{ scroll-margin-top:92px }
+    @media (max-width:980px){ #catalogo, #contacto{ scroll-margin-top:130px } }
+
+    /* Etiquetitas de sección (eyebrow) */
+    .eyebrow{
+      font-family:var(--font-display);
+      font-size:.7rem; font-weight:700;
+      letter-spacing:.22em; text-transform:uppercase;
+      color:var(--ink-3);
+      margin:0;
+    }
+
+    /* ====== BARRA DE AVISO ====== */
+    .announce{
+      background:var(--ink);
+      color:var(--bg);
+    }
+    [data-theme="dark"] .announce{ background:var(--surface-2) }
+    .announce-inner{
+      max-width:var(--max); margin:auto; padding:9px var(--gutter);
+      display:flex; gap:12px; align-items:center; justify-content:center;
+      font-size:.7rem; font-weight:600;
+      letter-spacing:.18em; text-transform:uppercase;
+      text-align:center;
+    }
+    .announce .sep{ opacity:.45 }
+
+    /* ====== CABECERA ====== */
     .topbar{
       position:sticky; top:0; z-index:1000;
-      border-bottom:1px solid var(--border);
-      background: linear-gradient(135deg, rgba(0,0,0,.85), rgba(26,26,46,.55), rgba(0,0,0,.85));
-      backdrop-filter: blur(10px);
-      box-shadow: 0 12px 35px rgba(0,0,0,.65);
+      background:var(--bg);
+      border-bottom:1px solid var(--line);
     }
     .topbar-inner{
-      max-width:var(--max);
-      margin:auto;
-      padding:14px 16px;
-      display:flex;
-      gap:14px;
-      align-items:center;
-      justify-content:space-between;
+      max-width:var(--max); margin:auto;
+      padding:0 var(--gutter);
+      height:76px;
+      display:flex; align-items:center; gap:28px;
     }
 
     .brand{
       display:flex; align-items:center; gap:12px;
-      min-width: 240px;
+      text-decoration:none; flex:0 0 auto;
     }
     .brand-badge{
-      width:44px; height:44px;
-      border-radius:14px;
-      border:1px solid rgba(255,23,68,.35);
-      background:
-        radial-gradient(circle at top, rgba(255,23,68,.40), rgba(124,77,255,.20) 55%, rgba(0,0,0,.75));
-      box-shadow: 0 0 25px rgba(255,23,68,.25);
+      width:38px; height:38px;
+      background:var(--ink); color:var(--bg);
       display:grid; place-items:center;
-      font-weight:700;
-      color:#fff;
+      font-family:var(--font-display);
+      font-weight:800; font-size:.86rem; letter-spacing:.04em;
     }
     .brand h1{
-      margin:0;
-      font-family:'Metal Mania', cursive;
-      letter-spacing:.22em;
-      font-size:1.7rem;
-      color:var(--red);
-      text-transform:uppercase;
-      text-shadow: 0 0 14px rgba(255,23,68,.7), 0 0 24px rgba(124,77,255,.35);
-      line-height:1.1;
+      font-size:1.32rem; font-weight:800;
+      letter-spacing:.08em; text-transform:uppercase;
+      line-height:1;
     }
     .brand p{
-      margin:2px 0 0;
-      font-size:.78rem;
-      text-transform:uppercase;
-      color:var(--muted);
-      letter-spacing:.14em;
+      margin:3px 0 0;
+      font-size:.62rem; font-weight:600;
+      letter-spacing:.24em; text-transform:uppercase;
+      color:var(--ink-3);
     }
 
-    .nav{
-      display:flex; align-items:center; gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
+    .nav{ display:flex; align-items:center; gap:4px; margin-left:8px }
+    .nav-actions{ display:flex; align-items:center; gap:10px; margin-left:auto }
 
+    /* Enlaces de navegación: texto limpio con subrayado animado */
     .pill{
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(0,0,0,.45);
-      color:var(--text);
-      text-decoration:none;
-      padding:10px 14px;
-      border-radius:999px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      font-size:.82rem;
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      transition: transform .18s ease, box-shadow .22s ease, border .22s ease, background .22s ease;
-      cursor:pointer;
-      user-select:none;
-    }
-    .pill:hover{
-      transform: translateY(-1px);
-      border-color: rgba(255,23,68,.55);
-      box-shadow: 0 0 18px rgba(255,23,68,.25);
-      background: rgba(255,23,68,.08);
-    }
-    .pill.active{
-      border-color: rgba(124,77,255,.75);
-      box-shadow: 0 0 18px rgba(124,77,255,.22);
-      background: rgba(124,77,255,.10);
-    }
-
-    .cta-whatsapp{
-      border:1px solid rgba(33,212,253,.35);
-      background: radial-gradient(circle at top, rgba(33,212,253,.22), rgba(0,0,0,.55));
-    }
-    .cta-whatsapp:hover{
-      border-color: rgba(33,212,253,.7);
-      box-shadow: 0 0 18px rgba(33,212,253,.22);
-      background: rgba(33,212,253,.12);
-    }
-
-    /* ====== LAYOUT ====== */
-    .wrap{
-      max-width:var(--max);
-      margin: 18px auto 80px;
-      padding: 0 16px;
-    }
-
-    .hero{
-      margin-top: 14px;
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:var(--radius);
-      background:
-        radial-gradient(circle at 15% 0%, rgba(255,23,68,.18), transparent 45%),
-        radial-gradient(circle at 90% 20%, rgba(124,77,255,.18), transparent 48%),
-        linear-gradient(135deg, rgba(0,0,0,.65), rgba(12,12,20,.65));
-      box-shadow: var(--shadow);
-      overflow:hidden;
       position:relative;
+      border:0; background:none;
+      color:var(--ink);
+      font-family:var(--font-display);
+      font-size:.78rem; font-weight:700;
+      letter-spacing:.14em; text-transform:uppercase;
+      padding:10px 12px;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex; align-items:center; gap:8px;
+      transition:color var(--t);
     }
+    .pill::after{
+      content:""; position:absolute;
+      left:12px; right:12px; bottom:4px; height:1.5px;
+      background:var(--ink);
+      transform:scaleX(0); transform-origin:left;
+      transition:transform var(--t);
+    }
+    .pill:hover::after, .pill.active::after{ transform:scaleX(1) }
+    .pill:hover{ color:var(--ink) }
+
+    /* Botones de la derecha: sí tienen caja */
+    .nav-actions .pill{
+      border:1px solid var(--ink);
+      padding:11px 18px;
+    }
+    .nav-actions .pill::after{ display:none }
+    .nav-actions .pill:hover{ background:var(--ink); color:var(--bg) }
+    .cta-whatsapp{
+      background:var(--ink); color:var(--bg) !important;
+    }
+    .cta-whatsapp:hover{ background:var(--bg); color:var(--ink) !important }
+
+    /* ====== HERO ====== */
+    .hero{
+      position:relative;
+      background:var(--ink);
+      border-bottom:1px solid var(--ink);
+      overflow:hidden;
+      isolation:isolate;
+    }
+    /* Textura muy sutil para que el negro no se vea plano */
     .hero::before{
-      content:"";
-      position:absolute; inset:0;
+      content:""; position:absolute; inset:0; z-index:0;
       background:
-        linear-gradient(90deg, rgba(255,23,68,.10), transparent 45%),
-        linear-gradient(180deg, rgba(124,77,255,.10), transparent 55%);
+        repeating-linear-gradient(115deg, rgba(255,255,255,.035) 0 1px, transparent 1px 54px),
+        radial-gradient(120% 90% at 78% 12%, rgba(255,255,255,.09), transparent 62%);
       pointer-events:none;
     }
+    .hero-media{ position:absolute; inset:0; z-index:0 }
+    .hero-media img{
+      width:100%; height:100%;
+      object-fit:cover; object-position:center 28%;
+      display:block;
+      filter:grayscale(.25) contrast(1.05);
+    }
+    .hero-media::after{
+      content:""; position:absolute; inset:0;
+      background:linear-gradient(90deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.55) 42%, rgba(0,0,0,.18) 100%);
+    }
     .hero-inner{
-      padding: 20px 18px;
-      display:flex;
-      gap:16px;
-      justify-content:space-between;
-      align-items:flex-start;
-      flex-wrap:wrap;
-      position:relative;
+      position:relative; z-index:1;
+      max-width:var(--max); margin:auto;
+      padding:112px var(--gutter) 104px;
+      color:#fff;
     }
-    .hero-title{
-      min-width: 280px;
-    }
+    .hero-title{ max-width:620px }
+    .hero-title .eyebrow{ color:rgba(255,255,255,.7) }
     .hero-title h2{
-      margin:0;
-      font-family:'Metal Mania', cursive;
+      margin:16px 0 0;
+      font-size:clamp(2.4rem, 6.2vw, 4.3rem);
+      font-weight:800;
+      line-height:.95;
+      letter-spacing:-.025em;
       text-transform:uppercase;
-      letter-spacing:.18em;
-      color:var(--purple);
-      font-size:1.6rem;
-      text-shadow: 0 0 14px rgba(124,77,255,.35);
     }
     .hero-title p{
-      margin:8px 0 0;
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      font-size:.82rem;
-      line-height:1.4;
+      margin:20px 0 0;
+      max-width:48ch;
+      font-size:1.02rem;
+      color:rgba(255,255,255,.82);
+      line-height:1.6;
+    }
+    .hero-cta{ display:flex; flex-wrap:wrap; gap:12px; margin-top:32px }
+
+    /* ====== BOTONES BASE ====== */
+    .btn-solid, .btn-outline{
+      display:inline-flex; align-items:center; justify-content:center; gap:9px;
+      min-height:52px; padding:0 34px;
+      font-family:var(--font-display);
+      font-size:.8rem; font-weight:700;
+      letter-spacing:.16em; text-transform:uppercase;
+      border-radius:var(--r);
+      text-decoration:none; cursor:pointer;
+      transition:background var(--t), color var(--t), border-color var(--t);
+    }
+    .btn-solid{ background:#fff; color:#0b0b0b; border:1px solid #fff }
+    .btn-solid:hover{ background:transparent; color:#fff }
+    .btn-outline{ background:transparent; color:#fff; border:1px solid rgba(255,255,255,.6) }
+    .btn-outline:hover{ background:#fff; color:#0b0b0b; border-color:#fff }
+
+    /* ====== TIRA DE GARANTÍAS ====== */
+    .marks{ border-bottom:1px solid var(--line); background:var(--bg) }
+    .marks-inner{
+      max-width:var(--max); margin:auto; padding:0 var(--gutter);
+      display:grid; grid-template-columns:repeat(4, 1fr);
+    }
+    .mark{
+      padding:26px 20px 26px 0;
+      border-right:1px solid var(--line);
+    }
+    .mark:last-child{ border-right:0 }
+    .mark b{
+      display:block;
+      font-family:var(--font-display);
+      font-size:1.04rem; font-weight:700;
+      letter-spacing:.02em; text-transform:uppercase;
+    }
+    .mark span{
+      display:block; margin-top:3px;
+      font-size:.78rem; color:var(--ink-3);
+      letter-spacing:.04em;
     }
 
-    .hero-stats{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-      margin-left:auto;
-    }
-    .stat{
-      padding:10px 12px;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.35);
-      min-width: 160px;
-    }
-    .stat .k{
-      font-size:.78rem;
-      color:var(--muted);
-      letter-spacing:.14em;
-      text-transform:uppercase;
-    }
-    .stat .v{
-      margin-top:4px;
-      font-size:1.05rem;
-      letter-spacing:.10em;
-      text-transform:uppercase;
-      color:var(--text);
+    /* ====== CONTENEDOR ====== */
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto 90px;
+      padding:0 var(--gutter);
     }
 
-    /* ====== TOOLBAR (BUSCAR/FILTRAR) ====== */
+    /* ====== BARRA DE BÚSQUEDA Y FILTROS ====== */
     .toolbar{
-      margin-top: 16px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:space-between;
+      display:flex; gap:18px; flex-wrap:wrap;
+      align-items:center; justify-content:space-between;
+      padding:26px 0;
+      border-bottom:1px solid var(--line);
     }
-
     .search{
-      flex: 1 1 280px;
-      display:flex;
-      gap:10px;
-      align-items:center;
-      padding: 12px 12px;
-      border-radius: 999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.35);
-      box-shadow: 0 10px 24px rgba(0,0,0,.45);
+      flex:1 1 320px; max-width:420px;
+      display:flex; gap:10px; align-items:center;
+      padding:12px 2px;
+      border:0; border-bottom:1px solid var(--line-2);
+      background:none;
+      color:var(--ink-3);
+      transition:border-color var(--t);
     }
+    .search:focus-within{ border-bottom-color:var(--ink) }
     .search input{
-      width:100%;
-      background:transparent;
-      border:0;
-      outline:none;
-      color:var(--text);
-      font-size:.95rem;
-      letter-spacing:.06em;
+      width:100%; background:none; border:0; outline:none;
+      color:var(--ink); font-size:.95rem;
     }
-    .search input::placeholder{color: rgba(233,233,238,.55)}
-    .chip-row{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-      align-items:center;
-    }
+    .search input::placeholder{ color:var(--ink-3) }
+
+    .chip-row{ display:flex; gap:8px; flex-wrap:wrap; align-items:center }
     .chip{
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.35);
-      color:var(--text);
-      padding:10px 14px;
-      border-radius:999px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      font-size:.78rem;
+      border:1px solid var(--line-2);
+      background:none; color:var(--ink);
+      padding:10px 18px;
+      border-radius:var(--r);
+      font-family:var(--font-display);
+      font-size:.74rem; font-weight:600;
+      letter-spacing:.14em; text-transform:uppercase;
       cursor:pointer;
-      transition: transform .18s ease, border .22s ease, box-shadow .22s ease, background .22s ease;
-      user-select:none;
+      transition:background var(--t), color var(--t), border-color var(--t);
     }
-    .chip:hover{
-      transform: translateY(-1px);
-      border-color: rgba(124,77,255,.55);
-      box-shadow: 0 0 16px rgba(124,77,255,.18);
-      background: rgba(124,77,255,.10);
-    }
-    .chip.active{
-      border-color: rgba(255,23,68,.70);
-      box-shadow: 0 0 16px rgba(255,23,68,.18);
-      background: rgba(255,23,68,.10);
-    }
+    .chip:hover{ border-color:var(--ink) }
+    .chip.active{ background:var(--ink); color:var(--bg); border-color:var(--ink) }
 
     .select{
-      border-radius:999px;
-      padding:10px 14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.35);
-      color:var(--text);
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      font-size:.78rem;
-      outline:none;
-      cursor:pointer;
+      border:1px solid var(--line-2);
+      background:var(--bg); color:var(--ink);
+      padding:10px 14px; border-radius:var(--r);
+      font-size:.78rem; font-weight:500;
+      letter-spacing:.1em; text-transform:uppercase;
+      cursor:pointer; outline:none;
+      transition:border-color var(--t);
     }
+    .select:hover{ border-color:var(--ink) }
 
-    /* ====== SECTIONS ====== */
-    .page{display:none}
-    .page.active{display:block}
+    /* El buscador y los filtros solo se muestran en el catálogo */
+    body[data-page="community"] .toolbar{ display:none }
 
+    /* ====== SECCIONES ====== */
+    .page{ display:none }
+    .page.active{ display:block }
+
+    .section-head{ padding:52px 0 28px; max-width:720px }
     .section-title{
-      margin: 22px 0 10px;
-      font-family:'Metal Mania', cursive;
+      margin:12px 0 0;
+      font-size:clamp(1.7rem, 3.6vw, 2.5rem);
+      font-weight:800; letter-spacing:-.02em;
       text-transform:uppercase;
-      letter-spacing:.20em;
-      font-size:1.55rem;
-      color:var(--red);
-      text-shadow: 0 0 18px rgba(255,23,68,.35);
+      line-height:1.02;
     }
     .section-subtitle{
-      margin:0 0 16px;
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      font-size:.82rem;
-      line-height:1.5;
+      margin:14px 0 0;
+      color:var(--ink-2);
+      font-size:.96rem; line-height:1.6;
     }
 
-    /* ====== GRID PRODUCTS ====== */
+    /* ====== CATÁLOGO ====== */
     .grid{
       display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
+      grid-template-columns:repeat(4, 1fr);
+      gap:40px 28px;
     }
 
     .card{
-      border-radius: var(--radius2);
-      border:1px solid rgba(255,255,255,.10);
-      background:
-        radial-gradient(circle at top, rgba(255,23,68,.10), transparent 55%),
-        radial-gradient(circle at 80% 0%, rgba(124,77,255,.10), transparent 55%),
-        linear-gradient(135deg, rgba(18,18,27,.95), rgba(10,10,15,.95));
-      box-shadow: 0 14px 34px rgba(0,0,0,.65);
-      overflow:hidden;
       position:relative;
-      transition: transform .22s ease, box-shadow .22s ease, border .22s ease;
-    }
-    .card:hover{
-      transform: translateY(-5px);
-      border-color: rgba(255,23,68,.45);
-      box-shadow: 0 18px 45px rgba(0,0,0,.80);
+      background:var(--bg);
+      border:0;
+      display:flex; flex-direction:column;
     }
 
-    /* ✅ IMÁGENES COMPLETAS (NO RECORTE) */
+    /* Imagen: se muestra completa (sin recorte), sobre fondo neutro */
     .media{
       position:relative;
-      height: 260px;              /* más alto */
-      background: #0b0b12;
+      aspect-ratio:3/4;
+      background:var(--surface);
       overflow:hidden;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: 10px;              /* espacio para que no se pegue */
+      display:flex; align-items:center; justify-content:center;
+      padding:14px;
     }
     .media img{
-      width:100%;
-      height:100%;
-      object-fit: contain;        /* ✅ muestra completa */
-      object-position: center;
+      width:100%; height:100%;
+      object-fit:contain; object-position:center;
       display:block;
-      filter: contrast(1.05) saturate(1.05);
-      transform: none;            /* sin zoom */
+      transition:transform .6s cubic-bezier(.2,.6,.2,1);
     }
+    .card:hover .media img{ transform:scale(1.035) }
 
     .badges{
-      position:absolute;
-      top:10px; left:10px;
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
+      position:absolute; top:12px; left:12px;
+      display:flex; flex-direction:column; align-items:flex-start;
+      gap:6px; z-index:2;
     }
     .badge{
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:.72rem;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.50);
-      backdrop-filter: blur(8px);
+      padding:5px 10px;
+      border-radius:var(--r);
+      font-family:var(--font-display);
+      font-size:.62rem; font-weight:700;
+      letter-spacing:.16em; text-transform:uppercase;
+      background:var(--ink); color:var(--bg);
+      border:1px solid var(--ink);
     }
-    .badge.hot{ border-color: rgba(255,23,68,.55); box-shadow: 0 0 14px rgba(255,23,68,.18) }
-    .badge.new{ border-color: rgba(124,77,255,.55); box-shadow: 0 0 14px rgba(124,77,255,.18) }
-    .badge.stock{ border-color: rgba(33,212,253,.45); box-shadow: 0 0 14px rgba(33,212,253,.14) }
+    .badge.new{ background:var(--bg); color:var(--ink) }
+    .badge.stock{ background:var(--bg); color:var(--ink-2); border-color:var(--line-2) }
+    .badge.hot{ background:var(--ink); color:var(--bg) }
 
     /* ====== AGOTADO ====== */
-    .card.sold .media img{ filter: grayscale(.9) brightness(.5); }
-    .card.sold .price{ color: var(--muted); text-decoration: line-through; }
+    .card.sold .media img{ filter:grayscale(1); opacity:.5 }
+    .card.sold .price{ color:var(--ink-3); text-decoration:line-through }
     .ribbon{
-      position:absolute;
-      top:18px; right:-46px;
-      transform: rotate(38deg);
-      background: linear-gradient(135deg, #ff1744, #a30026);
-      color:#fff;
-      font-size:.70rem;
-      font-weight:700;
-      letter-spacing:.20em;
-      text-transform:uppercase;
-      padding:7px 54px;
-      box-shadow: 0 6px 18px rgba(0,0,0,.65);
-      pointer-events:none;
-      z-index:3;
+      position:absolute; inset:auto 0 0 0;
+      background:var(--ink); color:var(--bg);
+      font-family:var(--font-display);
+      font-size:.66rem; font-weight:700;
+      letter-spacing:.2em; text-transform:uppercase;
+      text-align:center; padding:9px 10px;
+      z-index:3; pointer-events:none;
     }
     .sold-note{
-      margin:10px 0 0;
-      padding:10px 12px;
-      border:1px solid rgba(255,23,68,.35);
-      border-radius:12px;
-      background: rgba(255,23,68,.08);
-      color:#ffb3c2;
-      font-size:.82rem;
-      letter-spacing:.06em;
-    }
-    .btn[disabled]{
-      opacity:.42;
-      cursor:not-allowed;
-      filter: grayscale(1);
-    }
-    .btn[disabled]:hover{
-      transform:none;
-      box-shadow:none;
-      border-color: rgba(255,255,255,.14);
-      background: rgba(0,0,0,.40);
+      margin:14px 0 0; padding:12px 14px;
+      border:1px solid var(--line);
+      border-left:2px solid var(--sale);
+      background:var(--surface);
+      color:var(--ink-2);
+      font-size:.84rem; line-height:1.5;
     }
 
-    .card-body{
-      padding: 12px 12px 14px;
-    }
+    .card-body{ padding:16px 2px 0; display:flex; flex-direction:column; flex:1 }
     .name{
       margin:0;
-      font-family:'Metal Mania', cursive;
-      text-transform:uppercase;
-      letter-spacing:.16em;
-      font-size:1.08rem;
-      color:var(--text);
-      line-height:1.2;
+      font-size:.96rem; font-weight:700;
+      letter-spacing:.01em; text-transform:uppercase;
+      line-height:1.3;
     }
     .meta{
       margin-top:8px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      align-items:center;
-      justify-content:space-between;
+      display:flex; flex-wrap:wrap; gap:4px 10px;
+      align-items:baseline; justify-content:space-between;
     }
     .price{
-      font-size:1.05rem;
-      color: var(--purple);
-      text-transform:uppercase;
-      letter-spacing:.12em;
+      font-family:var(--font-display);
+      font-size:1rem; font-weight:700;
+      letter-spacing:.01em;
+      color:var(--ink);
     }
     .mini{
-      font-size:.78rem;
-      color:var(--muted);
-      letter-spacing:.12em;
-      text-transform:uppercase;
+      font-size:.72rem; color:var(--ink-3);
+      letter-spacing:.14em; text-transform:uppercase;
     }
 
-    .card-actions{
-      margin-top: 10px;
-      display:flex;
-      gap:10px;
-    }
+    .card-actions{ margin-top:16px; display:flex; gap:8px; margin-top:auto; padding-top:16px }
     .btn{
-      flex: 1;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.40);
-      color:var(--text);
-      padding:10px 12px;
-      border-radius: 12px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      font-size:.78rem;
+      flex:1;
+      border:1px solid var(--line-2);
+      background:var(--bg); color:var(--ink);
+      padding:13px 10px;
+      border-radius:var(--r);
+      font-family:var(--font-display);
+      font-size:.7rem; font-weight:700;
+      letter-spacing:.1em; text-transform:uppercase;
+      white-space:nowrap;
       cursor:pointer;
-      transition: transform .18s ease, box-shadow .22s ease, border .22s ease, background .22s ease;
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      justify-content:center;
-      user-select:none;
+      display:inline-flex; align-items:center; justify-content:center; gap:7px;
+      transition:background var(--t), color var(--t), border-color var(--t);
     }
-    .btn:hover{
-      transform: translateY(-1px);
-      border-color: rgba(124,77,255,.55);
-      box-shadow: 0 0 16px rgba(124,77,255,.18);
-      background: rgba(124,77,255,.10);
+    .btn:hover{ border-color:var(--ink) }
+    .btn.primary{ background:var(--ink); color:var(--bg); border-color:var(--ink) }
+    .btn.primary:hover{ background:var(--bg); color:var(--ink) }
+    .btn[disabled]{
+      opacity:1; cursor:not-allowed;
+      background:var(--surface); color:var(--ink-3); border-color:var(--line);
     }
-    .btn.primary{
-      border-color: rgba(255,23,68,.55);
-      background: radial-gradient(circle at top, rgba(255,23,68,.35), rgba(0,0,0,.55));
-      box-shadow: 0 0 18px rgba(255,23,68,.18);
-    }
-    .btn.primary:hover{
-      border-color: rgba(255,23,68,.85);
-      box-shadow: 0 0 22px rgba(255,23,68,.28);
-      background: radial-gradient(circle at top, rgba(255,23,68,.45), rgba(0,0,0,.55));
-    }
+    .btn[disabled]:hover{ border-color:var(--line) }
 
-    /* ====== COMMUNITY ====== */
+    /* ====== COMUNIDAD ====== */
     .community-grid{
       display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
+      grid-template-columns:repeat(4, 1fr);
+      gap:28px;
     }
     .client{
-      border-radius: var(--radius2);
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.10);
-      background: linear-gradient(135deg, rgba(18,18,27,.95), rgba(10,10,15,.95));
-      box-shadow: 0 14px 34px rgba(0,0,0,.65);
+      background:var(--bg);
       cursor:pointer;
-      transition: transform .22s ease, border .22s ease, box-shadow .22s ease;
+      overflow:hidden;
     }
-    .client:hover{
-      transform: translateY(-5px);
-      border-color: rgba(124,77,255,.55);
-      box-shadow: 0 18px 45px rgba(0,0,0,.80);
+    .client img{
+      width:100%; aspect-ratio:4/5; height:auto;
+      object-fit:cover; display:block;
+      transition:transform .6s cubic-bezier(.2,.6,.2,1);
     }
-    .client img{ width:100%; height: 240px; object-fit:cover; display:block; }
+    .client:hover img{ transform:scale(1.04) }
     .client .cap{
-      padding:10px 12px 12px;
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      font-size:.78rem;
+      padding:12px 2px 0;
+      color:var(--ink-2);
+      font-size:.8rem; letter-spacing:.02em;
     }
 
-    /* ====== CONTACT ====== */
+    /* ====== CONTACTO ====== */
     .contact{
-      margin-top: 22px;
-      border-radius: var(--radius);
-      border:1px solid rgba(255,255,255,.10);
-      background:
-        radial-gradient(circle at top, rgba(33,212,253,.10), transparent 55%),
-        radial-gradient(circle at 70% 0%, rgba(255,23,68,.12), transparent 55%),
-        linear-gradient(135deg, rgba(0,0,0,.60), rgba(12,12,20,.70));
-      box-shadow: var(--shadow);
-      padding: 18px 16px;
-      overflow:hidden;
-      position:relative;
+      margin-top:72px;
+      background:var(--ink); color:var(--bg);
+      padding:64px var(--gutter);
+      text-align:center;
     }
+    [data-theme="dark"] .contact{ background:var(--surface) }
     .contact h3{
-      margin:0;
-      font-family:'Metal Mania', cursive;
-      text-transform:uppercase;
-      letter-spacing:.18em;
-      color:var(--purple);
-      font-size:1.35rem;
+      font-size:clamp(1.6rem, 4vw, 2.4rem);
+      font-weight:800; letter-spacing:-.02em; text-transform:uppercase;
     }
     .contact p{
-      margin:8px 0 0;
-      color:var(--text);
-      text-transform:uppercase;
-      letter-spacing:.10em;
-      font-size:.82rem;
-      line-height:1.5;
+      margin:14px auto 0; max-width:56ch;
+      color:rgba(255,255,255,.72);
+      font-size:.98rem; line-height:1.6;
     }
-    .social{
-      display:flex; flex-wrap:wrap; gap:10px;
-      margin-top: 14px;
-    }
+    [data-theme="dark"] .contact p{ color:var(--ink-2) }
+    .social{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:30px }
     .social a{
       text-decoration:none;
-      color:var(--text);
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.40);
-      padding:10px 14px;
-      border-radius: 999px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      font-size:.78rem;
-      transition: transform .18s ease, box-shadow .22s ease, border .22s ease, background .22s ease;
+      border:1px solid rgba(255,255,255,.45);
+      color:#fff;
+      padding:14px 30px;
+      border-radius:var(--r);
+      font-family:var(--font-display);
+      font-size:.76rem; font-weight:700;
+      letter-spacing:.16em; text-transform:uppercase;
+      transition:background var(--t), color var(--t), border-color var(--t);
     }
-    .social a:hover{
-      transform: translateY(-1px);
-      border-color: rgba(255,23,68,.65);
-      box-shadow: 0 0 16px rgba(255,23,68,.18);
-      background: rgba(255,23,68,.10);
+    .social a:hover{ background:#fff; color:#0b0b0b; border-color:#fff }
+
+    /* ====== PIE ====== */
+    .site-foot{ border-top:1px solid var(--line); background:var(--bg) }
+    .foot-grid{
+      max-width:var(--max); margin:auto;
+      padding:56px var(--gutter) 40px;
+      display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:36px;
+    }
+    .foot-col h4{
+      font-size:.72rem; font-weight:700;
+      letter-spacing:.2em; text-transform:uppercase;
+      margin-bottom:16px;
+    }
+    .foot-col p{ margin:0; color:var(--ink-2); font-size:.88rem; line-height:1.7; max-width:34ch }
+    .foot-col ul{ list-style:none; margin:0; padding:0 }
+    .foot-col li{ margin-bottom:10px }
+    .foot-col a, .foot-link{
+      border:0; background:none; padding:0;
+      color:var(--ink-2); text-decoration:none;
+      font-size:.88rem; cursor:pointer;
+      transition:color var(--t);
+      text-align:left;
+    }
+    .foot-col a:hover, .foot-link:hover{ color:var(--ink) }
+    .foot-brand{
+      font-family:var(--font-display);
+      font-size:1.15rem; font-weight:800;
+      letter-spacing:.1em; text-transform:uppercase;
+      margin-bottom:12px;
+    }
+    .foot-bottom{
+      border-top:1px solid var(--line);
+    }
+    .foot-bottom-inner{
+      max-width:var(--max); margin:auto;
+      padding:20px var(--gutter);
+      display:flex; flex-wrap:wrap; gap:10px;
+      align-items:center; justify-content:space-between;
+      color:var(--ink-3);
+      font-size:.74rem; letter-spacing:.1em; text-transform:uppercase;
     }
 
-    footer{
-      margin-top: 28px;
-      color: rgba(233,233,238,.55);
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      font-size:.72rem;
-      text-align:center;
-      padding: 18px 10px 10px;
-    }
-
-    /* ====== MODAL ====== */
+    /* ====== DETALLE DEL PRODUCTO ====== */
     .modal{
-      position:fixed; inset:0;
+      position:fixed; inset:0; z-index:2000;
       display:none;
-      z-index:2000;
-      background: radial-gradient(circle at top, rgba(124,77,255,.15), rgba(0,0,0,.96));
-      padding: 16px;
-      align-items:center;
-      justify-content:center;
+      background:rgba(11,11,11,.55);
+      padding:0;
+      align-items:center; justify-content:center;
     }
-    .modal.active{display:flex}
+    .modal.active{ display:flex }
     .modal-box{
-      width:min(980px, 100%);
-      max-height: 92vh;
+      width:min(1180px, 100%);
+      max-height:100vh;
       overflow:hidden;
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: linear-gradient(135deg, rgba(12,12,20,.95), rgba(0,0,0,.85));
-      box-shadow: 0 25px 70px rgba(0,0,0,.85);
+      background:var(--bg);
+      border-radius:var(--r);
+      box-shadow:var(--shadow-lg);
       position:relative;
+      display:flex; flex-direction:column;
     }
     .modal-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding: 14px 14px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      background: linear-gradient(135deg, rgba(255,23,68,.08), rgba(124,77,255,.08));
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:18px 24px;
+      border-bottom:1px solid var(--line);
     }
     .modal-title{
-      font-family:'Metal Mania', cursive;
-      text-transform:uppercase;
-      letter-spacing:.15em;
-      font-size:1.25rem;
-      color: var(--red);
-      text-shadow: 0 0 14px rgba(255,23,68,.35);
-      margin:0;
+      font-size:1.05rem; font-weight:700;
+      letter-spacing:.03em; text-transform:uppercase;
     }
     .modal-close{
-      border:0;
-      background: transparent;
-      color: var(--text);
-      font-size: 1.6rem;
-      cursor:pointer;
-      padding: 6px 10px;
-      border-radius: 12px;
+      border:1px solid transparent; background:none;
+      color:var(--ink); font-size:1.5rem; line-height:1;
+      cursor:pointer; padding:6px 12px;
+      border-radius:var(--r);
+      transition:background var(--t);
     }
-    .modal-close:hover{
-      background: rgba(255,23,68,.12);
-      box-shadow: 0 0 18px rgba(255,23,68,.18);
-    }
+    .modal-close:hover{ background:var(--surface) }
 
     .modal-body{
-      display:grid;
-      grid-template-columns: 1.8fr 1fr;
-      gap: 14px;
-      padding: 14px;
-      max-height: calc(92vh - 62px);
+      display:grid; grid-template-columns:1.25fr 1fr;
+      gap:0;
       overflow:auto;
     }
+    .modal-body > div:first-child{ padding:24px; border-right:1px solid var(--line) }
 
-    /* ✅ IMAGEN PRINCIPAL COMPLETA EN MODAL */
     .main-img{
-      width:100%;
-      height: 520px;              /* más alto */
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.12);
-      background:#0b0b12;
+      width:100%; height:min(62vh, 560px);
+      background:var(--surface);
       overflow:hidden;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: 10px;
+      display:flex; align-items:center; justify-content:center;
+      padding:16px;
     }
     .main-img img{
-      width:100%;
-      height:100%;
-      object-fit:contain;         /* ✅ completa */
-      object-position:center;
-      display:block;
+      width:100%; height:100%;
+      object-fit:contain; object-position:center; display:block;
     }
 
-    .thumbs{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-    /* ✅ MINIATURAS COMPLETAS (SIN RECORTE) */
+    .thumbs{ display:flex; gap:10px; margin-top:12px; overflow-x:auto }
     .thumbs img{
-      width:100%;
-      height: 110px;
-      object-fit:contain;
-      object-position:center;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,.10);
-      opacity:.75;
+      width:84px; height:104px; flex:0 0 auto;
+      object-fit:contain; object-position:center;
+      background:var(--surface);
+      border:1px solid transparent;
+      padding:6px;
       cursor:pointer;
-      transition: opacity .18s ease, transform .18s ease, border .18s ease;
-      background:#0b0b12;
-      padding: 8px;
+      transition:border-color var(--t), opacity var(--t);
+      opacity:.75;
     }
-    .thumbs img:hover{
-      opacity:1;
-      transform: translateY(-1px);
-      border-color: rgba(124,77,255,.55);
-    }
-    .thumbs img.active{
-      opacity:1;
-      border-color: rgba(255,23,68,.75);
-      box-shadow: 0 0 18px rgba(255,23,68,.15);
-    }
+    .thumbs img:hover{ opacity:1 }
+    .thumbs img.active{ opacity:1; border-color:var(--ink) }
 
-    .side{
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 16px;
-      background: rgba(0,0,0,.35);
-      padding: 12px;
-      height: fit-content;
-      position:sticky;
-      top: 10px;
-    }
+    .side{ padding:24px; height:fit-content }
     .side .row{
-      display:flex; justify-content:space-between; gap:10px; align-items:center;
-      flex-wrap:wrap;
+      display:flex; justify-content:space-between; gap:10px;
+      align-items:baseline; flex-wrap:wrap;
     }
     .side .big{
-      font-size:1.15rem;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      color: var(--purple);
-      margin: 6px 0 2px;
+      font-family:var(--font-display);
+      font-size:1.7rem; font-weight:700;
+      letter-spacing:-.01em;
+      color:var(--ink);
+      margin:0;
     }
     .side .hint{
-      font-size:.78rem;
-      color: var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      line-height:1.4;
-      margin: 0 0 10px;
+      margin:10px 0 0;
+      font-size:.86rem; color:var(--ink-2); line-height:1.55;
     }
 
-    .field{
-      margin-top: 10px;
-    }
+    .field{ margin-top:18px }
     .field label{
       display:block;
-      font-size:.72rem;
-      color: var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      margin-bottom: 6px;
+      font-size:.68rem; font-weight:600;
+      letter-spacing:.18em; text-transform:uppercase;
+      color:var(--ink-2);
+      margin-bottom:8px;
     }
     .field select, .field textarea{
       width:100%;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.45);
-      color: var(--text);
-      padding: 10px 12px;
-      outline:none;
-      font-size:.9rem;
-      letter-spacing:.06em;
+      border:1px solid var(--line-2);
+      border-radius:var(--r);
+      background:var(--bg); color:var(--ink);
+      padding:12px 14px;
+      outline:none; font-size:.92rem;
+      transition:border-color var(--t);
     }
-    .field textarea{
-      min-height: 90px;
-      resize: vertical;
-    }
+    .field select:focus, .field textarea:focus{ border-color:var(--ink) }
+    .field textarea{ min-height:78px; resize:vertical }
 
-    .modal-actions{
-      margin-top: 12px;
-      display:flex;
-      gap: 10px;
-      flex-wrap:wrap;
-    }
-    .modal-actions .btn{ flex:1; }
-    .btn.whats{
-      border-color: rgba(33,212,253,.35);
-      background: radial-gradient(circle at top, rgba(33,212,253,.22), rgba(0,0,0,.55));
-    }
-    .btn.whats:hover{
-      border-color: rgba(33,212,253,.70);
-      box-shadow: 0 0 18px rgba(33,212,253,.18);
-      background: rgba(33,212,253,.12);
-    }
+    .modal-actions{ margin-top:22px; display:flex; gap:10px; flex-wrap:wrap }
+    .modal-actions .btn{ flex:1 }
 
-    /* ====== FLOATING ====== */
+    /* ====== BOTONES FLOTANTES ====== */
     .float-order{
-      position: fixed;
-      right: 16px;
-      bottom: 16px;
-      z-index: 1500;
-      border-radius: 999px;
-      padding: 12px 16px;
-      border: 1px solid rgba(255,23,68,.55);
-      background: radial-gradient(circle at top, rgba(255,23,68,.75), rgba(0,0,0,.55));
-      color:#fff;
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      font-size:.78rem;
+      position:fixed; right:24px; bottom:24px; z-index:1500;
+      border:1px solid var(--ink);
+      background:var(--ink); color:var(--bg);
+      padding:15px 24px; border-radius:var(--r);
+      font-family:var(--font-display);
+      font-size:.74rem; font-weight:700;
+      letter-spacing:.16em; text-transform:uppercase;
       cursor:pointer;
-      box-shadow: 0 0 24px rgba(255,23,68,.28);
+      box-shadow:var(--shadow-lg);
       display:flex; gap:8px; align-items:center;
-      transition: transform .18s ease, box-shadow .22s ease;
+      transition:background var(--t), color var(--t);
     }
-    .float-order:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 0 28px rgba(255,23,68,.38);
-    }
+    .float-order:hover{ background:var(--bg); color:var(--ink) }
 
     .to-top{
-      position: fixed;
-      left: 16px;
-      bottom: 16px;
-      z-index: 1500;
-      border-radius: 999px;
-      padding: 10px 14px;
-      border: 1px solid rgba(124,77,255,.55);
-      background: radial-gradient(circle at top, rgba(124,77,255,.65), rgba(0,0,0,.55));
-      color:#fff;
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      font-size:.74rem;
-      cursor:pointer;
-      box-shadow: 0 0 24px rgba(124,77,255,.22);
-      display:none;
-      transition: transform .18s ease, box-shadow .22s ease;
+      position:fixed; left:24px; bottom:24px; z-index:1500;
+      border:1px solid var(--line-2);
+      background:var(--bg); color:var(--ink);
+      padding:13px 18px; border-radius:var(--r);
+      font-family:var(--font-display);
+      font-size:.7rem; font-weight:700;
+      letter-spacing:.16em; text-transform:uppercase;
+      cursor:pointer; display:none;
+      transition:border-color var(--t), background var(--t), color var(--t);
     }
-    .to-top.show{display:flex}
-    .to-top:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 0 28px rgba(124,77,255,.32);
-    }
+    .to-top.show{ display:flex; align-items:center; gap:7px }
+    .to-top:hover{ background:var(--ink); color:var(--bg); border-color:var(--ink) }
 
-    /* ====== MOBILE BOTTOM BAR ====== */
+    /* ====== BARRA INFERIOR (TELÉFONO) ====== */
     .bottom-bar{
-      position: fixed;
-      left: 0; right: 0; bottom: 0;
-      z-index: 1600;
+      position:fixed; left:0; right:0; bottom:0; z-index:1600;
       display:none;
-      border-top: 1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.70);
-      backdrop-filter: blur(10px);
-      padding: 10px 10px;
+      border-top:1px solid var(--line);
+      background:var(--bg);
+      padding:9px 12px;
     }
     .bottom-inner{
-      max-width: var(--max);
-      margin:auto;
-      display:flex;
-      gap:10px;
-      justify-content:space-between;
+      max-width:var(--max); margin:auto;
+      display:flex; gap:8px; justify-content:space-between;
     }
     .bbtn{
       flex:1;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.35);
-      color: var(--text);
-      border-radius: 14px;
-      padding: 10px 10px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      font-size:.72rem;
-      cursor:pointer;
-      display:flex; align-items:center; justify-content:center; gap:8px;
+      border:1px solid var(--line-2);
+      background:var(--bg); color:var(--ink);
+      border-radius:var(--r);
+      padding:13px 8px;
+      font-family:var(--font-display);
+      font-size:.68rem; font-weight:700;
+      letter-spacing:.12em; text-transform:uppercase;
+      cursor:pointer; text-decoration:none;
+      display:flex; align-items:center; justify-content:center; gap:6px;
     }
-    .bbtn.wh{
-      border-color: rgba(33,212,253,.35);
-      background: rgba(33,212,253,.12);
-    }
+    .bbtn.wh{ background:var(--ink); color:var(--bg); border-color:var(--ink) }
 
     /* ====== RESPONSIVE ====== */
-    @media (max-width: 980px){
-      .modal-body{ grid-template-columns: 1fr; }
-      .main-img{ height: 380px; } /* ✅ más alto en tablet */
-      .thumbs{ flex-direction:row; overflow-x:auto; }
-      .thumbs img{ width: 140px; height: 95px; flex: 0 0 auto; }
-      .side{ position:relative; top:0; }
+    @media (max-width:1180px){
+      .grid, .community-grid{ grid-template-columns:repeat(3, 1fr) }
+      .foot-grid{ grid-template-columns:1fr 1fr; gap:30px }
     }
 
-    @media (max-width: 768px){
-      .topbar-inner{ padding: 12px 12px; }
-      .brand{ min-width: 180px; }
-      .brand h1{ font-size: 1.35rem; }
-      .pill{ font-size:.74rem; padding:9px 12px; }
-      .hero-inner{ padding: 16px 14px; }
-      .grid{ grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-
-      .media{ height: 240px; }   /* ✅ más alto en móvil */
-
-      .float-order{ right: 12px; bottom: 74px; }
-      .to-top{ left: 12px; bottom: 74px; }
-
-      .bottom-bar{ display:block; }
-      .wrap{ margin-bottom: 120px; }
+    @media (max-width:980px){
+      :root{ --gutter:20px }
+      /* La navegación pasa a una segunda fila, deslizable con el dedo */
+      .topbar-inner{
+        height:auto; gap:10px 14px;
+        flex-wrap:wrap; padding-top:12px; padding-bottom:0;
+      }
+      .nav{
+        order:3; width:100%; margin:0;
+        gap:0; overflow-x:auto;
+        border-top:1px solid var(--line);
+      }
+      .nav .pill{ flex:1 0 auto; justify-content:center; padding:13px 10px }
+      .nav .pill::after{ left:0; right:0; bottom:0 }
+      .nav-actions{ margin-left:auto }
+      .hero-inner{ padding:76px var(--gutter) 68px }
+      .marks-inner{ grid-template-columns:1fr 1fr }
+      .mark{ padding:20px 16px 20px 0 }
+      .mark:nth-child(2){ border-right:0 }
+      .mark:nth-child(1), .mark:nth-child(2){ border-bottom:1px solid var(--line) }
+      .modal-body{ grid-template-columns:1fr }
+      .modal-body > div:first-child{ border-right:0; border-bottom:1px solid var(--line) }
+      .main-img{ height:46vh }
+      .side{ position:relative; top:0 }
     }
 
-    @media (max-width: 480px){
-      .grid{ grid-template-columns: 1fr; }
-      .hero-stats .stat{ min-width: 100%; }
-      .search{ padding: 10px 12px; }
-      .name{ font-size: 1.02rem; }
+    @media (max-width:768px){
+      .grid, .community-grid{ grid-template-columns:repeat(2, 1fr); gap:28px 14px }
+      .brand p{ display:none }
+      .brand h1{ font-size:1.05rem }
+      .brand-badge{ width:34px; height:34px; font-size:.78rem }
+      /* WhatsApp ya está fijo en la barra de abajo: no se repite arriba */
+      .topbar .cta-whatsapp{ display:none }
+      .nav-actions .pill{ padding:10px 16px; font-size:.7rem }
+      .hero-inner{ padding:62px var(--gutter) 58px }
+      .hero-title p{ font-size:.95rem }
+      .hero-cta .btn-solid, .hero-cta .btn-outline{ flex:1 1 100%; padding:0 20px }
+      /* Los flotantes estorban en pantalla pequeña: abajo ya hay barra fija */
+      .float-order, .to-top, .to-top.show{ display:none }
+      .toolbar{ padding:18px 0 }
+      .search{ max-width:none }
+      .chip-row{ width:100%; overflow-x:auto; flex-wrap:nowrap; padding-bottom:4px }
+      .chip{ flex:0 0 auto }
+      .section-head{ padding:36px 0 22px }
+      .contact{ margin-top:48px; padding:48px var(--gutter) }
+      .float-order{ right:14px; bottom:84px; padding:13px 18px }
+      .to-top{ left:14px; bottom:84px }
+      .bottom-bar{ display:block }
+      .wrap{ margin-bottom:0 }
+      .site-foot{ padding-bottom:84px }
+      .modal-box{ max-height:100vh; height:100% }
+      .foot-grid{ grid-template-columns:1fr; gap:28px; padding-top:40px }
+      .foot-bottom-inner{ justify-content:center; text-align:center }
+    }
+
+    @media (max-width:620px){
+      /* Un solo mensaje, sin separadores sueltos */
+      .announce-inner{ font-size:.63rem; letter-spacing:.14em; padding:8px var(--gutter) }
+      .announce .sep, .announce span ~ span{ display:none }
+      .announce span:first-child{ display:inline }
+    }
+
+    @media (max-width:480px){
+      .card-actions{ flex-direction:column }
+      .hero-title h2{ font-size:2.2rem }
+      .section-title{ font-size:1.6rem }
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      *{ transition:none !important; animation:none !important }
+      html{ scroll-behavior:auto }
     }
   </style>
 
   <!-- Carrito, variantes y checkout. Va al final para poder ajustar lo de arriba. -->
   <link rel="stylesheet" href="assets/css/shop.css" />
 </head>
-
 <body>
-  <!-- TOPBAR -->
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">
-        <div class="brand-badge">GS</div>
-        <div>
-          <h1>GymStreet</h1>
-          <p>ROCK DARK • GYM • ENVÍOS A TODO GUATEMALA</p>
-        </div>
-      </div>
 
-      <div class="nav">
-        <button class="pill active" id="navCatalog">☰ Catálogo</button>
-        <button class="pill" id="navCommunity">★ Comunidad</button>
-        <button class="pill" id="navContact">✉ Contacto</button>
-        <button class="pill" id="navCart">🛒 Carrito <span class="cart-count" id="cartCount" data-n="0">0</span></button>
-        <a class="pill cta-whatsapp" id="navWhatsapp" href="https://wa.me/50247176818" target="_blank" rel="noopener">🟢 WhatsApp</a>
-      </div>
+  <!-- ===================== AVISO SUPERIOR ===================== -->
+  <div class="announce">
+    <div class="announce-inner">
+      <span>Envíos a toda Guatemala</span>
+      <span class="sep">/</span>
+      <span>Pago contra entrega disponible</span>
+      <span class="sep">/</span>
+      <span>Asesoría de tallas por WhatsApp</span>
     </div>
   </div>
 
-  <div class="wrap">
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero-inner">
-        <div class="hero-title">
-          <h2>Catálogo Rock Dark</h2>
-          <p>
-            Prendas premium de gym • estilos YoungLA / GymShark •
-            <b>pago contra entrega</b> (si aplica) • atención por WhatsApp.
-          </p>
-        </div>
+  <!-- ===================== CABECERA ===================== -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#top" aria-label="GymStreet, inicio">
+        <span class="brand-badge">GS</span>
+        <span>
+          <h1>GymStreet</h1>
+          <p>Gym &amp; Streetwear</p>
+        </span>
+      </a>
 
-        <div class="hero-stats" id="heroStats">
-          <div class="stat">
-            <div class="k">Productos</div>
-            <div class="v" id="statProducts">—</div>
-          </div>
-          <div class="stat">
-            <div class="k">Envíos</div>
-            <div class="v">A todo el país</div>
-          </div>
-          <div class="stat">
-            <div class="k">Soporte</div>
-            <div class="v">WhatsApp rápido</div>
-          </div>
+      <nav class="nav" aria-label="Principal">
+        <button class="pill active" id="navCatalog">Catálogo</button>
+        <button class="pill" id="navCommunity">Comunidad</button>
+        <button class="pill" id="navContact">Contacto</button>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="pill cta-whatsapp" id="navWhatsapp" href="https://wa.me/50247176818" target="_blank" rel="noopener">WhatsApp</a>
+        <button class="pill" id="navCart">Carrito <span class="cart-count" id="cartCount" data-n="0">0</span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== PORTADA ===================== -->
+  <!--
+    Si querés una foto de fondo en la portada, quitá el comentario de
+    la línea de abajo y cambiá la ruta por tu imagen (horizontal,
+    mínimo 1600px de ancho). El texto se sigue leyendo porque encima
+    de la foto va un degradado oscuro.
+  -->
+  <section class="hero" id="top">
+    <!-- <div class="hero-media"><img src="img/portada.jpg" alt="" /></div> -->
+    <div class="hero-inner">
+      <div class="hero-title">
+        <p class="eyebrow">Temporada 2026 · Guatemala</p>
+        <h2>Ropa que<br>rinde igual<br>que vos</h2>
+        <p>
+          Compresión, oversize y pants de corte técnico. Telas que aguantan
+          la sesión completa, cortes que se ven bien dentro y fuera del gimnasio.
+        </p>
+        <div class="hero-cta">
+          <a class="btn-solid" href="#catalogo">Ver catálogo</a>
+          <a class="btn-outline" href="#contacto">Hablar con nosotros</a>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- TOOLBAR -->
+  <!-- ===================== GARANTÍAS ===================== -->
+  <section class="marks">
+    <div class="marks-inner">
+      <div class="mark">
+        <b id="statProducts">—</b>
+        <span>Prendas en catálogo</span>
+      </div>
+      <div class="mark">
+        <b>22 departamentos</b>
+        <span>Cobertura de envío</span>
+      </div>
+      <div class="mark">
+        <b>Contra entrega</b>
+        <span>Según la zona</span>
+      </div>
+      <div class="mark">
+        <b>Respuesta rápida</b>
+        <span>Atención por WhatsApp</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap" id="catalogo">
+    <!-- ===================== BUSCAR Y FILTRAR ===================== -->
     <div class="toolbar">
       <div class="search" title="Buscar producto">
-        🔎
-        <input id="searchInput" type="text" placeholder="Buscar: compresión, oversize, pants, vintage..." />
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path>
+        </svg>
+        <input id="searchInput" type="text" placeholder="Buscar: compresión, oversize, pants…" aria-label="Buscar producto" />
       </div>
 
       <div class="chip-row">
@@ -995,57 +963,117 @@
         <button class="chip" data-cat="pants">Pants</button>
         <button class="chip" data-cat="oversize">Oversize</button>
 
-        <select class="select" id="sortSelect" title="Ordenar">
-          <option value="featured">Orden: destacado</option>
-          <option value="price-asc">Precio: menor → mayor</option>
-          <option value="price-desc">Precio: mayor → menor</option>
-          <option value="name-asc">Nombre: A → Z</option>
+        <select class="select" id="sortSelect" title="Ordenar" aria-label="Ordenar catálogo">
+          <option value="featured">Destacado</option>
+          <option value="price-asc">Precio: menor a mayor</option>
+          <option value="price-desc">Precio: mayor a menor</option>
+          <option value="name-asc">Nombre: A — Z</option>
         </select>
       </div>
     </div>
 
-    <!-- PAGES -->
+    <!-- ===================== PÁGINAS ===================== -->
     <section id="pageCatalog" class="page active">
-      <h2 class="section-title">Catálogo Oficial</h2>
-      <p class="section-subtitle">Toca un producto para ver galería, elegir talla y pedir por WhatsApp.</p>
+      <div class="section-head">
+        <p class="eyebrow">Catálogo</p>
+        <h2 class="section-title">Colección completa</h2>
+        <p class="section-subtitle">
+          Tocá una prenda para ver la galería, elegir talla y color, y enviar
+          tu pedido por WhatsApp en un paso.
+        </p>
+      </div>
       <div class="grid" id="productGrid"></div>
     </section>
 
     <section id="pageCommunity" class="page">
-      <h2 class="section-title">Comunidad GymStreet</h2>
-      <p class="section-subtitle">Sube aquí fotos reales de tus clientes usando las prendas (prueba social = más ventas).</p>
+      <div class="section-head">
+        <p class="eyebrow">Comunidad</p>
+        <h2 class="section-title">Clientes GymStreet</h2>
+        <p class="section-subtitle">
+          Fotos reales de quienes ya entrenan con nuestras prendas.
+        </p>
+      </div>
       <div class="community-grid" id="communityGrid"></div>
     </section>
-
-    <section id="contacto" class="contact">
-      <h3>Haz tu pedido</h3>
-      <p>Escríbenos por redes o WhatsApp y te ayudamos con tallas, disponibilidad y envío.</p>
-      <div class="social">
-        <a href="https://www.instagram.com/gymstreet.gt?igsh=cWU4Yzh1NWVwZ3l0&utm_source=qr" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://www.facebook.com/share/1MQ983VScR/?mibextid=wwXIfr" target="_blank" rel="noopener">Facebook</a>
-        <a href="https://wa.me/50247176818" target="_blank" rel="noopener">WhatsApp</a>
-      </div>
-    </section>
-
-    <footer>
-      &copy; 2025 GymStreet Shop • Rock Dark • Todos los derechos reservados.
-    </footer>
   </div>
 
-  <!-- FLOATING -->
-  <button class="float-order" id="floatOrder">✙ Realiza tu pedido</button>
+  <!-- ===================== CONTACTO ===================== -->
+  <section id="contacto" class="contact">
+    <h3>Hacé tu pedido</h3>
+    <p>
+      Escribinos y te ayudamos con tallas, disponibilidad, tiempos de entrega
+      y forma de pago. Respondemos todos los días.
+    </p>
+    <div class="social">
+      <a href="https://wa.me/50247176818" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="https://www.instagram.com/gymstreet.gt?igsh=cWU4Yzh1NWVwZ3l0&utm_source=qr" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.facebook.com/share/1MQ983VScR/?mibextid=wwXIfr" target="_blank" rel="noopener">Facebook</a>
+    </div>
+  </section>
+
+  <!-- ===================== PIE ===================== -->
+  <footer class="site-foot">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <div class="foot-brand">GymStreet</div>
+        <p>
+          Ropa de gimnasio y streetwear seleccionada prenda por prenda.
+          Operamos desde Guatemala con envío a todo el país.
+        </p>
+      </div>
+
+      <div class="foot-col">
+        <h4>Tienda</h4>
+        <ul>
+          <li><a href="#catalogo">Catálogo</a></li>
+          <li><a href="#catalogo">Camisas</a></li>
+          <li><a href="#catalogo">Pants</a></li>
+          <li><a href="#catalogo">Oversize</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h4>Ayuda</h4>
+        <ul>
+          <li><a href="#contacto">Guía de tallas</a></li>
+          <li><a href="#contacto">Envíos y entregas</a></li>
+          <li><a href="#contacto">Formas de pago</a></li>
+          <li><a href="#contacto">Cambios</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h4>Seguinos</h4>
+        <ul>
+          <li><a href="https://wa.me/50247176818" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="https://www.instagram.com/gymstreet.gt?igsh=cWU4Yzh1NWVwZ3l0&utm_source=qr" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.facebook.com/share/1MQ983VScR/?mibextid=wwXIfr" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <div class="foot-bottom-inner">
+        <span>&copy; 2026 GymStreet · Guatemala</span>
+        <span>Precios en quetzales (Q)</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================== FLOTANTES ===================== -->
+  <button class="float-order" id="floatOrder">Hacer pedido</button>
   <button class="to-top" id="toTop">↑ Subir</button>
 
-  <!-- MOBILE BOTTOM BAR -->
+  <!-- ===================== BARRA INFERIOR (TELÉFONO) ===================== -->
   <div class="bottom-bar">
     <div class="bottom-inner">
-      <button class="bbtn" id="mHome">☰ Catálogo</button>
-      <button class="bbtn" id="mCart">🛒 Carrito <span class="cart-count" id="cartCountMobile" data-n="0">0</span></button>
-      <a class="bbtn wh" href="https://wa.me/50247176818" target="_blank" rel="noopener">🟢 WhatsApp</a>
+      <button class="bbtn" id="mHome">Catálogo</button>
+      <button class="bbtn" id="mCart">Carrito <span class="cart-count" id="cartCountMobile" data-n="0">0</span></button>
+      <a class="bbtn wh" href="https://wa.me/50247176818" target="_blank" rel="noopener">WhatsApp</a>
     </div>
   </div>
 
-  <!-- MODAL -->
+  <!-- ===================== DETALLE DEL PRODUCTO ===================== -->
   <div class="modal" id="modal">
     <div class="modal-box" role="dialog" aria-modal="true" aria-label="Detalle del producto">
       <div class="modal-head">
@@ -1064,8 +1092,8 @@
             <div class="big" id="modalPrice">Q0.00</div>
             <div class="mini" id="modalCat">—</div>
           </div>
-          <p class="hint" id="modalHint">Selecciona tu talla y envía tu pedido por WhatsApp.</p>
-          <p class="sold-note" id="modalSold" hidden>Este producto está <b>agotado</b> por ahora. Escríbenos y te avisamos apenas vuelva a entrar.</p>
+          <p class="hint" id="modalHint">Elegí tu talla y enviá el pedido por WhatsApp.</p>
+          <p class="sold-note" id="modalSold" hidden>Este producto está <b>agotado</b> por ahora. Escribinos y te avisamos apenas vuelva a entrar.</p>
 
           <p class="prod-desc" id="modalDesc"></p>
 
@@ -1091,14 +1119,14 @@
 
           <div class="field">
             <label for="noteBox">Nota (opcional)</label>
-            <textarea id="noteBox" placeholder="Ej: entregar en la tarde, zona 1, etc."></textarea>
+            <textarea id="noteBox" placeholder="Ej: entregar por la tarde, zona 1, etc."></textarea>
           </div>
 
           <div class="modal-actions col">
-            <button class="btn-xl" id="btnAddCart">🛒 Agregar al carrito</button>
+            <button class="btn-xl" id="btnAddCart">Agregar al carrito</button>
             <div class="btn-row">
-              <button class="btn-xl ghost" id="btnViewCommunity">★ Comunidad</button>
-              <button class="btn-xl wh" id="btnWhatsApp">🟢 Pedir ahora</button>
+              <button class="btn-xl ghost" id="btnViewCommunity">Comunidad</button>
+              <button class="btn-xl wh" id="btnWhatsApp">Pedir por WhatsApp</button>
             </div>
           </div>
         </aside>
@@ -1106,7 +1134,7 @@
     </div>
   </div>
 
-  <!-- ===== CARRITO ===== -->
+  <!-- ===================== CARRITO ===================== -->
   <div class="drawer" id="drawer">
     <div class="drawer-box" role="dialog" aria-modal="true" aria-label="Carrito de compras">
       <div class="drawer-head">
@@ -1120,7 +1148,7 @@
           <div><span>Envío</span><span id="cartShipping">—</span></div>
           <div class="grand"><span>Total</span><b id="cartTotal">Q0.00</b></div>
         </div>
-        <button class="btn-xl" id="btnCheckout">✉ Realizar pedido</button>
+        <button class="btn-xl" id="btnCheckout">Realizar pedido</button>
         <div class="btn-row">
           <button class="btn-xl ghost" id="btnKeepShopping">Seguir comprando</button>
         </div>
@@ -1128,7 +1156,7 @@
     </div>
   </div>
 
-  <!-- ===== REALIZAR PEDIDO ===== -->
+  <!-- ===================== REALIZAR PEDIDO ===================== -->
   <div class="checkout" id="checkout">
     <div class="checkout-box" role="dialog" aria-modal="true" aria-label="Realizar pedido">
       <div class="checkout-head">
@@ -1138,7 +1166,7 @@
 
       <!-- Paso 1: datos del cliente -->
       <div class="checkout-body" id="stepForm">
-        <p class="form-note">Los campos marcados con <span style="color:var(--red)">*</span> son obligatorios.</p>
+        <p class="form-note">Los campos marcados con <span class="req">*</span> son obligatorios.</p>
         <form id="orderForm" novalidate>
           <div class="form-grid">
             <div class="fld full">
@@ -1159,7 +1187,7 @@
             <div class="fld">
               <label for="fDep">Departamento <span class="req">*</span></label>
               <select id="fDep" name="department">
-                <option value="">Elige…</option>
+                <option value="">Elegí…</option>
                 <option>Alta Verapaz</option>
                 <option>Baja Verapaz</option>
                 <option>Chimaltenango</option>
@@ -1226,13 +1254,13 @@
         <div class="totals">
           <div><span>Productos</span><span id="sumSubtotal">Q0.00</span></div>
           <div><span>Envío</span><span id="sumShipping">—</span></div>
-          <div class="grand"><span>TOTAL</span><b id="sumTotal">Q0.00</b></div>
+          <div class="grand"><span>Total</span><b id="sumTotal">Q0.00</b></div>
         </div>
         <h4>Cliente</h4>
         <div class="sum-data" id="sumCustomer"></div>
         <div class="btn-row">
-          <button class="btn-xl ghost" id="btnBackToForm">Regresar y editar pedido</button>
-          <button class="btn-xl wh" id="btnConfirm">🟢 Confirmar y enviar por WhatsApp</button>
+          <button class="btn-xl ghost" id="btnBackToForm">Regresar y editar</button>
+          <button class="btn-xl wh" id="btnConfirm">Confirmar y enviar por WhatsApp</button>
         </div>
       </div>
     </div>
