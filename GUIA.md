@@ -386,3 +386,22 @@ a:
 Quedó con su diseño anterior. Es una pantalla que solo ves vos, así que no
 corría prisa cambiarla; si querés que también quede clara y formal, se hace
 después y por separado.
+
+---
+
+## 14. Subir un drop nuevo
+
+Cuando llega un pedido y querés subir todo de una vez, el camino corto es el
+SQL Editor de Supabase en vez de cargar pieza por pieza en el panel.
+
+El drop de noviembre de 2026 ya está preparado así:
+
+- `supabase/drop-noviembre.sql` — las 48 piezas con nombre, precio,
+  descripción, tallas, colores y existencias. Se pega en Supabase →
+  **SQL Editor** → **Run**. Se puede correr dos veces sin duplicar nada.
+- `DROP-NOVIEMBRE.md` — la lista completa: qué pieza es cuál, qué precio
+  lleva, cuántas hay y el enlace a Temu para bajar la foto de cada una.
+
+Las piezas entran **sin foto** y la tienda muestra un recuadro que dice
+*Foto en camino* (`img/sin-foto.svg`). Las fotos se suben una por una desde
+el panel: **Productos** → la pieza → **Fotos**.

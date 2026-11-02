@@ -245,6 +245,9 @@ let sel = { size: null, color: null, qty: 1 };
 let lastOrder = null;   // el pedido ya guardado, para el botón de WhatsApp
 
 const $ = id => document.getElementById(id);
+
+/** Marcador para las prendas que todavía no tienen foto cargada. */
+const SIN_FOTO = 'img/sin-foto.svg';
 const esc = s => String(s ?? '').replace(/[&<>"']/g,
   c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -353,7 +356,7 @@ function renderProducts() {
 
     card.innerHTML = `
       <div class="media">
-        <img loading="lazy" src="${esc(p.images[0] || '')}" alt="${esc(p.name)}">
+        <img loading="lazy" src="${esc(p.images[0] || SIN_FOTO)}" alt="${esc(p.name)}">
         <div class="badges">
           ${p.discount > 0 ? `<span class="badge oferta">-${p.discount}%</span>` : ''}
           ${tags.includes('hot') || p.featured ? `<span class="badge hot">Destacado</span>` : ''}
@@ -414,7 +417,7 @@ function renderCommunity() {
 function setGallery(images) {
   const main = $('modalMainImg');
   const thumbs = $('modalThumbs');
-  main.src = images[0] || '';
+  main.src = images[0] || SIN_FOTO;
   thumbs.innerHTML = '';
   images.forEach((src, i) => {
     const t = document.createElement('img');
@@ -624,7 +627,7 @@ function renderCart() {
     const row = document.createElement('div');
     row.className = 'cline';
     row.innerHTML = `
-      <img src="${esc(it.image)}" alt="${esc(it.name)}">
+      <img src="${esc(it.image || SIN_FOTO)}" alt="${esc(it.name)}">
       <div>
         <div class="cname">${esc(it.name)}</div>
         ${meta ? `<div class="cmeta">${esc(meta)}</div>` : ''}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="600" height="800" role="img" aria-label="Foto en camino">
+  <rect width="600" height="800" fill="#f1f1f1"/>
+  <g transform="translate(300 352)">
+    <rect x="-46" y="-46" width="92" height="92" fill="#0b0b0b"/>
+    <text x="0" y="14" text-anchor="middle" font-family="Archivo, Helvetica, Arial, sans-serif"
+          font-size="38" font-weight="800" fill="#ffffff" letter-spacing="2">GS</text>
+  </g>
+  <text x="300" y="470" text-anchor="middle" font-family="Archivo, Helvetica, Arial, sans-serif"
+        font-size="26" font-weight="700" fill="#8c8c8c" letter-spacing="7">FOTO EN CAMINO</text>
+  <text x="300" y="512" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif"
+        font-size="22" fill="#a8a8a8">Escribinos y te la mandamos por WhatsApp</text>
+</svg>
