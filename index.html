@@ -415,18 +415,18 @@
       display:flex; flex-direction:column;
     }
 
-    /* Imagen: se muestra completa (sin recorte), sobre fondo neutro */
+    /* Imagen: llena la casilla completa, como en las tiendas grandes.
+       Todas quedan del mismo tamaño aunque las fotos vengan distintas.
+       En el detalle del producto sí se muestra completa, sin recortar. */
     .media{
       position:relative;
       aspect-ratio:3/4;
       background:var(--surface);
       overflow:hidden;
-      display:flex; align-items:center; justify-content:center;
-      padding:14px;
     }
     .media img{
       width:100%; height:100%;
-      object-fit:contain; object-position:center;
+      object-fit:cover; object-position:center;
       display:block;
       transition:transform .6s cubic-bezier(.2,.6,.2,1);
     }
