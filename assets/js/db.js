@@ -250,15 +250,21 @@ export async function adminSaveProduct(p, variants) {
   const { error: delErr } = await del;
   if (delErr) throw new Error(delErr.message);
 
+  // Las filas van SIN id y se emparejan por talla + color, que es la
+  // combinación única de la tabla. Antes las viejas llevaban id y las
+  // nuevas no; Supabase iguala las columnas de todas las filas y a las
+  // nuevas les ponía id = null, que la base rechaza. Por eso fallaba
+  // justo al agregarle una talla o un color a una prenda que ya existía.
   const rows = variants.map(v => ({
-    ...(v.id ? { id: v.id } : {}),
     product_id: productId,
     size: v.size || 'Única',
     color: v.color || 'Único',
     stock: Math.max(0, Number(v.stock) || 0),
   }));
   if (rows.length) {
-    const { error } = await sb.from('product_variants').upsert(rows, { onConflict: 'id' });
+    const { error } = await sb
+      .from('product_variants')
+      .upsert(rows, { onConflict: 'product_id,size,color' });
     if (error) throw new Error(error.message);
   }
   return productId;
