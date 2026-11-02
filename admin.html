@@ -108,7 +108,30 @@
     <!-- ---------- CONFIGURACIÓN ---------- -->
     <section class="page" id="pgConfig">
       <div class="page-head"><h2>Configuración</h2></div>
+
+      <!-- Categorías -->
+      <div style="max-width:720px;margin-bottom:34px">
+        <h3 style="font-size:1.05rem;margin-bottom:6px">Categorías</h3>
+        <p class="hint" style="margin-bottom:14px">
+          Son los filtros que ve el cliente en la tienda. Solo aparecen las que
+          tienen prendas adentro.
+        </p>
+        <div class="tbl-wrap">
+          <table><thead><tr>
+            <th>Categoría</th><th>Prendas</th><th></th>
+          </tr></thead><tbody id="catBody"></tbody></table>
+        </div>
+        <div class="grid2" style="margin-top:14px;align-items:end">
+          <div class="f" style="margin:0">
+            <label for="catNew">Nueva categoría</label>
+            <input id="catNew" placeholder="Ej: Mujer" maxlength="40" />
+          </div>
+          <button class="b pri" id="btnAddCat" style="min-height:48px">＋ Agregar</button>
+        </div>
+      </div>
+
       <div style="max-width:720px">
+        <h3 style="font-size:1.05rem;margin-bottom:14px">Datos de la tienda</h3>
         <div class="grid2">
           <div class="f"><label for="cName">Nombre de la tienda</label><input id="cName" /></div>
           <div class="f"><label for="cWa">Número de WhatsApp</label><input id="cWa" inputmode="numeric" />

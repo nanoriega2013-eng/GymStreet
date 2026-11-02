@@ -126,7 +126,7 @@ async function refreshAll() {
     [PRODUCTS, ORDERS, CATEGORIES, SETTINGS] = await Promise.all([
       db.adminGetProducts(), db.adminGetOrders(), db.adminGetCategories(), db.adminGetSettings(),
     ]);
-    renderDash(); renderProds(); renderOrders(); fillConfig();
+    renderDash(); renderProds(); renderOrders(); renderCats(); fillConfig();
   } catch (err) {
     toast(err.message, 'err');
   }
@@ -601,6 +601,100 @@ function fillConfig() {
   $('cIntro').value = SETTINGS.whatsapp_intro || '';
   $('cPays').value  = (SETTINGS.payment_methods || []).join('\n');
 }
+
+// ============================================================
+//  CATEGORÍAS
+//  Son los filtros de la tienda. Antes solo se podían crear
+//  metiéndose a la base de datos; ahora se hacen desde aquí.
+// ============================================================
+
+/** "Ropa de Mujer" -> "ropa-de-mujer" (es el nombre interno, no se ve). */
+function slugify(texto) {
+  return String(texto)
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')   // quita tildes
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 40);
+}
+
+function renderCats() {
+  const body = $('catBody');
+  if (!body) return;
+
+  body.innerHTML = CATEGORIES.length ? CATEGORIES.map(c => {
+    const usadas = PRODUCTS.filter(p => p.categoryId === c.id).length;
+    return `<tr>
+      <td><b>${esc(c.name)}</b></td>
+      <td>${usadas}</td>
+      <td><div class="row-btns">
+        <button class="b sm" data-cat-edit="${c.id}">Renombrar</button>
+        <button class="b sm danger" data-cat-del="${c.id}">Eliminar</button>
+      </div></td></tr>`;
+  }).join('') : '<tr><td colspan="3" class="empty">Todavía no hay categorías.</td></tr>';
+
+  body.querySelectorAll('[data-cat-edit]').forEach(b =>
+    b.addEventListener('click', () => renombrarCat(b.dataset.catEdit)));
+  body.querySelectorAll('[data-cat-del]').forEach(b =>
+    b.addEventListener('click', () => borrarCat(b.dataset.catDel)));
+}
+
+async function agregarCat() {
+  const input = $('catNew');
+  const nombre = input.value.trim();
+  if (!nombre) return toast('Escribí el nombre de la categoría.', 'err');
+
+  const slug = slugify(nombre);
+  if (!slug) return toast('Ese nombre no sirve, probá con letras.', 'err');
+  if (CATEGORIES.some(c => c.slug === slug))
+    return toast('Ya existe una categoría con ese nombre.', 'err');
+
+  const btn = $('btnAddCat');
+  btn.disabled = true;
+  try {
+    const position = CATEGORIES.reduce((max, c) => Math.max(max, Number(c.position) || 0), 0) + 1;
+    await db.adminSaveCategory({ name: nombre, slug, position });
+    input.value = '';
+    toast(`Categoría "${nombre}" creada`, 'ok');
+    await refreshAll();
+  } catch (err) {
+    toast(err.message, 'err');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+async function renombrarCat(id) {
+  const c = CATEGORIES.find(x => x.id === id);
+  if (!c) return;
+  const nombre = prompt('Nuevo nombre de la categoría:', c.name);
+  if (nombre === null) return;
+  if (!nombre.trim()) return toast('El nombre no puede quedar vacío.', 'err');
+  try {
+    // El slug no se toca: si cambiara, se perderían los enlaces que ya circulan.
+    await db.adminSaveCategory({ id, name: nombre.trim(), slug: c.slug, position: c.position });
+    toast('Categoría renombrada', 'ok');
+    await refreshAll();
+  } catch (err) { toast(err.message, 'err'); }
+}
+
+async function borrarCat(id) {
+  const c = CATEGORIES.find(x => x.id === id);
+  if (!c) return;
+  const usadas = PRODUCTS.filter(p => p.categoryId === id).length;
+  const aviso = usadas
+    ? `\n\n${usadas} prenda(s) quedan SIN categoría. No se borran, pero vas a tener que volver a asignarles una.`
+    : '';
+  if (!confirm(`¿Eliminar la categoría "${c.name}"?${aviso}`)) return;
+  try {
+    await db.adminDeleteCategory(id);
+    toast('Categoría eliminada', 'ok');
+    await refreshAll();
+  } catch (err) { toast(err.message, 'err'); }
+}
+
+$('btnAddCat').addEventListener('click', agregarCat);
+$('catNew').addEventListener('keydown', e => { if (e.key === 'Enter') agregarCat(); });
 
 $('btnSaveConfig').addEventListener('click', async () => {
   const btn = $('btnSaveConfig');

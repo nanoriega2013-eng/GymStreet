@@ -335,3 +335,31 @@ export async function adminGetCategories() {
   if (error) throw new Error(error.message);
   return data || [];
 }
+
+/**
+ * Crea una categoría (sin id) o renombra una que ya existe (con id).
+ * El slug es el nombre corto que usa la tienda por dentro; no se ve.
+ */
+export async function adminSaveCategory({ id, name, slug, position }) {
+  const sb = await requireClient();
+  const row = {
+    name: String(name).trim(),
+    slug: String(slug).trim(),
+    position: Number(position) || 0,
+  };
+  const { error } = id
+    ? await sb.from('categories').update(row).eq('id', id)
+    : await sb.from('categories').insert(row);
+  if (error) {
+    // 23505 = slug repetido. El mensaje de Postgres no se entiende.
+    if (error.code === '23505') throw new Error('Ya existe una categoría con ese nombre.');
+    throw new Error(error.message);
+  }
+}
+
+/** Borra una categoría. Las prendas que la usaban quedan sin categoría. */
+export async function adminDeleteCategory(id) {
+  const sb = await requireClient();
+  const { error } = await sb.from('categories').delete().eq('id', id);
+  if (error) throw new Error(error.message);
+}
