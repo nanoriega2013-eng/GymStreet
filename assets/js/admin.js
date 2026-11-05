@@ -259,6 +259,20 @@ async function borrarProducto(id) {
 // ============================================================
 //  COMUNIDAD (fotos de clientes)
 // ============================================================
+/**
+ * Traduce el error de Supabase cuando todavía no existe la tabla.
+ * El mensaje original viene en inglés y no le dice a nadie qué hacer.
+ */
+function errorComunidad(err) {
+  const m = String(err?.message || '');
+  if (/community_photos/.test(m) && /schema cache|does not exist|no existe/i.test(m)) {
+    return 'Todavía no está creada la tabla de la comunidad. ' +
+           'Entrá a Supabase → SQL Editor → New query, pegá el archivo ' +
+           'supabase/comunidad.sql y tocá Run. Es una sola vez.';
+  }
+  return m;
+}
+
 async function refreshCommunity() {
   try {
     COMMUNITY = await db.adminGetCommunity();
@@ -266,9 +280,7 @@ async function refreshCommunity() {
   } catch (err) {
     COMMUNITY = [];
     $('comBody').innerHTML =
-      `<tr><td colspan="6" class="empty">No se pudo leer las fotos de la comunidad.<br>
-       Si es la primera vez, corré <b>supabase/comunidad.sql</b> en Supabase → SQL Editor.
-       <br><span style="color:var(--muted)">${esc(err.message)}</span></td></tr>`;
+      `<tr><td colspan="6" class="empty">${esc(errorComunidad(err))}</td></tr>`;
   }
 }
 
@@ -371,7 +383,7 @@ $('btnSaveCom').addEventListener('click', async () => {
     toast('Foto guardada', 'ok');
     await refreshCommunity();
   } catch (err) {
-    toast(err.message, 'err');
+    toast(errorComunidad(err), 'err');
   } finally {
     btn.disabled = false; btn.textContent = 'Guardar foto';
   }
@@ -384,7 +396,7 @@ async function borrarFotoComunidad(id) {
     await db.adminDeleteCommunity(id);
     toast('Foto eliminada', 'ok');
     await refreshCommunity();
-  } catch (err) { toast(err.message, 'err'); }
+  } catch (err) { toast(errorComunidad(err), 'err'); }
 }
 
 // ============================================================
