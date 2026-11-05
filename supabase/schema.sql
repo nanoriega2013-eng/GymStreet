@@ -181,6 +181,23 @@ create table if not exists settings (
 insert into settings (id) values (1) on conflict (id) do nothing;
 
 -- ------------------------------------------------------------
+-- 7B. FOTOS DE LA COMUNIDAD
+--     Las fotos de clientes que se ven en la pestaña "Comunidad"
+--     de la tienda. Se cargan desde el panel, igual que las prendas.
+-- ------------------------------------------------------------
+create table if not exists community_photos (
+  id         uuid primary key default gen_random_uuid(),
+  caption    text not null default '',          -- "Gracias por tu compra @usuario"
+  images     jsonb not null default '[]'::jsonb, -- ["url1","url2"]; la primera es la portada
+  position   int  not null default 0,            -- menor aparece antes
+  visible    boolean not null default true,      -- false = guardada pero sin publicar
+  created_at timestamptz not null default now()
+);
+
+create index if not exists community_photos_visible_idx
+  on community_photos(visible, position);
+
+-- ------------------------------------------------------------
 -- 8. updated_at automático
 -- ------------------------------------------------------------
 create or replace function touch_updated_at()
@@ -442,10 +459,11 @@ alter table customers        enable row level security;
 alter table orders           enable row level security;
 alter table order_items      enable row level security;
 alter table settings         enable row level security;
+alter table community_photos enable row level security;
 
 -- Partimos de cero: quitamos los permisos amplios que Supabase da por defecto
 revoke all on admin_users, categories, products, product_variants,
-              customers, orders, order_items, settings
+              customers, orders, order_items, settings, community_photos
   from anon, authenticated;
 
 -- ---- Catálogo: lectura pública ----
@@ -456,6 +474,8 @@ grant select (id, sku, name, description, category_id, price, sale_price,
 grant select (id, product_id, size, color, stock, sku)
   on product_variants to anon, authenticated;
 grant select on categories to anon, authenticated;
+grant select (id, caption, images, position, created_at)
+  on community_photos to anon, authenticated;
 grant select (id, store_name, logo_url, whatsapp_number, shipping_price,
               free_shipping_from, instagram_url, facebook_url, store_address,
               payment_methods)
@@ -463,7 +483,7 @@ grant select (id, store_name, logo_url, whatsapp_number, shipping_price,
 
 -- ---- El admin puede todo ----
 grant all on admin_users, categories, products, product_variants,
-             customers, orders, order_items, settings
+             customers, orders, order_items, settings, community_photos
   to authenticated;
 
 -- admin_users
@@ -503,6 +523,14 @@ create policy settings_public_read on settings
   for select to anon, authenticated using (true);
 drop policy if exists settings_admin on settings;
 create policy settings_admin on settings
+  for all to authenticated using (is_admin()) with check (is_admin());
+
+-- fotos de la comunidad: el público solo ve las publicadas
+drop policy if exists community_public_read on community_photos;
+create policy community_public_read on community_photos
+  for select to anon, authenticated using (visible);
+drop policy if exists community_admin on community_photos;
+create policy community_admin on community_photos
   for all to authenticated using (is_admin()) with check (is_admin());
 
 -- clientes y pedidos: SOLO el admin. El público nunca los lee ni escribe
@@ -559,6 +587,30 @@ insert into categories (slug, name, position) values
   ('hoodies',    'Hoodies',    5),
   ('accesorios', 'Accesorios', 6)
 on conflict (slug) do nothing;
+
+-- ------------------------------------------------------------
+-- 14. FOTOS DE LA COMUNIDAD INICIALES
+--     Solo entran si la tabla está vacía, para no duplicarlas al
+--     volver a correr este archivo.
+-- ------------------------------------------------------------
+insert into community_photos (caption, images, position)
+select * from (values
+  ('Gracias por tu compra @sebas07_mendoza',
+   '["img/23a34112-419c-497d-9453-d78c11cb6663.jpg","img/f76c6c72-0e09-4ced-8565-4f68c5493420.jpg"]'::jsonb, 1),
+  ('Gracias por tu compra @alejandro_w23',
+   '["img/08324a9e-56ff-421b-94ba-828061d19321.jpg"]'::jsonb, 2),
+  ('Gracias por tu compra @danierxlas_cs',
+   '["img/8fd3f3ce-6e9e-4681-869a-e0d5e104e227.jpg"]'::jsonb, 3),
+  ('Gracias por tu compra @d_ledif_19',
+   '["img/WhatsAppImage2025-12-03at5.10.50 PM.jpeg"]'::jsonb, 4),
+  ('Gracias por tu compra @dylan_alfaro',
+   '["img/2b5ba153-2d9a-4152-9f12-68de41b62c02.jpg"]'::jsonb, 5),
+  ('Gracias por tu compra 💪',
+   '["img/cliente-6.jpg"]'::jsonb, 6),
+  ('"Lujo de ropa 🔥🔥" — gracias por etiquetarnos',
+   '["img/cliente-7.jpg"]'::jsonb, 7)
+) as v(caption, images, position)
+where not exists (select 1 from community_photos);
 
 -- ============================================================
 --  Listo. Ahora creá tu usuario en Authentication > Users y corré:

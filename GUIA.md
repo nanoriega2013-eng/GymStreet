@@ -175,6 +175,41 @@ El sistema nunca deja que el stock quede en negativo.
 
 ---
 
+## 5B. Cómo subir fotos de clientes (Comunidad)
+
+Es la pestaña **Comunidad** de la tienda: las fotos reales de la gente que ya
+compró. Ahora se cargan desde el panel, ya no hay que tocar código.
+
+**Antes de usarla por primera vez**, una sola vez: abrí Supabase →
+**SQL Editor** → **New query**, pegá todo el archivo `supabase/comunidad.sql`
+y tocá **Run**. Eso crea la tabla y sube de una vez las fotos que ya tenía la
+página.
+
+Después, para agregar una foto:
+
+1. Entrá al panel → **📸 Comunidad** → **＋ Nueva foto**.
+2. Tocá el recuadro de la cámara y elegí la foto desde el teléfono o la
+   computadora. Podés elegir varias: la primera es la portada, las demás se
+   ven al tocar la foto en la tienda.
+3. Escribí el texto que va debajo (ej: *Gracias por tu compra @usuario*).
+   Podés dejarlo vacío.
+4. **Orden**: el número más bajo aparece primero. Si querés que la foto nueva
+   salga de primera, poné 0.
+5. Dejá marcado **Publicada en la tienda** y tocá **Guardar foto**.
+
+Ya queda arriba. Refrescá la tienda y la vas a ver en **Comunidad**.
+
+**Para esconder una foto sin borrarla** (por ejemplo, si el cliente te pide que
+la bajes): **Editar** → desmarcá *Publicada en la tienda* → **Guardar foto**.
+Queda guardada pero nadie la ve.
+
+**Para borrarla de verdad**: **Eliminar**. Eso no se puede deshacer.
+
+Las fotos se guardan en el mismo lugar que las de los productos (Supabase
+Storage), así que no ocupan espacio en la página.
+
+---
+
 ## 6. Cómo ver y manejar los pedidos
 
 **Pedidos** te muestra la tabla con número, fecha, cliente, teléfono, productos,
@@ -293,6 +328,7 @@ Si todos esos pasos funcionan, la tienda está lista.
 |---|---|
 | `admin.html` | El panel de administración |
 | `supabase/schema.sql` | Las tablas y la seguridad. Se pega en Supabase |
+| `supabase/comunidad.sql` | La tabla de las fotos de la comunidad. Se pega en Supabase una sola vez |
 | `assets/js/config.js` | **Acá pegás tus claves de Supabase** |
 | `assets/js/db.js` | Todo lo que habla con la base de datos |
 | `assets/js/shop.js` | La lógica de la tienda |

@@ -151,7 +151,8 @@ const PRODUCTS_FALLBACK = [
   }
 ];
 
-const COMMUNITY = [
+// Fotos de respaldo: solo se usan si la base de datos no responde.
+const COMMUNITY_FALLBACK = [
   {
     id:"cliente-1",
     caption:"Gracias por tu compra @sebas07_mendoza",
@@ -210,6 +211,10 @@ const COMMUNITY = [
     ]
   }
 ];
+// Lo que se muestra de verdad. Arranca con las fijas y se reemplaza
+// por las del panel en cuanto responde la base de datos.
+let COMMUNITY = COMMUNITY_FALLBACK;
+
 /** Convierte un producto del catálogo fijo a la misma forma que usa la base. */
 function adaptFallback(p) {
   const variants = (p.sizes || ['Única']).map((s, i) => ({
@@ -401,14 +406,32 @@ function renderProducts() {
 function renderCommunity() {
   const grid = $('communityGrid');
   grid.innerHTML = '';
+  if (!COMMUNITY.length) {
+    grid.innerHTML = '<p class="section-subtitle">Pronto vas a ver aquí las fotos de nuestros clientes.</p>';
+    return;
+  }
   COMMUNITY.forEach(c => {
+    const cover = c.cover || c.images?.[0] || SIN_FOTO;
     const el = document.createElement('div');
     el.className = 'client';
-    el.innerHTML = `<img loading="lazy" src="${esc(c.cover)}" alt="Cliente GymStreet">
+    el.innerHTML = `<img loading="lazy" src="${esc(cover)}" alt="Cliente GymStreet">
                     <div class="cap">${esc(c.caption)}</div>`;
     el.addEventListener('click', () => openGallery(c.caption, c.images));
     grid.appendChild(el);
   });
+}
+
+/**
+ * Trae las fotos de la comunidad desde el panel. Si la base no responde
+ * (o todavía no creaste la tabla) deja las fijas de respaldo, para que
+ * la pestaña nunca se vea vacía.
+ */
+async function loadCommunity() {
+  if (!db.isConfigured()) return;
+  const fotos = await db.getCommunity();
+  if (!fotos) return;            // null = no se pudo leer
+  COMMUNITY = fotos;
+  renderCommunity();
 }
 
 // ------------------------------------------------------------
@@ -1071,6 +1094,7 @@ function wire() {
 // ------------------------------------------------------------
 wire();
 renderCommunity();
+loadCommunity().catch(err => console.warn('[GymStreet] comunidad:', err.message));
 cart.load();
 updateCartCount();
 loadCatalog().catch(err => {

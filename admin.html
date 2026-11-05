@@ -36,6 +36,7 @@
     <div class="who" id="whoami"></div>
     <button class="navbtn active" data-page="dash">📊 Tablero</button>
     <button class="navbtn" data-page="prods">👕 Productos</button>
+    <button class="navbtn" data-page="community">📸 Comunidad</button>
     <button class="navbtn" data-page="orders">🧾 Pedidos</button>
     <button class="navbtn" data-page="config">⚙️ Configuración</button>
     <div class="spacer"></div>
@@ -78,6 +79,25 @@
           <th>Foto</th><th>Producto</th><th>SKU</th><th>Categoría</th>
           <th>Precio</th><th>Stock</th><th>Vendidos</th><th>Estado</th><th></th>
         </tr></thead><tbody id="prodBody"></tbody></table>
+      </div>
+    </section>
+
+    <!-- ---------- COMUNIDAD ---------- -->
+    <section class="page" id="pgCommunity">
+      <div class="page-head">
+        <h2>Comunidad</h2>
+        <div class="search">🔎<input id="comSearch" placeholder="Buscar por texto de la foto…" /></div>
+        <button class="b pri" id="btnNewCom">＋ Nueva foto</button>
+      </div>
+      <p class="hint" style="margin:-8px 0 18px">
+        Estas son las fotos de clientes que salen en la pestaña
+        <b>Comunidad</b> de la tienda. Subí la foto, escribí el texto que va
+        debajo y se publica al instante.
+      </p>
+      <div class="tbl-wrap">
+        <table><thead><tr>
+          <th>Foto</th><th>Texto</th><th>Fotos</th><th>Orden</th><th>Estado</th><th></th>
+        </tr></thead><tbody id="comBody"></tbody></table>
       </div>
     </section>
 
@@ -230,6 +250,43 @@
     <div class="ov-foot">
       <button class="b" data-close="ovProd">Cancelar</button>
       <button class="b pri" id="btnSaveProd">Guardar prenda</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== EDITOR DE FOTO DE COMUNIDAD ===================== -->
+<div class="ov" id="ovCom">
+  <div class="ov-box" style="max-width:620px">
+    <div class="ov-head">
+      <h3 id="comTitle">Nueva foto</h3>
+      <button class="x" data-close="ovCom">&times;</button>
+    </div>
+    <div class="ov-body">
+      <h3 style="font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin:0 0 10px">Fotografías</h3>
+      <div class="imgs" id="cImgs"></div>
+      <div class="drop" id="cDrop">📷 Tocá aquí para subir la foto del cliente (podés elegir varias)</div>
+      <input type="file" id="cFile" accept="image/*" multiple hidden />
+      <div class="f" style="margin-top:12px"><label for="cImgUrl">…o pegar una dirección de imagen</label>
+        <div style="display:flex;gap:8px">
+          <input id="cImgUrl" placeholder="https://…" style="flex:1" />
+          <button class="b" type="button" id="btnAddComImgUrl">Agregar</button>
+        </div>
+        <span class="hint">La primera foto es la portada que se ve en la cuadrícula.</span>
+      </div>
+
+      <div class="f" style="margin-top:18px"><label for="cCaption">Texto debajo de la foto</label>
+        <input id="cCaption" maxlength="120" placeholder="Gracias por tu compra @usuario" />
+        <span class="hint">Lo que lee el cliente. Podés dejarlo vacío.</span>
+      </div>
+      <div class="f"><label for="cPos">Orden</label>
+        <input id="cPos" type="number" value="0" />
+        <span class="hint">Menor aparece antes</span>
+      </div>
+      <label class="chk"><input type="checkbox" id="cVisible" checked /><span>Publicada en la tienda</span></label>
+    </div>
+    <div class="ov-foot">
+      <button class="b" data-close="ovCom">Cancelar</button>
+      <button class="b pri" id="btnSaveCom">Guardar foto</button>
     </div>
   </div>
 </div>

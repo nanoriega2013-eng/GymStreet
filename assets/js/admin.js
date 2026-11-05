@@ -11,6 +11,9 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g,
 // ---------- estado ----------
 let PRODUCTS = [];
 let ORDERS = [];
+let COMMUNITY = [];
+let editingCom = null;            // foto de comunidad en edición
+let comDraft = { images: [] };
 let CATEGORIES = [];
 let SETTINGS = null;
 let editing = null;             // producto en edición
@@ -107,7 +110,8 @@ document.querySelectorAll('.navbtn[data-page]').forEach(b => {
   b.addEventListener('click', () => {
     document.querySelectorAll('.navbtn[data-page]').forEach(x => x.classList.remove('active'));
     b.classList.add('active');
-    const map = { dash: 'pgDash', prods: 'pgProds', orders: 'pgOrders', config: 'pgConfig' };
+    const map = { dash: 'pgDash', prods: 'pgProds', community: 'pgCommunity',
+                  orders: 'pgOrders', config: 'pgConfig' };
     document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
     $(map[b.dataset.page]).classList.add('on');
     window.scrollTo({ top: 0 });
@@ -127,6 +131,9 @@ async function refreshAll() {
       db.adminGetProducts(), db.adminGetOrders(), db.adminGetCategories(), db.adminGetSettings(),
     ]);
     renderDash(); renderProds(); renderOrders(); renderCats(); fillConfig();
+    // La comunidad va aparte: si todavía no corriste comunidad.sql, el
+    // resto del panel tiene que seguir funcionando igual.
+    await refreshCommunity();
   } catch (err) {
     toast(err.message, 'err');
   }
@@ -246,6 +253,137 @@ async function borrarProducto(id) {
     await db.adminDeleteProduct(id);
     toast('Producto eliminado', 'ok');
     await refreshAll();
+  } catch (err) { toast(err.message, 'err'); }
+}
+
+// ============================================================
+//  COMUNIDAD (fotos de clientes)
+// ============================================================
+async function refreshCommunity() {
+  try {
+    COMMUNITY = await db.adminGetCommunity();
+    renderCommunity();
+  } catch (err) {
+    COMMUNITY = [];
+    $('comBody').innerHTML =
+      `<tr><td colspan="6" class="empty">No se pudo leer las fotos de la comunidad.<br>
+       Si es la primera vez, corré <b>supabase/comunidad.sql</b> en Supabase → SQL Editor.
+       <br><span style="color:var(--muted)">${esc(err.message)}</span></td></tr>`;
+  }
+}
+
+function renderCommunity() {
+  const q = $('comSearch').value.trim().toLowerCase();
+  const list = COMMUNITY.filter(c => !q || c.caption.toLowerCase().includes(q));
+
+  $('comBody').innerHTML = list.length ? list.map(c => `<tr>
+      <td>${c.cover ? `<img class="th" src="${esc(c.cover)}" alt="">` : '—'}</td>
+      <td>${esc(c.caption || '—')}</td>
+      <td>${c.images.length}</td>
+      <td>${c.position}</td>
+      <td>${c.visible
+            ? '<span class="pill-s ok">✅ Publicada</span>'
+            : '<span class="pill-s mute">👁 Oculta</span>'}</td>
+      <td><div class="row-btns">
+        <button class="b sm" data-edit-com="${c.id}">Editar</button>
+        <button class="b sm danger" data-del-com="${c.id}">Eliminar</button>
+      </div></td></tr>`).join('')
+    : `<tr><td colspan="6" class="empty">${q ? 'Sin resultados'
+        : 'Todavía no hay fotos de clientes. Tocá “Nueva foto”.'}</td></tr>`;
+
+  $('comBody').querySelectorAll('[data-edit-com]').forEach(b =>
+    b.addEventListener('click', () => openCom(COMMUNITY.find(c => c.id === b.dataset.editCom))));
+  $('comBody').querySelectorAll('[data-del-com]').forEach(b =>
+    b.addEventListener('click', () => borrarFotoComunidad(b.dataset.delCom)));
+}
+$('comSearch').addEventListener('input', renderCommunity);
+
+function openCom(c) {
+  editingCom = c || null;
+  $('comTitle').textContent = c ? 'Editar foto' : 'Nueva foto';
+  $('cCaption').value = c?.caption || '';
+  $('cPos').value = c?.position ?? (COMMUNITY.length + 1);
+  $('cVisible').checked = c ? c.visible : true;
+  comDraft = { images: [...(c?.images || [])] };
+  renderComImgs();
+  $('ovCom').classList.add('on');
+  $('ovCom').scrollTop = 0;
+}
+$('btnNewCom').addEventListener('click', () => openCom(null));
+
+function renderComImgs() {
+  $('cImgs').innerHTML = comDraft.images.map((url, i) => `
+    <div class="ph ${i === 0 ? 'first' : ''}">
+      <img src="${esc(url)}" alt="">
+      <button type="button" data-rm-com="${i}" title="Quitar">&times;</button>
+    </div>`).join('');
+  $('cImgs').querySelectorAll('[data-rm-com]').forEach(b =>
+    b.addEventListener('click', () => {
+      comDraft.images.splice(Number(b.dataset.rmCom), 1);
+      renderComImgs();
+    }));
+}
+
+$('cDrop').addEventListener('click', () => $('cFile').click());
+$('cFile').addEventListener('change', async e => {
+  const files = [...e.target.files];
+  if (!files.length) return;
+  const drop = $('cDrop');
+  const original = drop.textContent;
+  let n = 0;
+  for (const f of files) {
+    n++;
+    drop.textContent = `Subiendo ${n} de ${files.length}…`;
+    try {
+      const url = await db.adminUploadImage(f);
+      comDraft.images.push(url);
+      renderComImgs();
+    } catch (err) {
+      toast(`No se pudo subir ${f.name}: ${err.message}`, 'err');
+    }
+  }
+  drop.textContent = original;
+  e.target.value = '';
+  toast('Fotos subidas', 'ok');
+});
+
+$('btnAddComImgUrl').addEventListener('click', () => {
+  const u = $('cImgUrl').value.trim();
+  if (!u) return;
+  comDraft.images.push(u);
+  $('cImgUrl').value = '';
+  renderComImgs();
+});
+
+$('btnSaveCom').addEventListener('click', async () => {
+  if (!comDraft.images.length) { toast('Agregá al menos una foto.', 'err'); return; }
+  const btn = $('btnSaveCom');
+  btn.disabled = true; btn.textContent = 'Guardando…';
+  try {
+    await db.adminSaveCommunity({
+      id: editingCom?.id,
+      caption: $('cCaption').value,
+      images: comDraft.images,
+      position: $('cPos').value,
+      visible: $('cVisible').checked,
+    });
+    $('ovCom').classList.remove('on');
+    toast('Foto guardada', 'ok');
+    await refreshCommunity();
+  } catch (err) {
+    toast(err.message, 'err');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Guardar foto';
+  }
+});
+
+async function borrarFotoComunidad(id) {
+  const c = COMMUNITY.find(x => x.id === id);
+  if (!confirm(`¿Eliminar esta foto de la comunidad?\n\n${c?.caption || ''}\n\nEsto no se puede deshacer.`)) return;
+  try {
+    await db.adminDeleteCommunity(id);
+    toast('Foto eliminada', 'ok');
+    await refreshCommunity();
   } catch (err) { toast(err.message, 'err'); }
 }
 

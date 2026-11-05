@@ -47,6 +47,7 @@ const PRODUCT_COLS =
 const VARIANT_COLS = 'id, product_id, size, color, stock, sku';
 const SETTINGS_COLS =
   'id, store_name, logo_url, whatsapp_number, shipping_price, free_shipping_from, instagram_url, facebook_url, store_address, payment_methods';
+const COMMUNITY_COLS = 'id, caption, images, position, created_at';
 
 // ------------------------------------------------------------
 //  Normalización: deja todos los productos con la misma forma,
@@ -86,6 +87,19 @@ export function normalize(row, categoriesById = {}) {
     soldOut: row.status === 'sold_out' || (hasVariants && stock === 0),
     sizes: [...new Set(variants.map(v => v.size))],
     colors: [...new Set(variants.map(v => v.color))],
+  };
+}
+
+/** Deja una foto de la comunidad con la misma forma venga de donde venga. */
+export function normalizeCommunity(row) {
+  const images = Array.isArray(row.images) ? row.images.filter(Boolean) : [];
+  return {
+    id: row.id,
+    caption: row.caption || '',
+    images,
+    cover: images[0] || '',
+    position: Number(row.position) || 0,
+    visible: row.visible === undefined ? true : Boolean(row.visible),
   };
 }
 
@@ -135,6 +149,24 @@ export async function getProducts() {
 
   if (error) { console.warn('[GymStreet] productos:', error.message); return null; }
   return (data || []).map(r => normalize(r, byId));
+}
+
+/**
+ * Fotos de la comunidad (clientes) publicadas.
+ * Devuelve null si falla la conexión, para que la tienda sepa que
+ * tiene que mostrar las fijas de respaldo. Un arreglo vacío sí es
+ * una respuesta buena: significa que todavía no cargaste ninguna.
+ */
+export async function getCommunity() {
+  const sb = await client();
+  if (!sb) return null;
+  const { data, error } = await sb
+    .from('community_photos')
+    .select(COMMUNITY_COLS)
+    .order('position')
+    .order('created_at', { ascending: false });
+  if (error) { console.warn('[GymStreet] comunidad:', error.message); return null; }
+  return (data || []).map(normalizeCommunity);
 }
 
 // ------------------------------------------------------------
@@ -367,5 +399,41 @@ export async function adminSaveCategory({ id, name, slug, position }) {
 export async function adminDeleteCategory(id) {
   const sb = await requireClient();
   const { error } = await sb.from('categories').delete().eq('id', id);
+  if (error) throw new Error(error.message);
+}
+
+// ------------------------------------------------------------
+//  COMUNIDAD (fotos de clientes)
+// ------------------------------------------------------------
+export async function adminGetCommunity() {
+  const sb = await requireClient();
+  const { data, error } = await sb
+    .from('community_photos')
+    .select('*')
+    .order('position')
+    .order('created_at', { ascending: false });
+  if (error) throw new Error(error.message);
+  return (data || []).map(normalizeCommunity);
+}
+
+/** Crea una foto (sin id) o actualiza una que ya existe (con id). */
+export async function adminSaveCommunity({ id, caption, images, position, visible }) {
+  const sb = await requireClient();
+  const row = {
+    caption: String(caption || '').trim(),
+    images: (images || []).filter(Boolean),
+    position: Number(position) || 0,
+    visible: visible === undefined ? true : Boolean(visible),
+  };
+  if (!row.images.length) throw new Error('Agregá al menos una foto.');
+  const { error } = id
+    ? await sb.from('community_photos').update(row).eq('id', id)
+    : await sb.from('community_photos').insert(row);
+  if (error) throw new Error(error.message);
+}
+
+export async function adminDeleteCommunity(id) {
+  const sb = await requireClient();
+  const { error } = await sb.from('community_photos').delete().eq('id', id);
   if (error) throw new Error(error.message);
 }
