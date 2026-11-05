@@ -414,9 +414,8 @@ function renderCommunity() {
     const cover = c.cover || c.images?.[0] || SIN_FOTO;
     const el = document.createElement('div');
     el.className = 'client';
-    el.innerHTML = `<img loading="lazy" src="${esc(cover)}" alt="Cliente GymStreet">
-                    <div class="cap">${esc(c.caption)}</div>`;
-    el.addEventListener('click', () => openGallery(c.caption, c.images));
+    el.innerHTML = `<img loading="lazy" src="${esc(cover)}" alt="Cliente GymStreet">`;
+    el.addEventListener('click', () => openGallery(c.images));
     grid.appendChild(el);
   });
 }
@@ -469,9 +468,9 @@ export function closeModal() {
 }
 
 /** Galería simple para las fotos de la comunidad. */
-function openGallery(title, images) {
+function openGallery(images) {
   activeProduct = null;
-  openModalShell(title);
+  openModalShell('Comunidad GymStreet');
   setGallery(images);
   $('modalPrice').textContent = 'PRUEBA SOCIAL';
   $('modalCat').textContent = 'COMUNIDAD';

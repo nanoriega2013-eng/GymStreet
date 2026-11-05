@@ -86,17 +86,17 @@
     <section class="page" id="pgCommunity">
       <div class="page-head">
         <h2>Comunidad</h2>
-        <div class="search">🔎<input id="comSearch" placeholder="Buscar por texto de la foto…" /></div>
+        <div class="search">🔎<input id="comSearch" placeholder="Buscar por la nota de la foto…" /></div>
         <button class="b pri" id="btnNewCom">＋ Nueva foto</button>
       </div>
       <p class="hint" style="margin:-8px 0 18px">
         Estas son las fotos de clientes que salen en la pestaña
-        <b>Comunidad</b> de la tienda. Subí la foto, escribí el texto que va
-        debajo y se publica al instante.
+        <b>Comunidad</b> de la tienda. Subí la foto y se publica al instante.
+        En la tienda se ven solo las fotos, sin texto.
       </p>
       <div class="tbl-wrap">
         <table><thead><tr>
-          <th>Foto</th><th>Texto</th><th>Fotos</th><th>Orden</th><th>Estado</th><th></th>
+          <th>Foto</th><th>Nota</th><th>Fotos</th><th>Orden</th><th>Estado</th><th></th>
         </tr></thead><tbody id="comBody"></tbody></table>
       </div>
     </section>
@@ -274,9 +274,9 @@
         <span class="hint">La primera foto es la portada que se ve en la cuadrícula.</span>
       </div>
 
-      <div class="f" style="margin-top:18px"><label for="cCaption">Texto debajo de la foto</label>
-        <input id="cCaption" maxlength="120" placeholder="Gracias por tu compra @usuario" />
-        <span class="hint">Lo que lee el cliente. Podés dejarlo vacío.</span>
+      <div class="f" style="margin-top:18px"><label for="cCaption">Nota (solo la ves vos)</label>
+        <input id="cCaption" maxlength="120" placeholder="Ej: Sebastián, pedido de octubre" />
+        <span class="hint">Sirve para reconocer la foto en esta lista. En la tienda no aparece.</span>
       </div>
       <div class="f"><label for="cPos">Orden</label>
         <input id="cPos" type="number" value="0" />
